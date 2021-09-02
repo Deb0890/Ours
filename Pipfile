@@ -7,7 +7,6 @@ name = "pypi"
 django = "*"
 gunicorn = "*"
 django-heroku = "*"
-django-environ = "*"
 
 [dev-packages]
 
