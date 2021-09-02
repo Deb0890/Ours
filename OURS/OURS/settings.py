@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import django_heroku
-import environ
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'main.apps.MainConfig'
 ]
 
 MIDDLEWARE = [
@@ -89,11 +91,11 @@ WSGI_APPLICATION = 'OURS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("HEROKU_DB_NAME"),
-        'USER': env("HEROKU_DB_USER"),
-        'PASSWORD': env("HEROKU_DB_PASSWORD"),
-        'HOST': env("HEROKU_DB_HOST"),
-        'PORT':  env("HEROKU_DB_PORT")
+        'NAME': os.environ.get("HEROKU_DB_NAME"),
+        'USER': os.environ.get("HEROKU_DB_USER"),
+        'PASSWORD': os.environ.get("HEROKU_DB_PASSWORD"),
+        'HOST': os.environ.get("HEROKU_DB_HOST"),
+        'PORT':  os.environ.get("HEROKU_DB_PORT")
     }
 }
 
