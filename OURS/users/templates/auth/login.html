@@ -1,0 +1,10 @@
+{% extends 'auth/base.html' %} {% block title %}
+<title>Log In</title>
+{% endblock title %} {% block css %}
+<link rel="stylesheet" href="style.css" />
+{% endblock css %} {% block content %}
+<form>
+  {% csrf_token %} {{form}}
+  <button type="submit">Log In</button>
+</form>
+{% endblock content %}
