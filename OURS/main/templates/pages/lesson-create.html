@@ -1,0 +1,13 @@
+{% extends 'auth/base.html' %} {% block title %}
+<title>Lesson Create</title>
+{% endblock title %} {% block css %}
+<link rel="stylesheet" href="style.css" />
+{% endblock css %} 
+{% block content %}
+<h1>Advertise a Session</h1>
+<form method="POST">
+{% csrf_token %}
+{{form}}
+<input type="submit" value="Post"/>
+</form>
+{% endblock content %}
