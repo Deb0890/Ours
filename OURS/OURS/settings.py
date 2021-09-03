@@ -14,6 +14,7 @@ from pathlib import Path
 import django_heroku
 import environ
 import os
+import sys
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
@@ -91,6 +92,7 @@ WSGI_APPLICATION = 'OURS.wsgi.application'
 #     }
 # }
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -98,9 +100,12 @@ DATABASES = {
         'USER': env("HEROKU_DB_USER"),
         'PASSWORD': env("HEROKU_DB_PASSWORD"),
         'HOST': env("HEROKU_DB_HOST"),
-        'PORT':  env("HEROKU_DB_PORT")
+        'PORT':  env("HEROKU_DB_PORT"),
     }
 }
+
+if DEBUG:
+    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 
 # Password validation
@@ -147,6 +152,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DJANGO_SETTINGS_MODULE = 'test_settings pytest'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

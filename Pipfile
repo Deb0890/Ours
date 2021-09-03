@@ -12,8 +12,11 @@ environ = "*"
 install = "*"
 python-dotenv = "*"
 django-environ = "*"
+pytest-django = "*"
 
 [dev-packages]
+pytest-django = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.9"
