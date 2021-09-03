@@ -2,7 +2,12 @@
 <title>Log In</title>
 {% endblock title %} {% block css %}
 <link rel="stylesheet" href="style.css" />
-{% endblock css %} {% block content %}
+{% endblock css %} {% block content %} {% if user.is_authenticated %}
+
+<a href="{% url 'dashboard' %}"><button>Go to Dashboard</button></a>
+
+{% else %}
 <a href="{% url 'log_in' %}"><button>Log In</button></a>
+
 <p>Don't have an account? <a href="{% url 'sign_up' %}">sign up here</a></p>
-{% endblock content %}
+{% endif %} {% endblock content %}
