@@ -9,6 +9,12 @@ def sign_up(req):
         if new_user.is_valid():
             new_user.save()
             return redirect('dashboard')
+        else:
+            print(new_user.errors)
+            form = forms.UserSignupForm()
+            context = {"form": form, "errors": new_user.errors}
+            return render(req, 'auth/signup.html', context)
+
     else:
         form = forms.UserSignupForm()
         context = {"form": form}

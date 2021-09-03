@@ -1,0 +1,8 @@
+body {
+  background: url('../img/landing-page-bg.svg');
+}
+
+#app-info {
+  background: url('../img/homepage-div-bg.svg');
+  background-size:cover ;
+}
