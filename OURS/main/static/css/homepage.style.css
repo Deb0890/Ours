@@ -1,8 +1,8 @@
 body {
-  background-color: pink;
+  background: url('../img/landing-page-bg.svg');
 }
 
-button {
-  width: 120px;
-  background: rgb(138, 19, 19);
+#app-info {
+  background: url('../img/homepage-div-bg.svg');
+  background-size:cover ;
 }

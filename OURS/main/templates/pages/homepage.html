@@ -9,10 +9,14 @@
 {% endblock css %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <a href="{% url 'dashboard' %}"><button>Go to Dashboard</button></a>
-{% else %}
-<a href="{% url 'log_in' %}"><button>Log In</button></a>
-<p>Don't have an account? <a href="{% url 'sign_up' %}">sign up here</a></p>
-{% endif %}
+<section id="app-info">
+    {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}"><button>Go to Dashboard</button></a>
+    {% else %}
+        <a href="{% url 'log_in' %}"><button>Log In</button></a>
+        <p>Don't have an account? <a href="{% url 'sign_up' %}">sign up here</a></p>
+    {% endif %}
+</section>
+
+
 {% endblock content %}
