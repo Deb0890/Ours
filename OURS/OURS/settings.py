@@ -148,5 +148,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DJANGO_SETTINGS_MODULE = 'test_settings pytest'
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
