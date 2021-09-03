@@ -30,7 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure---bt)dwur3jb#=uhp--05r*yk)(v440vg$n=3%8_ksu30!aznu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+TEST_SERVER = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -104,7 +106,7 @@ DATABASES = {
     }
 }
 
-if DEBUG:
+if TEST_SERVER:
     DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3'}
 
 
@@ -145,7 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static') ]
+# STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static') ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 # Default primary key field type
