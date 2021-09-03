@@ -13,6 +13,7 @@ install = "*"
 python-dotenv = "*"
 django-environ = "*"
 pytest-django = "*"
+pillow = "*"
 
 [dev-packages]
 pytest-django = "*"
