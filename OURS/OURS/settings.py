@@ -145,5 +145,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DJANGO_SETTINGS_MODULE = 'test_settings pytest'
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
