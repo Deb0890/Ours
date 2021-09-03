@@ -8,12 +8,12 @@ def sign_up(req):
         new_user = forms.UserSignupForm(req.POST)
         if new_user.is_valid():
             new_user.save()
-            return redirect('log_in')
+            return redirect('dashboard')
     else:
         form = forms.UserSignupForm()
         context = {"form": form}
         return render(req, 'auth/signup.html', context)
 
 
-def log_in(req):
-    return
+# def log_in(req):
+#     return redirect('dashboard')
