@@ -12,6 +12,7 @@ environ = "*"
 install = "*"
 python-dotenv = "*"
 django-environ = "*"
+pytest-django = "*"
 
 [dev-packages]
 pytest-django = "*"
