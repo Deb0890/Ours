@@ -7,6 +7,10 @@
     {% block title %}{% endblock title %} {% block css %}{% endblock css %}
   </head>
   <body>
+    <nav>
+      <a href="{% url 'homepage' %}">HOMEPAGE</a>
+      <a href="{% url 'log_out' %}">SIGN OUT</a>
+    </nav>
     {% block content %}{% endblock content %}
   </body>
 </html>
