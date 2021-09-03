@@ -18,11 +18,10 @@ def dashboard(req):
 def lesson_create(req):
     if req.method == 'POST':
         if req.user.is_authenticated:
-            lesson = NewLessonForm(req.POST)
-
-            if lesson.is_valid():
-                lesson.tutor = User.objects.get(pk=req.user.id),
-                new_lesson = lesson.save()
+            form = NewLessonForm(req.POST)
+            if form.is_valid():
+                form.instance.days = form.cleaned_data['day_selector']
+                new_lesson = form.save()
                 return redirect('lesson-single', id=new_lesson.id)
     else:
         form = NewLessonForm(initial={ 'tutor': req.user })
