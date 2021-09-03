@@ -1,1 +1,1 @@
-web: gunicorn OURS.wsgi
+web: sh -c "cd ./OURS && gunicorn OURS.wsgi"

@@ -28,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure---bt)dwur3jb#=uhp--05r*yk)(v440vg$n=3%8_ksu30!aznu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'main.apps.MainConfig'
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'OURS.urls'
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'log_in'
 
 TEMPLATES = [
     {
