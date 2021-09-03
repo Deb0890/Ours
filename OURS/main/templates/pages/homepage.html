@@ -10,11 +10,13 @@
 
 {% block content %}
 <section id="app-info">
+    <p>The easy way to <span class="heavy">learn,<br/> grow</span> and spend <br/> <span class="heavy">our time</span> wisely.</p>
+    <a href="#" class="find-out-more">Find Out More</a>
     {% if user.is_authenticated %}
         <a href="{% url 'dashboard' %}"><button>Go to Dashboard</button></a>
     {% else %}
         <a href="{% url 'log_in' %}"><button>Log In</button></a>
-        <p>Don't have an account? <a href="{% url 'sign_up' %}">sign up here</a></p>
+        <p class="sign-up">Don't have an account? <a href="{% url 'sign_up' %}">sign up here</a></p>
     {% endif %}
 </section>
 
