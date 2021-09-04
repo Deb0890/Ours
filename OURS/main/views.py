@@ -12,7 +12,10 @@ def homepage(req):
 
 @login_required
 def dashboard(req):
-    return render(req, 'pages/dashboard.html')
+    lessons = Lesson.objects.all()
+    context = {"lessons": lessons}
+
+    return render(req, 'pages/dashboard.html', context)
 
 @login_required
 def lesson_create(req):
