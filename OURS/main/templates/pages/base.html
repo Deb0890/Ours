@@ -6,15 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block title %}{% endblock title %} {% block css %}{% endblock css %}
+
+    <link rel="stylesheet" href="{% static 'css/base.style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <nav>
-      <a href="{% url 'homepage' %}">HOMEPAGE</a>
-      <a href="{% url 'dashboard' %}">DASHBOARD</a>
-      <a href="{% url 'log_out' %}">SIGN OUT</a>
+      <a href="{% url 'homepage' %}"><img class="nav-logo" src="{% static 'img/logo.svg' %}"/></a>
+      <div>
+        <a href="{% url 'lesson-create' %}">ADD A LESSON</a>
+        <a href="{% url 'dashboard' %}">DASHBOARD</a>
+        <a href="{% url 'log_out' %}">SIGN OUT</a>
+      </div>
     </nav>
     {% block content %}{% endblock content %}
   </body>

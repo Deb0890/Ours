@@ -12,7 +12,8 @@ def homepage(req):
 
 @login_required
 def dashboard(req):
-    lessons = Lesson.objects.all()
+    # Only bring in the 5 most recent lessons
+    lessons = Lesson.objects.order_by('-created')[:5]
     context = {"lessons": lessons}
 
     return render(req, 'pages/dashboard.html', context)
