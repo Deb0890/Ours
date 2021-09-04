@@ -1,13 +1,39 @@
-{% extends 'pages/base.html' %} {% block title %}
-<title>Dashboard</title>
-{% endblock title %} {% block css %}
-<link rel="stylesheet" href="style.css" />
-{% endblock css %} {% block content %}
-<h1>Welcome!</h1>
-<section id="recent-lessons">
-<h2>Recent Lessons</h2>
-{% for single_lesson in lessons %}
-    <p>{{single_lesson.title}}</p>
-{% endfor %}
-<section>
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Dashboard</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.style.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <main>
+        <section id="profile-overview">
+        </section>
+
+        <section class="dashboard-item" id="update-profile">
+        </section>
+
+        <section class="dashboard-item" id="add-a-lesson">
+        </section>
+
+        <section class="dashboard-item" id="recently-added-lessons">
+        </section>
+
+        <section class="dashboard-item" id="my-lesson">
+        </section>
+    </main>
+
+
+
+    {% comment %} <h1>Welcome!</h1>
+    <section id="recent-lessons">
+        <h2>Recent Lessons</h2>
+        {% for single_lesson in lessons %}
+        <p>{{single_lesson.title}}</p>
+        {% endfor %}
+    <section> {% endcomment %}
 {% endblock content %}
