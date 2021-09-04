@@ -10,12 +10,33 @@ main {
 
     /* ! hardcoded but needs to be removed */
     height: 100vh;
+
+    font-family: 'Raleway', sans-serif;
+
 }
 
 #profile-overview {
     grid-column: 1 / span 3;
     grid-row: 1 / span 1;
-    background: pink;
+  
+    display: grid;
+    align-items: center;
+
+    padding: 0 150px;
+
+    font-size: 20px;
+    font-weight: 200;
+}
+#profile-overview h2{
+    font-weight: 400;
+
+    text-align: center;
+    text-transform: capitalize;
+
+    line-height: 45px;
+}
+.stats{
+    font-weight: 700;
 }
 
 #update-profile {
