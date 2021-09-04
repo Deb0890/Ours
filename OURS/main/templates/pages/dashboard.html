@@ -16,15 +16,31 @@
         </section>
 
         <section class="dashboard-item" id="update-profile">
+            <h3 class="section-headings">Update Profile</h3>
         </section>
 
         <section class="dashboard-item" id="add-a-lesson">
+            <h3 class="section-headings">Create A Lesson</h3>
+            <a href="{% url 'lesson-create' %}">Click here to create a new lesson</a>
         </section>
 
         <section class="dashboard-item" id="recently-added-lessons">
+            <h3 class="section-headings">New Lessons</h3>
+            <table>
+                
+                {% for lesson in lessons %}
+                    <tr>
+                        <td>{{lesson.skill}}</td>
+                        <td>{{lesson.skill_level}}</td>
+                        <td>{{lesson.tutor}}</td>
+                        <td><a target="_blank" href="{% url 'lesson-single' id=lesson.id %}"><button>See more</button></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
         </section>
 
         <section class="dashboard-item" id="my-lesson">
+            <h3 class="section-headings">My Lessons</h3>
         </section>
     </main>
 
