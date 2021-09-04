@@ -32,18 +32,18 @@ class AuthUrlTests(TestCase):
 
 
 #signup page should redirect on submitting
-    # def test_signup_page_post_response(self):
-    #     self.user= {
-    #         "username":"username",
-    #         "email":"bob@example.com",
-    #         "first_name":"Bob",
-    #         "last_name":"Smith",
-    #         "password1":"mypassword",
-    #         "password2":"mypassword"
-    #     }
+    def test_signup_page_post_response(self):
+        self.user= {
+            "username":"username",
+            "email":"bob@example.com",
+            "first_name":"Bob",
+            "last_name":"Smith",
+            "password1":"cFtr5lB7",
+            "password2":"cFtr5lB7"
+        }
 
-    #     response = self.client.post(reverse('sign_up') )
-    #     self.assertEqual(response.status_code, 302)
+        response = self.client.post(reverse('sign_up'), self.user, follow=True)
+        self.assertEqual(response.status_code, 302)
 
 #also possibly create test that shouldn't sign up user with an existing username, 409?
 
@@ -60,6 +60,8 @@ class AuthUrlTests(TestCase):
         response = self.client.get(reverse('log_out'), follow=True)
         self.assertTemplateUsed(response, 'auth/logout.html')
 
+
+#Tests to make sure only authorized users can get passed login 
 
 # class AuthViewTests(TestCase):
 
