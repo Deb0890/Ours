@@ -69,6 +69,7 @@ body {
 #app-info .sign-up {
   font-size: 15px;
   margin: unset;
+  line-height: unset;
 }
 #app-info .sign-up a {
   color:#E4A3A3;

@@ -4,4 +4,10 @@
 <link rel="stylesheet" href="style.css" />
 {% endblock css %} {% block content %}
 <h1>Welcome!</h1>
+<section id="recent-lessons">
+<h2>Recent Lessons</h2>
+{% for single_lesson in lessons %}
+    <p>{{single_lesson.title}}</p>
+{% endfor %}
+<section>
 {% endblock content %}
