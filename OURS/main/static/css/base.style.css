@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+
+nav {
+    padding: 10px;
+    background: #F0F0F0;
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+nav a{
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+
+    color: #DD7676;
+
+    margin: 0 10px;
+}
+.nav-logo {
+    height: 40px;
+}
