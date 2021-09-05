@@ -30,9 +30,9 @@
                 
                 {% for lesson in lessons %}
                     <tr>
-                        <td class="left-aligned">{{lesson.skill}}</td>
-                        <td>{{lesson.skill_level}}</td>
-                        <td>{{lesson.tutor}}</td>
+                        <td class="left-aligned">{{lesson.title}}</td>
+                        <td>{{lesson.skill.category}}</td>
+                        <td>{{lesson.get_skill_level_display}}</td>
                         <td><a target="_blank" href="{% url 'lesson-single' id=lesson.id %}"><button>See more</button></a></td>
                     </tr>
                 {% endfor %}

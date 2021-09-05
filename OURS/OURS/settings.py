@@ -36,7 +36,6 @@ TEST_SERVER = False
 
 ALLOWED_HOSTS = ["*"]
 
-
 # Application definition
 
 INSTALLED_APPS = [

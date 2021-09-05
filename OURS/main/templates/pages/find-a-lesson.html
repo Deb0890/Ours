@@ -17,6 +17,7 @@
         <table>
             <tr>
                 <th>Skill</th>
+                <th>Category</th>
                 <th>Level</th>
                 <th>Title</th>
                 <th>Tutor</th>
@@ -25,8 +26,9 @@
             </tr>
             {% for lesson in page_obj %}
                 <tr id="{{lesson.id}}">
-                    <td class="left-aligned">{{lesson.skill}}</td>
-                    <td>{{lesson.skill_level}}</td>
+                    <td class="left-aligned">{{lesson.skill.name}}</td>
+                    <td>{{lesson.skill.category}}</td>
+                    <td>{{lesson.get_skill_level_display}}</td>
                     <td>{{lesson.title}}</td>
                     <td>{{lesson.tutor}}</td>
                     <td>{{lesson.rating}}</td>
