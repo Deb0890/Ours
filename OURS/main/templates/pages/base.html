@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block title %}{% endblock title %} {% block css %}{% endblock css %}
+    {% block javascript %}{% endblock javascript %}
 
     <link rel="stylesheet" href="{% static 'css/base.style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +17,7 @@
     <nav>
       <a href="{% url 'homepage' %}"><img class="nav-logo" src="{% static 'img/logo.svg' %}"/></a>
       <div>
+        <a href="{% url 'find-a-lesson' %}">FIND A LESSON</a>
         <a href="{% url 'lesson-create' %}">ADD A LESSON</a>
         <a href="{% url 'dashboard' %}">DASHBOARD</a>
         <a href="{% url 'log_out' %}">SIGN OUT</a>

@@ -1,0 +1,56 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Find a Lesson</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/find-a-lesson.style.css' %}">
+{% endblock css %}
+{% block javascript %}
+    <script defer src="{% static 'js/find-a-lesson.js' %}"> </script>
+{% endblock javascript %}
+
+{% block content %}
+<main>
+        <table>
+            <tr>
+                <th>Skill</th>
+                <th>Level</th>
+                <th>Title</th>
+                <th>Tutor</th>
+                <th>Rating</th>
+                <th>Link</th>
+            </tr>
+            {% for lesson in page_obj %}
+                <tr id="{{lesson.id}}">
+                    <td class="left-aligned">{{lesson.skill}}</td>
+                    <td>{{lesson.skill_level}}</td>
+                    <td>{{lesson.title}}</td>
+                    <td>{{lesson.tutor}}</td>
+                    <td>{{lesson.rating}}</td>
+                    <td><a target="_blank" href="{% url 'lesson-single' id=lesson.id %}"><button>See more</button></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+</div>
+</main>
+{% endblock content %}
