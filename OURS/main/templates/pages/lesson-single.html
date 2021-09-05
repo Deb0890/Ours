@@ -1,4 +1,4 @@
-{% extends 'auth/base.html' %} {% block title %}
+{% extends 'pages/base.html' %} {% block title %}
 <title>Lessons</title>
 {% endblock title %} {% block css %}
 <link rel="stylesheet" href="style.css" />
@@ -8,4 +8,10 @@
 <p>Tutor: {{lesson.tutor}}</p>
 <p>Tutor Rating: {{lesson.tutor.rating}}</p>
 <p>Description: {{lesson.description}}</p>
+<p>Skill: {{lesson.skill}}</p>
+<p>Skill Level: {{lesson.skill_level}}</p>
+<p>{{lesson.days}}</p>
+
+<p>created: {{lesson.created}}</p>
+
 {% endblock content %}

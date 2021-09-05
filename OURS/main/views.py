@@ -1,8 +1,10 @@
+from django.core import paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.http import HttpResponse
-from .models import Lesson
+from .models import Lesson, Category, Skill, SkillLevels, SkillLevels
 from .forms import NewLessonForm
 
 # Create your views here.
@@ -12,7 +14,11 @@ def homepage(req):
 
 @login_required
 def dashboard(req):
-    return render(req, 'pages/dashboard.html')
+    # Only bring in the 5 most recent lessons
+    lessons = Lesson.objects.order_by('-created')[:5]
+    context = {"lessons": lessons}
+
+    return render(req, 'pages/dashboard.html', context)
 
 @login_required
 def lesson_create(req):
@@ -33,3 +39,18 @@ def lesson_detail_page(req,id):
     single_lesson = get_object_or_404(Lesson, pk=id)
     context = {"lesson":single_lesson}
     return render(req, 'pages/lesson-single.html', context)
+
+@login_required
+def find_a_lesson(req):
+    
+    lessons = Lesson.objects.order_by('-created')
+    catagories = Category.objects.all()
+    
+    # the bellow argument is how many items will be on a page
+    paginator = Paginator(lessons, 5)
+    page_number = req.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
+    context = {"page_obj": page_obj, "catagories": catagories}
+    return render(req, 'pages/find-a-lesson.html', context)

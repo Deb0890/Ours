@@ -1,10 +1,20 @@
-{% extends 'auth/base.html' %} {% block title %}
+{% extends 'auth/base.html' %}
+{% load static%}
+{% block title %}
 <title>Log In</title>
-{% endblock title %} {% block css %}
-<link rel="stylesheet" href="style.css" />
-{% endblock css %} {% block content %}
-<form method="POST">
-  {% csrf_token %} {{form}}
-  <button type="submit">Log In</button>
-</form>
+{% endblock title %}
+{% block css %} 
+  <link rel="stylesheet" href="{% static 'css/auth.style.css' %}" />
+{% endblock css %}
+{% block content %}
+<a id="home-button" href="{% url 'homepage' %}"><img src="{% static 'img/homeicon.svg' %}"/></a>
+<section class="form-container">
+  <form method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Log In</button>
+    <p class="sign-up">Don't have an account? <a href="{% url 'sign_up' %}">sign up here</a></p>
+  </form>
+</section>
+
 {% endblock content %}

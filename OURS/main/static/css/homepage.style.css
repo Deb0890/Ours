@@ -69,9 +69,10 @@ body {
 #app-info .sign-up {
   font-size: 15px;
   margin: unset;
+  line-height: unset;
 }
 #app-info .sign-up a {
-  color:#E4A3A3;
+  color:#DD7676;
   font-weight: 700;
   transition: .5s;
   width: 100px;
@@ -83,7 +84,7 @@ body {
 }
 #app-info .find-out-more {
   font-size: 20px;
-  color:#E4A3A3;
+  color:#DD7676;
   font-weight: 700;
   transition: .5s;
   display: inline-block;
