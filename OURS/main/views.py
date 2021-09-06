@@ -55,3 +55,19 @@ def find_a_lesson(req):
 
     context = {"page_obj": page_obj, "catagories": catagories}
     return render(req, 'pages/find-a-lesson.html', context)
+
+@login_required
+def update_a_lesson(req, id):
+    if req.method == 'POST':
+        updated_lesson = NewLessonForm(req.POST)
+        if updated_lesson.is_valid():
+            lesson = get_object_or_404(Lesson, pk=id)
+            updated_lesson = NewLessonForm(req.POST, instance=lesson)
+            updated_lesson.save()
+            # update the existing form model with the new data
+            return render(req, 'pages/dashboard.html')
+    
+    # return the form with the data already filled in
+    lesson = get_object_or_404(Lesson, pk=id)
+    form = NewLessonForm(initial={ 'tutor': lesson.tutor , 'skill': lesson.skill, 'title': lesson.title, 'description': lesson.description, 'days': lesson.days})
+    return render(req, 'pages/update-lesson.html', {"form": form, "id": id})

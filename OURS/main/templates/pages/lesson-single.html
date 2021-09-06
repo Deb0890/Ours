@@ -12,7 +12,7 @@
 {% block content %}
     <main>
         <h1 class="heading"> Learn {{lesson.skill.name}}</h1>
-        <p>with {{lesson.tutor}} (rating goes here)</p>
+        <p>with {{lesson.tutor}} ({{lesson.tutor.profile.rating}})</p>
         <hr/>
         <p>Level: {{lesson.get_skill_level_display}}</p>
         <h2 id="title" class="heading">{{lesson.title}}</h2>
@@ -45,7 +45,7 @@
         
         {% if user == lesson.tutor.id %}
             {% comment %} this will link to a new edit view {% endcomment %}
-            <button> Edit Your Lesson </button>
+            <a href="{% url 'update-a-lesson' id=lesson.id %}"><button> Edit Your Lesson </button></a>
         {% else %}
             <button> Book with {{lesson.tutor}} </button>
         {% endif %}
