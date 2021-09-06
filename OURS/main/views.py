@@ -86,3 +86,9 @@ def update_a_lesson(req, id):
         'day_selector': selectedDays
     })
     return render(req, 'pages/update-lesson.html', {"form": form, "id": id})
+
+@login_required
+def delete_a_lesson(req, id):
+    lesson = get_object_or_404(Lesson, pk=id)
+    lesson.delete()
+    return redirect('find-a-lesson')
