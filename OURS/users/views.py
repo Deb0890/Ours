@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from . import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db import transaction
 from .forms import ProfileForm, UserForm
@@ -27,13 +28,18 @@ def sign_up(req):
         context = {"form": form}
         return render(req, 'auth/signup.html', context)
 
+@login_required
+def get_profile(req, id):
+    user = User.objects.get(id=id)
+    context = {"user":user}
+    return render(req,'auth/single-profile.html',context)
 
 @login_required
 @transaction.atomic
 def update_profile(req):
     if req.method == 'POST':
         user_form = UserForm(req.POST, instance=req.user)
-        profile_form = ProfileForm(req.POST, instance=req.user.profile)
+        profile_form = ProfileForm(req.POST, req.FILES, instance=req.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()

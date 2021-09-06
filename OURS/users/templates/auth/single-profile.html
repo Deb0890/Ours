@@ -1,0 +1,26 @@
+{% extends 'pages/base.html' %} 
+{% load static%}
+{% block title %}
+<title>Profile</title>
+{% endblock title %} 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/profile.style.css' %}" />
+{% endblock css %} 
+{% block content %}
+<h1>Profile</h1>
+<div class="profile-container">
+    <div class="profile-head">
+        <p class="username">{{user.username}}</p>
+        <p><span>Rating: </span>{{user.profile.rating}}</p>
+    </div>
+    <hr>
+    <div class="profile-detail">
+        <p><span>Name: </span>{{user.first_name}} {{user.last_name}}</p>
+        <p><span>Bio: </span>{{user.profile.bio}}</p>
+        <p><span>Contact: </span><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+    </div>
+    {% if user.profile.profile_img %}
+    <img src={{user.profile.profile_img.url}} alt="profile image"/>
+    {% endif %}
+</div>
+{% endblock content %}
