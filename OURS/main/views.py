@@ -60,16 +60,29 @@ def find_a_lesson(req):
 def update_a_lesson(req, id):
     if req.method == 'POST':
         updated_lesson = NewLessonForm(req.POST)
-        
         if updated_lesson.is_valid():
             lesson = get_object_or_404(Lesson, pk=id)
-            updated_lesson = NewLessonForm(req.POST, instance=lesson)
-           
-            updated_lesson.save()
+            lesson.skill = updated_lesson.cleaned_data['skill']
+            lesson.skill_level = updated_lesson.cleaned_data['skill_level']
+            lesson.title = updated_lesson.cleaned_data['title']
+            lesson.description = updated_lesson.cleaned_data['description']
+            lesson.days = updated_lesson.cleaned_data['day_selector']
+            lesson.save()
             return redirect('dashboard')
-    
 
     # return the form with the data already filled in
     lesson = get_object_or_404(Lesson, pk=id)
-    form = NewLessonForm(initial={ 'tutor': lesson.tutor , 'skill': lesson.skill, 'title': lesson.title, 'description': lesson.description, 'days': lesson.days})
+    selectedDays = lesson.days.replace('[','')
+    selectedDays = selectedDays.replace(']','')
+    selectedDays = selectedDays.replace(' ','')
+    selectedDays = selectedDays.replace('\'','')
+    selectedDays = selectedDays.split(',')
+    form = NewLessonForm(initial={ 
+        'tutor': lesson.tutor , 
+        'skill': lesson.skill, 
+        'title': lesson.title, 
+        'description': lesson.description, 
+        'days': lesson.days,
+        'day_selector': selectedDays
+    })
     return render(req, 'pages/update-lesson.html', {"form": form, "id": id})
