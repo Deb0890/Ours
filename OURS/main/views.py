@@ -68,7 +68,7 @@ def update_a_lesson(req, id):
             lesson.description = updated_lesson.cleaned_data['description']
             lesson.days = updated_lesson.cleaned_data['day_selector']
             lesson.save()
-            return redirect('dashboard')
+            return redirect('lesson-single', id=lesson.id)
 
     # return the form with the data already filled in
     lesson = get_object_or_404(Lesson, pk=id)
