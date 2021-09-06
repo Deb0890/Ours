@@ -55,3 +55,40 @@ def find_a_lesson(req):
 
     context = {"page_obj": page_obj, "catagories": catagories}
     return render(req, 'pages/find-a-lesson.html', context)
+
+@login_required
+def update_a_lesson(req, id):
+    if req.method == 'POST':
+        updated_lesson = NewLessonForm(req.POST)
+        if updated_lesson.is_valid():
+            lesson = get_object_or_404(Lesson, pk=id)
+            lesson.skill = updated_lesson.cleaned_data['skill']
+            lesson.skill_level = updated_lesson.cleaned_data['skill_level']
+            lesson.title = updated_lesson.cleaned_data['title']
+            lesson.description = updated_lesson.cleaned_data['description']
+            lesson.days = updated_lesson.cleaned_data['day_selector']
+            lesson.save()
+            return redirect('lesson-single', id=lesson.id)
+
+    # return the form with the data already filled in
+    lesson = get_object_or_404(Lesson, pk=id)
+    selectedDays = lesson.days.replace('[','')
+    selectedDays = selectedDays.replace(']','')
+    selectedDays = selectedDays.replace(' ','')
+    selectedDays = selectedDays.replace('\'','')
+    selectedDays = selectedDays.split(',')
+    form = NewLessonForm(initial={ 
+        'tutor': lesson.tutor , 
+        'skill': lesson.skill, 
+        'title': lesson.title, 
+        'description': lesson.description, 
+        'days': lesson.days,
+        'day_selector': selectedDays
+    })
+    return render(req, 'pages/update-lesson.html', {"form": form, "id": id})
+
+@login_required
+def delete_a_lesson(req, id):
+    lesson = get_object_or_404(Lesson, pk=id)
+    lesson.delete()
+    return redirect('find-a-lesson')

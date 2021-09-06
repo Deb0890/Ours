@@ -61,6 +61,14 @@ button {
     cursor: pointer;
   }
 
+  button.delete {
+    border: 4px solid #F04646;
+  }
+
+  button.delete:hover {
+    background: #F04646;
+  }
+
  h1 {
       margin: 0;
   }
@@ -80,3 +88,14 @@ button {
   #title {
       text-transform: capitalize;
   }
+  .profile {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+  }
+  .stars {
+      font-size: 48px;
+      color: gold;
+  }
+  
