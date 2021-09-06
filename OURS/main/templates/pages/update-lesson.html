@@ -5,12 +5,16 @@
     <title>Update your post</title>
 {% endblock title %}
 
+{% block javascript %}
+    <script defer src="{% static 'js/forms.js' %}"></script>
+{% endblock javascript %}
+
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/lesson-single.style.css' %}" />  
+    <link rel="stylesheet" href="{% static 'css/forms.style.css' %}" />  
 {% endblock css %}
 
 {% block content %}
-    <main>
+    <main class="form-container">
         <h1>Update Your Lesson</h1>
         
         <form method="POST">
