@@ -37,7 +37,7 @@ def lesson_create(req):
 @login_required
 def lesson_detail_page(req,id):
     single_lesson = get_object_or_404(Lesson, pk=id)
-    context = {"lesson":single_lesson}
+    context = {"lesson":single_lesson, "user": req.user.id}
     return render(req, 'pages/lesson-single.html', context)
 
 @login_required

@@ -13,5 +13,7 @@
 <p>{{lesson.days}}</p>
 
 <p>created: {{lesson.created}}</p>
-
+{% if user == lesson.tutor.id %}
+<p>you made this post</p>
+{% endif %}
 {% endblock content %}
