@@ -80,3 +80,13 @@ button {
   #title {
       text-transform: capitalize;
   }
+  .profile {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+  }
+  .stars {
+      font-size: 48px;
+      color: gold;
+  }

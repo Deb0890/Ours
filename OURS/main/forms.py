@@ -19,13 +19,13 @@ class NewLessonForm(forms.ModelForm):
                 )
     day_selector = forms.MultipleChoiceField(
                                             choices=day_choices,
-                                            widget=forms.CheckboxSelectMultiple(),
+                                            widget=forms.CheckboxSelectMultiple,
                                             label="Available Teaching Days"
                                             )
 
     class Meta:
         model = Lesson
-        fields = ['tutor','skill','skill_level','title','description','banner_img','days','day_selector']
+        fields = ['tutor','skill','skill_level','title','description','days','day_selector']
         widgets = { 
                     'tutor': forms.HiddenInput,
                     'days':forms.HiddenInput 
