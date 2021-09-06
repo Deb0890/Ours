@@ -1,13 +1,28 @@
-{% extends 'pages/base.html' %} {% block title %}
-<title>Lesson Create</title>
-{% endblock title %} {% block css %}
-<link rel="stylesheet" href="style.css" />
-{% endblock css %} 
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Lesson Create</title>
+{% endblock title %}
+
+{% block javascript %}
+    <script defer src="{% static 'js/forms.js' %}"></script>
+{% endblock javascript %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/forms.style.css' %}" />
+{% endblock css %}
+
 {% block content %}
-<h1>Advertise a Session</h1>
-<form method="POST">
-{% csrf_token %}
-{{form}}
-<input type="submit" value="Post"/>
-</form>
+<main>
+    <section class="form-container">
+    <h1>Advertise a Session</h1>
+    <hr/>
+    <form method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Post</button>
+    </form>
+    </section>
+</main>
 {% endblock content %}

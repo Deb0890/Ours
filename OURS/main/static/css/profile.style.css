@@ -1,0 +1,39 @@
+.profile-container {
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative;
+    font-family: 'Raleway', sans-serif;
+}
+
+.profile-container .profile-head {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    align-items: left;
+    justify-content: center;
+}
+
+.profile-head .username {
+    font-weight: bold;
+    font-size: 30px;
+    margin: 0;
+}
+
+.profile-container hr {
+    width: 50%;
+    text-align: left;
+}
+
+.profile-container img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-container span {
+    font-weight: bold;
+}

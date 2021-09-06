@@ -12,7 +12,18 @@
 {% block content %}
     <main>
         <h1 class="heading"> Learn {{lesson.skill.name}}</h1>
-        <p>with {{lesson.tutor}} (rating goes here)</p>
+        <p>with <a href="{% url 'single_profile' lesson.tutor.id %}">{{lesson.tutor}}</a></p>
+        {% if lesson.tutor.profile.profile_img %}
+            <img class="profile" src={{lesson.tutor.profile.profile_img.url}} />
+            <br>
+        {% endif %}
+        <span class="stars">
+        {% with ''|center:lesson.tutor.profile.rating as range %}
+        {% for _ in range %}
+            *
+        {% endfor %}
+        {% endwith %}
+        </span>
         <hr/>
         <p>Level: {{lesson.get_skill_level_display}}</p>
         <h2 id="title" class="heading">{{lesson.title}}</h2>
@@ -45,7 +56,9 @@
         
         {% if user == lesson.tutor.id %}
             {% comment %} this will link to a new edit view {% endcomment %}
-            <button> Edit Your Lesson </button>
+            <a href="{% url 'update-a-lesson' id=lesson.id %}"><button> Edit Your Lesson </button></a>
+            <br>
+            <a href="{% url 'delete-a-lesson' id=lesson.id %}"><button class="delete"> Delete Your Lesson </button></a>
         {% else %}
             <button> Book with {{lesson.tutor}} </button>
         {% endif %}
