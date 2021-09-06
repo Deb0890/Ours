@@ -1,0 +1,20 @@
+{% extends 'pages/base.html' %} 
+{% load static%}
+{% block title %}
+<title>Profile</title>
+{% endblock title %} 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/lesson-single.style.css' %}" />
+{% endblock css %} 
+{% block content %}
+<main>
+<h1>Update Profile</h1>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ user_form.as_p }}
+  {{ profile_form.as_p }}
+  <button type="submit">Save changes</button>
+</form>
+</main>
+
+{% endblock content %}

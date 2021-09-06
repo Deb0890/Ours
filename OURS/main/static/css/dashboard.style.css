@@ -1,0 +1,89 @@
+main {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 50px;
+
+  padding: 10px 60px;
+
+  /* ! hardcoded but needs to be removed */
+  height: 100vh;
+
+  font-family: 'Raleway', sans-serif;
+}
+
+#profile-overview {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 1;
+
+  display: grid;
+  align-items: center;
+
+  padding: 0 150px;
+
+  font-size: 20px;
+  font-weight: 200;
+}
+#profile-overview h2 {
+  font-weight: 400;
+
+  text-align: center;
+  text-transform: capitalize;
+
+  line-height: 45px;
+}
+.stats {
+  font-weight: 700;
+}
+
+#update-profile {
+  grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+}
+
+#add-a-lesson {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+}
+
+#recently-added-lessons {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 1;
+}
+
+#my-lesson {
+  grid-column: 3, span 1;
+  grid-row: 2 / span 2;
+}
+.dashboard-item {
+  border-radius: 15px;
+  background-color: #eeeeee;
+  box-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
+  padding: 0 30px 30px 30px;
+}
+.section-headings {
+  text-align: center;
+  font-size: 25px;
+}
+table {
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 17px;
+    /* background-color: coral; */
+    padding: 10px;
+    border-spacing: 0;
+}
+td {
+  padding: 10px 0;
+}
+tr.data:hover {
+  background: #DD7676;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  
+}
+.left-aligned {
+  text-align: left;
+}
