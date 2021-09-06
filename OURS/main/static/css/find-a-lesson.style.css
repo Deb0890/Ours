@@ -22,6 +22,11 @@ tr {
     padding: 10px;
     border-bottom: 3px solid white;
 }
+tr.data:hover {
+    background: #DD7676;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
 td {
     padding: 10px;
     border-bottom: 3px solid white;

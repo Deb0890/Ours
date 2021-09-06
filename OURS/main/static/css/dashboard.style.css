@@ -73,6 +73,16 @@ table {
     font-size: 17px;
     /* background-color: coral; */
     padding: 10px;
+    border-spacing: 0;
+}
+td {
+  padding: 10px 0;
+}
+tr.data:hover {
+  background: #DD7676;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  
 }
 .left-aligned {
   text-align: left;

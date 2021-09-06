@@ -30,11 +30,10 @@
             <table>
                 
                 {% for lesson in lessons %}
-                    <tr>
+                    <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
                         <td class="left-aligned">{{lesson.title}}</td>
                         <td>{{lesson.skill.category}}</td>
                         <td>{{lesson.get_skill_level_display}}</td>
-                        <td><a target="_blank" href="{% url 'lesson-single' id=lesson.id %}"><button>See more</button></a></td>
                     </tr>
                 {% endfor %}
             </table>
