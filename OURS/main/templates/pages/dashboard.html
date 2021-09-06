@@ -17,6 +17,7 @@
 
         <section class="dashboard-item" id="update-profile">
             <h3 class="section-headings">Update Profile</h3>
+            <a href="{% url 'update_profile' %}">Click here to update your profile</a>
         </section>
 
         <section class="dashboard-item" id="add-a-lesson">
@@ -29,11 +30,10 @@
             <table>
                 
                 {% for lesson in lessons %}
-                    <tr>
+                    <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
                         <td class="left-aligned">{{lesson.title}}</td>
                         <td>{{lesson.skill.category}}</td>
                         <td>{{lesson.get_skill_level_display}}</td>
-                        <td><a target="_blank" href="{% url 'lesson-single' id=lesson.id %}"><button>See more</button></a></td>
                     </tr>
                 {% endfor %}
             </table>

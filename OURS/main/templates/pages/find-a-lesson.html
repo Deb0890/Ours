@@ -22,17 +22,15 @@
                 <th>Title</th>
                 <th>Tutor</th>
                 <th>Rating</th>
-                <th>Link</th>
             </tr>
             {% for lesson in page_obj %}
-                <tr id="{{lesson.id}}">
+                <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
                     <td class="left-aligned">{{lesson.skill.name}}</td>
                     <td>{{lesson.skill.category}}</td>
                     <td>{{lesson.get_skill_level_display}}</td>
                     <td>{{lesson.title}}</td>
                     <td>{{lesson.tutor}}</td>
-                    <td>{{lesson.rating}}</td>
-                    <td><a target="_blank" href="{% url 'lesson-single' id=lesson.id %}"><button>See more</button></a></td>
+                    <td>{{lesson.tutor.profile.rating}}</td>
                 </tr>
             {% endfor %}
         </table>
