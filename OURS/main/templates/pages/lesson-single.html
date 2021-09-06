@@ -1,20 +1,55 @@
-{% extends 'pages/base.html' %} {% block title %}
-<title>Lessons</title>
-{% endblock title %} {% block css %}
-<link rel="stylesheet" href="style.css" />
-{% endblock css %} 
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Learn {{lesson.skill.name}} with {{lesson.tutor}}</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/lesson-single.style.css' %}" />  
+{% endblock css %}
+
 {% block content %}
-<h1>Title: {{lesson.title}}</h1>
-<p>Tutor: {{lesson.tutor}}</p>
-<p>Tutor Rating: {{lesson.tutor.rating}}</p>
-<p>Description: {{lesson.description}}</p>
-<p>Skill: {{lesson.skill}}</p>
-<p>Skill Level: {{lesson.get_skill_level_display}}</p>
-<p>{{lesson.days}}</p>
-<p>created: {{lesson.created}}</p>
+    <main>
+        <h1 class="heading"> Learn {{lesson.skill.name}}</h1>
+        <p>with {{lesson.tutor}} (rating goes here)</p>
+        <hr/>
+        <p>Level: {{lesson.get_skill_level_display}}</p>
+        <h2 id="title" class="heading">{{lesson.title}}</h2>
+        
+        <hr/>
+        <p id="description">{{lesson.description}}</p>
+        <hr/>
+        <h3 class="heading">Availability</h3>
+        <table>
+           <tr>
+                {% for day in days %}
+                    {% if day in lesson.days %}
+                        <th>{{day}}</th>
+                    {% else %}
+                        <th class="unavailable-day">{{day}}</th>
+                    {% endif %}
+                {% endfor %}
+           </tr>
+           <tr>
+                {% for day in days %}
+                    {% if day in lesson.days %}
+                        <td class="available"></td>
+                    {% else %}
+                        <td class="unavailable"></td>
+                    {% endif %}
+                {% endfor %}  
+           </tr>
+        </table>
+        
+        
+        {% if user == lesson.tutor.id %}
+            {% comment %} this will link to a new edit view {% endcomment %}
+            <button> Edit Your Lesson </button>
+        {% else %}
+            <button> Book with {{lesson.tutor}} </button>
+        {% endif %}
 
-{% if user == lesson.tutor.id %}
-<p>you made this post</p>
-{% endif %}
-
+        <p class="post-date">Posted: {{lesson.created}}</p>
+    </main>
 {% endblock content %}
