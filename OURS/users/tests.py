@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 import pytest
 from bs4 import BeautifulSoup
+from users.models import Profile
 
 # define test case here, this includes things like a user and data that is passed into the functions
 class BaseTestCase(TestCase):
@@ -13,7 +14,7 @@ class BaseTestCase(TestCase):
     def setUpTestData(cls):
 
         cls.user = {
-            "username":"username",
+            "username":"unclebob",
             "email":"bob@example.com",
             "first_name":"Bob",
             "last_name":"Smith",
@@ -21,7 +22,16 @@ class BaseTestCase(TestCase):
             "password2":"cFtr5lB7"
         }
 
-        cls.users_info = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
+        cls.user2 = {
+            "username":"unclebob",
+            "email":"bob@example.com",
+            "first_name":"Bob",
+            "last_name":"Smith",
+            "password1":"cFtr5lB7",
+            "password2":"cFtr5lB7"
+        }
+
+        cls.user_info = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
 
 class AuthUrlTests(BaseTestCase):
 
@@ -52,13 +62,16 @@ class AuthUrlTests(BaseTestCase):
         html_in_text_format = BeautifulSoup(html, 'html.parser')
         assert html_in_text_format.title.string == 'Log In'
 
-
     #signup page should redirect on submitting
-    def test_signup_page_post_response(self):
+    def test_signup_user_and_login_at_once(self):
         response = self.client.post(reverse('sign_up'), self.user, follow=True)
         self.assertTemplateUsed(response,'pages/dashboard.html')
 
     #also possibly create test that shouldn't sign up user with an existing username, 409?
+    def test_will_not_signup_with_existing_details(self):
+        self.client.post(reverse('sign_up'), self.user, follow=True)
+        response = self.client.post(reverse('sign_up'), self.user2, follow=True)
+        self.assertEqual(response.status_code, 409)
 
     def test_the_right_template_is_rendered(self):       
         response = self.client.post(reverse('sign_up'), self.user, follow=True)
@@ -67,7 +80,7 @@ class AuthUrlTests(BaseTestCase):
 
     def test_base_template_present(self):
         response = self.client.get(reverse('sign_up'), follow=True)
-        templates = [template for template in response.templates]
+        #templates = [template for template in response.templates]
         assert('auth/base.html' in [template.name for template in response.templates])
 
         
@@ -84,6 +97,7 @@ class AuthUrlTests(BaseTestCase):
         response = self.client.get(reverse('log_out'), follow=True)
         self.assertTemplateUsed(response, 'auth/logout.html')
 
+
 class ProtectedRoutesTests(BaseTestCase):
 
     def setUp(self):
@@ -99,12 +113,22 @@ class ProtectedRoutesTests(BaseTestCase):
         response = self.client.get(reverse('dashboard'), follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
         assert('pages/base.html' in [template.name for template in response.templates])
-        
+
 class ErrorRoutes(BaseTestCase):
 
     def test_view_url_does_not_exist(self):
         response = self.client.get('/users', follow=True)
         self.assertEqual(response.status_code, 404)
+
+    def test_custom_error_does_not_exist_renders(self):
+        response = self.client.get('/bob', follow=True)
+        #self.assertTemplateNotUsed('pages/dashboard.html')
+        self.assertEqual(response, 'pages/404.html')
+
+    def test_custom_error_does_not_exist_renders(self):
+        response = self.client.get('/bob', follow=True)
+        #self.assertTemplateNotUsed('pages/dashboard.html')
+        self.assertEqual(response, 'pages/500.html')
 
 
 # class Test_tests(TestCase):
@@ -114,3 +138,12 @@ class ErrorRoutes(BaseTestCase):
 
 #     def test_one_Two(self):
 #         self.assertEqual(1+1, 3)
+
+# model tests
+
+class TestModel(BaseTestCase):
+    
+
+    def test_should_create_user_profile(self):
+        Profile.objects.create(user='?')
+        self.assertEqual()
