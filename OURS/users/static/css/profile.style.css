@@ -255,3 +255,14 @@ button {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
 }
 
+#ratings-container {
+  display: flex;
+  justify-content: center;
+}
+#ratings-container img {
+  height: 25px;
+  margin: 8px 2px 15px 2px;
+}
+.profile-detail {
+  margin: 30px;
+}
