@@ -6,11 +6,24 @@ const gdprCheckbox = document.getElementById('gdprConfirm');
 const closeModalButton = document.getElementById('closeModal');
 const modal = document.querySelector('.modal');
 
+const form = document.querySelector("form")
+let inputs = form.querySelectorAll('input')
+inputs = Array.from(inputs)
+console.log(inputs);
+
 console.log(modal);
 
 
 const togelModal = () => {
     if (modal.style.display == "none" || !modal.style.display) {
+
+        for (let i = 0; i < inputs.length; i++) {
+            if (!inputs[i].value) {
+                return
+            }
+            
+        }
+
         modal.style.display = "flex"
     } else {
         modal.style.display = "none"
