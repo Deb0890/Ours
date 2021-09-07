@@ -38,6 +38,10 @@
         {% endif %}
         <br>
         State: {{classroom.get_state_display}}
+        <br>
+        {% if classroom.room_details %}
+        Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
+        {% endif %}
 
         {% if classroom.get_state_display == 'Created' %}
             {% if user == classroom.lesson.tutor %}
@@ -59,14 +63,14 @@
         {% elif classroom.get_state_display == 'Confirmed' %}
             {% if user == classroom.lesson.tutor %}
                 <br>
-                <a href="{% url 'classroom-update-tutor' id=classroom.id %}"><button> Add Classroom Info </button></a>
+                <a href="{% url 'classroom-finalise' id=classroom.id %}"><button> Add Classroom Info </button></a>
             {% else %}
                 <br>
                 <div class="alert"> Waiting on the Tutor to add meeting information </div>
             {% endif %}
         {% elif classroom.get_state_display == 'Upcoming' %}
                 <br>
-                <div class="alert"> Use the information above to on the scheduled time </div>
+                <div class="alert"> Use the information above to meet at the scheduled time </div>
         {% endif %}
     </main>
 {% endblock content %}
