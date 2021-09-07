@@ -53,6 +53,8 @@ main {
 
 #update-profile:hover {
   cursor: pointer;
+  background-color: rgb(150, 150, 150);
+  color: white;
 }
 
 #add-a-lesson {
@@ -70,6 +72,8 @@ main {
 
 #add-a-lesson:hover {
   cursor: pointer;
+  background-color: rgb(150, 150, 150);
+  color: white;
 }
 
 #recently-added-lessons {
