@@ -1,0 +1,257 @@
+* {
+  box-sizing: border-box;
+}
+
+main {
+    width: 600px;
+    margin: 60px auto;
+  
+    text-align: center;
+  
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+  
+    border-radius: 15px;
+    background-color: #eeeeee;
+    box-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+  }
+  
+  button {
+    width: 222px;
+    height: 45.58px;
+    border: 4px solid#536372;
+    background: none;
+    outline: none;
+    transition: 0.5s;
+    border-radius: 10px;
+  
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+  
+    color: #536372;
+  
+    margin: 20px auto 15px auto;
+  }
+  
+  button:hover {
+    background: #536372;
+    color: white;
+    cursor: pointer;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  p {
+    margin: 8px;
+  }
+  h2 {
+    margin: 8px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  #form-div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container label {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  .form-container input,
+  textarea,
+  select {
+    margin: 10px auto 20px auto;
+    width: 100%;
+    height: 45px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    padding-left: 20px;
+  }
+  
+  .form-container textarea {
+    height: 100px;
+    resize: none;
+  }
+  
+  .form-container input[type='password'] {
+    font-size: 40px;
+  }
+  
+  ul * {
+    all: unset;
+    padding: 0;
+  }
+  
+  #id_day_selector {
+    padding: 0;
+  }
+  #id_day_selector label {
+    cursor: pointer;
+    border: solid 2px rgb(221, 118, 118);
+    border-radius: 50px;
+    padding: 5px 10px;
+  
+    font-size: 12px;
+  }
+  #id_day_selector label:hover {
+    background-color: rgb(221, 118, 118);
+  }
+  #id_day_selector input {
+    display: none;
+  }
+  main {
+    width: 600px;
+    margin: 60px auto;
+
+    text-align: center;
+
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+
+    border-radius: 15px;
+    background-color: #eeeeee;
+    box-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+}
+table {
+    margin: 0 auto;
+}
+
+td.unavailable {
+    background-color: rgb(206, 206, 206);
+}
+td.available {
+    background-color: rgb(36, 224, 152);
+}
+.unavailable-day {
+    color: grey;
+}
+td {
+    height: 30px;
+    width: 30px;
+}
+
+th {
+    text-transform: capitalize;
+    font-size: 13px;
+}
+
+button {
+    width: 222px;
+    height: 45.58px;
+    border: 4px solid#536372;
+    background: none;
+    outline: none;
+    transition: .5s;
+    border-radius: 10px;
+  
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+  
+    color: #536372;
+  
+    margin: 20px auto 15px auto;
+  }
+  
+  
+  button:hover {
+    
+    background: #536372;
+    color: white;
+    cursor: pointer;
+  }
+
+ h1 {
+      margin: 0;
+  }
+  p {
+      margin: 8px;
+  }
+  h2 {
+    margin: 8px;
+  }
+  .post-date {
+      margin: 0;
+      font-size: 10px;
+  }
+  #description {
+      font-size: 25px;
+  }
+  #title {
+      text-transform: capitalize;
+  }
+  .profile {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+  }
+  .stars {
+      font-size: 48px;
+      color: gold;
+  }
+  img {
+    margin: 20px;
+  }
+ /* #id_profile_img {
+   font-size: 15px;
+   background: pink;
+   padding: 0; 
+  margin: 0 auto;
+
+  text-align: center;
+  } */
+ #profile_img-clear_id {
+   width: 15px;
+   display: none;
+   width: auto;
+ }
+
+
+ #id_profile_img {
+  color: transparent;
+  padding: 0;
+  width: 99%;
+}
+#id_profile_img::-webkit-file-upload-button {
+  visibility: hidden;
+}
+#id_profile_img::before {
+  content: 'Upload Your Profile Image';
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 0;
+  outline: none;
+  width: 99.6%;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+#id_profile_img:hover::before {
+  border-color: black;
+}
+#id_profile_img:active {
+  outline: 0;
+}
+#id_profile_img:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+}
+

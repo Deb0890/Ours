@@ -9,12 +9,8 @@ const modal = document.querySelector('.modal');
 const form = document.querySelector("form")
 let inputs = form.querySelectorAll('input')
 inputs = Array.from(inputs)
-console.log(inputs);
 
-console.log(modal);
-
-
-const togelModal = () => {
+const toggleModal = () => {
     if (modal.style.display == "none" || !modal.style.display) {
 
         for (let i = 0; i < inputs.length; i++) {
@@ -40,6 +36,6 @@ const handleCheckbox = (e) => {
 }
 
 
-confirmButton.addEventListener('click', togelModal)
-closeModalButton.addEventListener('click', togelModal)
+confirmButton.addEventListener('click', toggleModal)
+closeModalButton.addEventListener('click', toggleModal)
 gdprCheckbox.addEventListener('change', handleCheckbox)
