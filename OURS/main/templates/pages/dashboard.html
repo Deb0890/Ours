@@ -40,7 +40,33 @@
         </section>
 
         <section class="dashboard-item" id="my-lesson">
-            <h3 class="section-headings">My Lessons</h3>
+            <h3 class="section-headings">My Classrooms</h3>
+            {% if student_rooms %}
+            <h4 class="section-sub-headings">Student</h4>
+            <hr>
+            <table>
+                {% for classroom in student_rooms %}
+                    <tr class="data" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
+                        <td class="left-aligned">{{classroom.lesson.title}}</td>
+                        <td>{{classroom.time.date}}</td>
+                        <td>{{classroom.get_state_display}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+            {% if tutor_rooms %}
+            <h4 class="section-sub-headings">Tutor</h4>
+            <hr>
+            <table>
+                {% for classroom in tutor_rooms %}
+                    <tr class="data" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
+                        <td class="left-aligned">{{classroom.lesson.title}}</td>
+                        <td>{{classroom.time.date}}</td>
+                        <td>{{classroom.get_state_display}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
         </section>
     </main>
 

@@ -57,7 +57,8 @@ class Classroom(models.Model):
         choices=ClassroomState.choices,
         default=ClassroomState.CREATED,
     )
-    time = models.DateTimeField(blank=True)
+    time = models.DateTimeField(blank=True, null=True)
+    room_details = models.URLField(blank=True, null=True)
 
 class ClassroomNote(models.Model):
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
