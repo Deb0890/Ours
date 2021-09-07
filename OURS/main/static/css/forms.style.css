@@ -100,3 +100,9 @@ ul * {
 #id_day_selector input {
   display: none;
 }
+
+.errorlist {
+  background-color: red;
+  padding: 5px;
+  color: white;
+}
