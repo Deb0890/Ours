@@ -1,7 +1,7 @@
 const labels = document.querySelectorAll('label')
 
 for (let i = 0; i < labels.length; i++) {
-    if (labels[i].textContent == 'Profile img:' || labels[i].textContent == "Clear") {
+    if (labels[i].textContent == "Clear") {
         labels[i].style.display = 'none'
     }
 }
