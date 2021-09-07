@@ -1,0 +1,71 @@
+.modal {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 192, 203, 0.781);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    
+}
+
+#gdprInfo {
+    width: 650px;
+    height: 550px;
+    background: white;
+
+    padding: 30px;
+/* 
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px auto 50px 100px; */
+}
+#gdprInfo p {
+    font-size: 15px;
+    line-height: unset;
+}
+
+#gdprPolicyText {
+    height: 200px;
+
+    overflow: scroll;
+
+    text-align:left;
+    
+}
+
+#gdprPolicyText::-webkit-scrollbar {
+    display: none;
+
+}
+
+#gdprInfo input {
+    width: 30px;
+}
+
+button.disabled {
+    background: rgb(190, 190, 190) !important;
+    color: rgb(167, 167, 167) !important;
+}
+button.disabled:hover {
+    cursor:not-allowed !important;
+}
+#closeModal {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+}
+#closeModal:hover {
+    color: #DD7676;
+    cursor: pointer;
+}
+
+#submit-Buttons{
+}
