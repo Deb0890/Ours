@@ -1,0 +1,72 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Classroom</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/classroom-single.style.css' %}" />  
+{% endblock css %}
+
+{% block content %}
+    <main>
+        <h1 class="heading"> Classroom </h1>
+        <div class="tutor-student">
+            <div class="tutor">
+            {% if classroom.lesson.tutor.profile.profile_img %}
+                <img src={{classroom.lesson.tutor.profile.profile_img.url}} />
+            {% endif %}
+            <span>Tutor: </span><a href="{% url 'single_profile' classroom.lesson.tutor.id %}">{{classroom.lesson.tutor.username}}</a>
+            </div>
+            <div class="student">
+            {% if classroom.student.profile.profile_img %}
+                <img src={{classroom.student.profile.profile_img.url}} />
+            {% else %}
+                <img src="https://www.clipartkey.com/mpngs/m/326-3260960_male-shadow-fill-circle-comments-default-profile-pic.png"/>
+            {% endif %}
+            <span>Student: </span><a href="{% url 'single_profile' classroom.student.id %}">{{classroom.student.username}}</a>
+            </div>
+        </div>
+        <br>
+        Lesson: {{classroom.lesson.skill}}
+        <br>
+        {% if classroom.get_state_display == 'Created' %}
+        Date: {{classroom.time.date}}
+        {% else %}
+        Date: {{classroom.time}}
+        {% endif %}
+        <br>
+        State: {{classroom.get_state_display}}
+
+        {% if classroom.get_state_display == 'Created' %}
+            {% if user == classroom.lesson.tutor %}
+                <br>
+                <a href="{% url 'classroom-update' id=classroom.id %}"><button> Add A Time </button></a>
+            {% else %}
+                <br>
+                <div class="alert"> Waiting on the Tutor to set a time </div>
+            {% endif %}
+        {% elif classroom.get_state_display == 'Awaiting Confirmation' %}
+            {% if user == classroom.student %}
+                <br>
+                <a href="{% url 'classroom-confirm' id=classroom.id %}"><button> Confirm </button></a>
+                {% comment %} <a href="{% url 'classroom-decline' id=classroom.id %}"><button> Decline </button></a> {% endcomment %}
+            {% else %}
+                <br>
+                <div class="alert"> Waiting on the Student to confirm </div>
+            {% endif %}
+        {% elif classroom.get_state_display == 'Confirmed' %}
+            {% if user == classroom.lesson.tutor %}
+                <br>
+                <a href="{% url 'classroom-update-tutor' id=classroom.id %}"><button> Add Classroom Info </button></a>
+            {% else %}
+                <br>
+                <div class="alert"> Waiting on the Tutor to add meeting information </div>
+            {% endif %}
+        {% elif classroom.get_state_display == 'Upcoming' %}
+                <br>
+                <div class="alert"> Use the information above to on the scheduled time </div>
+        {% endif %}
+    </main>
+{% endblock content %}
