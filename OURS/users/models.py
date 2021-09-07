@@ -13,6 +13,9 @@ class Profile(models.Model):
     rating = models.PositiveIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
     dollours = models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.user.username}'
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from django.db.models.deletion import CASCADE, SET_NULL
 
 # Create your models here.
 class Category(models.Model):
@@ -40,3 +41,26 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f'{self.skill.name} ({self.get_skill_level_display()})'
+
+class ClassroomState(models.TextChoices):
+    CREATED = 'CR', 'Created'
+    AWAITING = 'AC', 'Awaiting Confirmation'
+    CONFIRMED = 'CF', 'Confirmed'
+    UPCOMING = 'UP', 'Upcoming'
+    COMPLETE = 'CP', 'Complete'
+
+class Classroom(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    state = models.CharField(
+        max_length=2,
+        choices=ClassroomState.choices,
+        default=ClassroomState.CREATED,
+    )
+    time = models.DateTimeField(blank=True)
+
+class ClassroomNote(models.Model):
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField(max_length=500)
+    created = models.DateTimeField(auto_now_add=True)
