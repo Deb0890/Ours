@@ -17,6 +17,7 @@ pillow = "*"
 bs4 = "*"
 django-storages = "*"
 boto3 = "*"
+coverage = "*"
 
 [dev-packages]
 pytest-django = "*"
