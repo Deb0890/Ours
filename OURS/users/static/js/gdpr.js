@@ -19,11 +19,10 @@ const togelModal = () => {
 
         for (let i = 0; i < inputs.length; i++) {
             if (!inputs[i].value) {
+                inputs[i].placeholder = 'Please fill in';
                 return
-            }
-            
+            }   
         }
-
         modal.style.display = "flex"
     } else {
         modal.style.display = "none"
