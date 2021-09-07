@@ -1,4 +1,5 @@
 from io import StringIO
+from django import template
 from django.http import response
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -30,6 +31,33 @@ class BaseTestCase(TestCase):
             "password1":"cFtr5lB7",
             "password2":"cFtr5lB7"
         }
+
+        cls.user_bad_email = {
+            "username":"dan",
+            "email":"myemail@crazymail.com",
+            "first_name":"Tom",
+            "last_name":"Gammon",
+            "password1":"mypassword",
+            "password2":"mypassword"
+        }
+
+        cls.user_bad_username = {
+            "username":"myusername",
+            "email":"crazymail@crazymail.com",
+            "first_name":"Tom",
+            "last_name":"Gammon",
+            "password1":"mypassword",
+            "password2":"mypassword"
+        }        
+
+        cls.user_bad_passwords = {
+            "username":"deb",
+            "email":"newemail@crazymail.com",
+            "first_name":"Tom",
+            "last_name":"Gammon",
+            "password1":"mypassword45",
+            "password2":"mypassword64"
+        }    
 
         cls.user_info = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
 
@@ -66,12 +94,6 @@ class AuthUrlTests(BaseTestCase):
     def test_signup_user_and_login_at_once(self):
         response = self.client.post(reverse('sign_up'), self.user, follow=True)
         self.assertTemplateUsed(response,'pages/dashboard.html')
-
-    #also possibly create test that shouldn't sign up user with an existing username, 409?
-    def test_will_not_signup_with_existing_details(self):
-        self.client.post(reverse('sign_up'), self.user, follow=True)
-        response = self.client.post(reverse('sign_up'), self.user2, follow=True)
-        self.assertEqual(response.status_code, 409)
 
     def test_the_right_template_is_rendered(self):       
         response = self.client.post(reverse('sign_up'), self.user, follow=True)
@@ -113,6 +135,19 @@ class ProtectedRoutesTests(BaseTestCase):
         response = self.client.get(reverse('dashboard'), follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
         assert('pages/base.html' in [template.name for template in response.templates])
+    
+    def test_user_can_access_profile_page_template(self):
+        response = self.client.get(reverse('update_profile'), follow=True)
+        #self.assertTemplateNotUsed('pages/dashboard.html')
+        assert('auth/profile.html' in [template.name for template in response.templates])
+
+    def test_content_of_title_is_profile(self):
+        response = self.client.get(reverse('update_profile'), follow=True)
+        html = response.content
+        html_in_text_format = BeautifulSoup(html, 'html.parser')
+        assert html_in_text_format.title.string == 'Profile'
+
+    
 
 class ErrorRoutes(BaseTestCase):
 
@@ -121,29 +156,53 @@ class ErrorRoutes(BaseTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_custom_error_does_not_exist_renders(self):
-        response = self.client.get('/bob', follow=True)
+        response = self.client.get('/bobspage', follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
         self.assertEqual(response, 'pages/404.html')
 
     def test_custom_error_does_not_exist_renders(self):
         response = self.client.get('/bob', follow=True)
-        #self.assertTemplateNotUsed('pages/dashboard.html')
+        #assert('pages/base.html' in [template.name for template in response.templates])
+
         self.assertEqual(response, 'pages/500.html')
 
-
-# class Test_tests(TestCase):
-
-#     def test_one_one(self):
-#         self.assertEqual(1+1, 2)
-
-#     def test_one_Two(self):
-#         self.assertEqual(1+1, 3)
 
 # model tests
 
 class TestModel(BaseTestCase):
-    
 
-    def test_should_create_user_profile(self):
-        Profile.objects.create(user='?')
-        self.assertEqual()
+    def test_user_exists(self):
+        user_count = User.objects.all().count()
+        self.assertEqual(user_count, 1)
+    
+    #if we create a user we should have 2 users in database
+    def test_user_is_added_to_db(self):
+        User.objects.create_user('myusername1', 'myemail1@crazymail.com', 'mypassword')
+        user_count = User.objects.all().count()
+        self.assertEqual(user_count, 2)
+
+    def test_username_is_not_valid(self):
+        response = self.client.post(reverse('sign_up'), self.user_bad_username, follow=True)
+        print([template.name for template in response.templates])
+        self.assertTemplateUsed(response,'auth/signup.html')  
+    
+    def test_email_is_not_valid(self):
+        response = self.client.post(reverse('sign_up'), self.user_bad_email, follow=True)
+        print([template.name for template in response.templates])
+        self.assertTemplateUsed(response,'auth/signup.html')  
+    
+    def test_password_is_not_valid(self):
+        response = self.client.post(reverse('sign_up'), self.user_bad_passwords, follow=True)
+        print([template.name for template in response.templates])
+        self.assertTemplateUsed(response,'auth/signup.html')  
+
+
+    # create a new user
+    # pass those users info (sign them up)
+    # check there's another user in database
+    # count amount of users in database
+
+#if login info is missing, user isn't created
+
+
+#if there are duplicate emails and usernames or weak password, check user isn't signed up
