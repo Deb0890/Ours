@@ -201,6 +201,16 @@ def classroom_confirm(req,id):
 
 @login_required
 def classroom_finalise(req,id):
+    if req.method == 'POST':
+        form = FinaliseClassroomForm(req.POST)
+        if form.is_valid():
+            classroom = get_object_or_404(Classroom, pk=id)
+            classroom.state = 'UP'
+            classroom.room_details = form.cleaned_data['room_details']
+            classroom.save()
+            return redirect('classroom-single', id=classroom.id)
+        else:
+            print(form.errors)    
     classroom = get_object_or_404(Classroom, pk=id)
     form = FinaliseClassroomForm()
     context = {
