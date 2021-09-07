@@ -56,3 +56,42 @@ th {
     font-weight: 700;
     color:#DD7676;
 }
+
+.filter-container {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.filter-container form {
+    display: flex;
+    flex-grow: 1;
+}
+
+.filter-container button:hover {
+    cursor: pointer;
+}
+
+.filter-container select,
+.filter-container button,
+.filter-container input {
+    font-size: 17px;
+    padding: 15px 10px;
+}
+
+.filter-container #filter-text {
+    flex-grow: 1;
+}
+
+#filter-label {
+    padding: 10px;
+    width: 100%;
+}
+
+#filter-label span {
+    font-weight: bold;
+}
+
+.data .stars {
+    color: gold;
+    font-size: 30px;
+}

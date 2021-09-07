@@ -10,6 +10,10 @@ from .forms import ProfileForm, UserForm
 # Create your views here.
 
 def sign_up(req):
+
+    if req.user.is_authenticated:
+        return redirect('dashboard')
+
     if req.method == "POST":
         new_user = forms.UserSignupForm(req.POST)
         if new_user.is_valid():
@@ -54,6 +58,3 @@ def update_profile(req):
         'user_form': user_form,
         'profile_form': profile_form
     })
-    
-# def log_in(req):
-#     return redirect('dashboard')
