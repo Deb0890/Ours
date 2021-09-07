@@ -44,16 +44,40 @@ def lesson_detail_page(req,id):
 @login_required
 def find_a_lesson(req):
     
-    lessons = Lesson.objects.order_by('-created')
+    filter = req.GET.get('filter')
+    value = req.GET.get('value')
+    if filter == 'title':
+        lessons = Lesson.objects.filter(title__icontains=value).order_by('-created')
+    elif filter == 'level':
+        lessons = Lesson.objects.filter(skill_level=value[0].upper()).order_by('-created')
+    elif filter == 'skill':
+        lessons = Lesson.objects.filter(skill__name__icontains=value).order_by('-created')
+    elif filter == 'category':
+        lessons = Lesson.objects.filter(skill__category__name__icontains=value).order_by('-created')
+    elif filter == 'tutor':
+        lessons = Lesson.objects.filter(tutor__username__icontains=value).order_by('-created')
+    elif filter == 'rating':
+        lessons = Lesson.objects.filter(tutor__profile__rating=value).order_by('-created')
+    else:
+        lessons = Lesson.objects.filter().order_by('-created')
+
     catagories = Category.objects.all()
-    
+
     # the bellow argument is how many items will be on a page
     paginator = Paginator(lessons, 5)
     page_number = req.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    if filter:
+        filter = filter.capitalize()
 
-    context = {"page_obj": page_obj, "catagories": catagories}
+    context = {
+        "page_obj": page_obj, 
+        "catagories": catagories,
+        "filter": filter,
+        "filterText": value
+    }
+
     return render(req, 'pages/find-a-lesson.html', context)
 
 @login_required
