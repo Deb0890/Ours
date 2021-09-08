@@ -16,8 +16,12 @@
 <h1>Update Profile</h1>
 <hr/>
 <label for="profile_img">
-
-      <img hidden id="profileImage" class="profile" src="{{user.profile.profile_img.url}}"/>
+    {% if user.profile.profile_img %}
+        <img src={{user.profile.profile_img.url}} />
+    {% else %}
+        <img src="{% static 'img/default-user-icon.svg' %}">
+    {% endif %}
+      
   </label>
   <div id="form-div">
   <form method="POST" enctype="multipart/form-data">
