@@ -256,7 +256,7 @@ def classroom_review(req,id):
                 review.save()
 
                 if classroom.state == "PR":
-                    if review.student_review and review.tutor_review:
+                    if review.student_void and review.tutor_void:
                         classroom.state = "CL"
                     else:
                         classroom.state = "FR"
