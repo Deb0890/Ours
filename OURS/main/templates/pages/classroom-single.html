@@ -71,6 +71,16 @@
         {% elif classroom.get_state_display == 'Upcoming' %}
                 <br>
                 <div class="alert"> Use the information above to meet at the scheduled time </div>
+        {% elif classroom.get_state_display == 'Complete' %}
+            {% if user == classroom.lesson.tutor %}
+                <br>
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and tutor </div>
+            {% else %}
+                <br>
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and tutor </div>
+            {% endif %}
         {% endif %}
     </main>
 {% endblock content %}

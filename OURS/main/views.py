@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from .models import Classroom, Lesson, Category, Skill, SkillLevels, SkillLevels
-from .forms import FinaliseClassroomForm, NewClassroomForm, NewLessonForm, UpdateClassroomForm
+from .forms import FinaliseClassroomForm, NewClassroomForm, NewLessonForm, ReviewClassroomForm, UpdateClassroomForm
 from datetime import datetime
 
 # Create your views here.
@@ -217,3 +217,14 @@ def classroom_finalise(req,id):
         "form": form 
     }
     return render(req, 'pages/classroom-update-tutor.html', context)
+
+@login_required
+def classroom_review(req,id):
+    classroom = get_object_or_404(Classroom, pk=id)
+    form = ReviewClassroomForm(initial={
+        'state': classroom.state
+    })
+    context = {
+        "form": form 
+    }
+    return render(req, 'pages/classroom-review.html', context)
