@@ -104,3 +104,8 @@ class FinaliseClassroomForm(forms.ModelForm):
     class Meta:
         model = Classroom
         fields = ['room_details']
+
+class ReviewClassroomForm(forms.ModelForm):
+    class Meta:
+        model = Classroom
+        fields = ['state']
