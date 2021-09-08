@@ -12,9 +12,21 @@
 {% block content %}
     <main>
         <section id="profile-overview">
-            <h2>amazing! you've spent <span class="stats">8 hours</span> learning incredible skills like <span class="stats">web design.</span> and you've given <span class="stats">11 hours</span> sharing your amazing talents with people like <span class="stats">teddanson45</span> & <span class="stats">billy222.</span><br/>we ❤️ to see it.</h2>
+        {% if user.profile.dollours == 0 %}
+
+            <h2>Hey! good to see you! <br/> Why not create a lession to earn some Dollours</h2>
             <p>Dollour Balance</p>
+            <img src="{%static 'img/dollours-coin.svg'%}">
             <p>${{user.profile.dollours}}</p>
+
+        {% else %}
+            <h2>Hey! good to see you! <br/> It's the perfect day to learn a new skill, or share one of yours</h2>
+            <section id="dollours-container">
+                <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
+                <p class="dollours-display">{{user.profile.dollours}}</p>
+            </section>
+           
+        {% endif %}
         </section>
         
         <section class="dashboard-item" id="my-lessons-tutor">
