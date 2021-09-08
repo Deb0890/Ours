@@ -31,7 +31,69 @@
         {% if filter %}
         <div id="filter-label"><span>Active Filter:</span> {{ filter }} contains "{{ filterText }}"</div>
         {% endif %}
-        <table>
+
+        <section id ="lesson-container">
+            {% for lesson in page_obj %}
+                <article class="lesson-preview">
+                    <Section class="tutor-section">
+                        <a class="tutor-profile" href="{% url 'single_profile' id=lesson.tutor.id %}">
+                            {% if lesson.tutor.profile.profile_img %}
+                                <img src={{lesson.tutor.profile.profile_img.url}} />
+                            {% else %}
+                                <img src="{% static 'img/default-user-icon.svg' %}">
+                            {% endif %}
+                        </a>
+                    </section>
+
+                    <Section class="lesson-info-section">
+                        <h2>{{lesson.title}}</h2>
+                        <p>{{lesson.skill.name}} <span>({{lesson.skill.category}})</span></p>
+                        {% if lesson.get_skill_level_display == 'Beginner' %}
+                            <button class="beginner">{{lesson.get_skill_level_display}}</button>
+                        {% elif lesson.get_skill_level_display == 'Intermediate' %}
+                            <button class="intermediate">{{lesson.get_skill_level_display}}</button>
+                        {% elif lesson.get_skill_level_display == 'Advanced' %}
+                            <button class="advanced">{{lesson.get_skill_level_display}}</button>
+
+                        {% endif %}
+                        
+                    </section>
+                    <section class="see-more-container">
+                        <a href="{% url 'lesson-single' id=lesson.id %}">
+                        <button class="see-more-button">See More</button>
+                        </a>
+                    </section>
+                </article>
+            {% endfor %}
+        
+        <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?{% param_replace page=1 %}">&laquo; first</a>
+                {% if page_obj.previous_page_number != 1 %}
+                    <a href="?{% param_replace page=page_obj.previous_page_number %}">previous</a>
+                {% endif %}
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                {% if page_obj.next_page_number != paginator.num_pages %}
+                    <a href="?{% param_replace page=page_obj.next_page_number %}">next</a>
+                {% endif %}
+                <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
+            {% endif %}
+        </span>
+</div>
+
+        </section>
+
+
+
+        
+        {% comment %} <table>
             <tr>
                 <th>Skill</th>
                 <th>Category</th>
@@ -58,28 +120,8 @@
                     </td>
                 </tr>
             {% endfor %}
-        </table>
+        </table> {% endcomment %}
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?{% param_replace page=1 %}">&laquo; first</a>
-                {% if page_obj.previous_page_number != 1 %}
-                    <a href="?{% param_replace page=page_obj.previous_page_number %}">previous</a>
-                {% endif %}
-            {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                {% if page_obj.next_page_number != paginator.num_pages %}
-                    <a href="?{% param_replace page=page_obj.next_page_number %}">next</a>
-                {% endif %}
-                <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
-            {% endif %}
-        </span>
-</div>
+    
 </main>
 {% endblock content %}

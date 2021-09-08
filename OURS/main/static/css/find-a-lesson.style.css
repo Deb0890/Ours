@@ -1,19 +1,138 @@
 main {
-    padding: 10px 60px;
+  padding: 10px 60px;
 
-    /* ! hardcoded but needs to be removed */
-    height: 100vh;
+  /* ! hardcoded but needs to be removed */
+  /* height: 100vh; */
 
-    font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', sans-serif;
+
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr;
+
+  gap: 15px;
+
+  margin-top: 50px;
 }
 
+#lesson-container {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+
+  width: 100%;
+}
+
+.pagination {
+  width: 100%;
+  display: inline-block;
+  margin: 25px auto;
+  text-align: center;
+}
+
+.lesson-preview {
+  margin: 0 auto;
+  width: 85%;
+  background: #f6f6f6;
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+
+  margin-bottom: 20px;
+}
+
+.tutor-profile {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+
+  border-radius: 100px;
+}
+.tutor-profile img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+
+  border-radius: 100px;
+
+  margin: 15px;
+}
+.lesson-info-section {
+  display: inline;
+  flex-grow: 100;
+}
+.lesson-info-section h2,
+p,
+button {
+  margin: 2.5px 10px;
+}
+.lesson-info-section button:hover {
+  cursor: pointer;
+}
+.lesson-info-section h2 {
+  color: #dd7676;
+}
+
+.lesson-info-section p {
+  font-weight: 600;
+}
+
+.lesson-info-section p {
+  text-decoration: none;
+  color: rgb(26, 26, 26);
+}
+
+.lesson-info-section span {
+  font-weight: 300;
+}
+
+.lesson-info-section button {
+  border: none;
+  border-radius: 100px;
+}
+.see-more-container {
+  align-self: stretch;
+}
+.see-more-button {
+  height: 100%;
+  width: 120px;
+  margin: 0;
+  outline: none;
+  border: none;
+
+  background: #dd7676;
+  color: white;
+  font-weight: 300;
+  font-size: 20px;
+}
+.see-more-button:hover {
+    cursor: pointer;
+}
+
+.beginner {
+    background: rgb(22, 179, 22);
+    color: white;
+}
+.intermediate {
+    background: rgb(255, 203, 71);
+    color: rgb(26, 25, 25);
+}
+.advanced {
+    background: rgb(250, 85, 85);
+    color: white;
+}
+/* 
 table {
     width: 100%;
     text-align: center;
     font-weight: 700;
     font-size: 17px;
-    /* background-color: coral; */
-    /* padding: 10px; */
+
 
     border-spacing: 0;
 }
@@ -94,4 +213,4 @@ th {
 .data .stars {
     color: gold;
     font-size: 30px;
-}
+} */
