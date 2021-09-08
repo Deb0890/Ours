@@ -28,7 +28,7 @@
             <a href="{% url 'lesson-create' %}">Click here to create a new lesson</a>
         </section> {% endcomment %}
 
-        <section class="dashboard-item" id="recently-added-lessons">
+        {% comment %} <section class="dashboard-item" id="recently-added-lessons">
             <h3 class="section-headings">New Lessons</h3>
             <table>
                 
@@ -40,14 +40,42 @@
                     </tr>
                 {% endfor %}
             </table>
-        </section>
+        </section> {% endcomment %}
 
         <section class="dashboard-item" id="my-lesson">
             <h3 class="section-headings">My Classrooms</h3>
+            {% if tutor_rooms %}
+            <h4 class="section-sub-headings">Tutor</h4>
+            <hr>
+            {% for classroom in  tutor_rooms %}
+            <h2 onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">{{classroom.lesson.title}} with {{classroom.lesson.student}} on {{classroom.time.date}} is {{classroom.get_state_display}}</h2>
+            
+            {% comment %} 
+            
+            status = created = tutor = Attention needed.
+            status = created = student = none.
+
+            status = awiting confirmation = tutor = none.
+            status = awiting confirmation = student = Attention needed. 
+
+            status = confirmed = tutor = attetnion needed.
+            status = confirmed = student = none.
+
+            upcoming, nither need to do anything
+            
+            {% endcomment %}
+
+            {% endfor %}
+
+            {% endif %}
             {% if student_rooms %}
             <h4 class="section-sub-headings">Student</h4>
             <hr>
-            <table>
+            {% for classroom in  student_rooms %}
+            <h2 onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">{{classroom.lesson.title}} with {{classroom.lesson.student}} on {{classroom.time.date}} is {{classroom.get_state_display}}</h2>
+
+            {% endfor %}
+            {% comment %} <table>
                 {% for classroom in student_rooms %}
                     <tr class="data" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
                         <td class="left-aligned">{{classroom.lesson.title}}</td>
@@ -57,7 +85,8 @@
                 {% endfor %}
             </table>
             {% endif %}
-            {% if tutor_rooms %}
+                        {% for classroom in student_rooms %}
+
             <h4 class="section-sub-headings">Tutor</h4>
             <hr>
             <table>
@@ -68,7 +97,7 @@
                         <td>{{classroom.get_state_display}}</td>
                     </tr>
                 {% endfor %}
-            </table>
+            </table> {% endcomment %}
             {% endif %}
         </section>
     </main>
