@@ -23,20 +23,11 @@ class BaseTestCase(TestCase):
             "password2":"cFtr5lB7"
         }
 
-        cls.user2 = {
-            "username":"unclebob",
-            "email":"bob@example.com",
-            "first_name":"Bob",
-            "last_name":"Smith",
-            "password1":"cFtr5lB7",
-            "password2":"cFtr5lB7"
-        }
-
         cls.user_bad_email = {
-            "username":"dan",
+            "username":"danj",
             "email":"myemail@crazymail.com",
-            "first_name":"Tom",
-            "last_name":"Gammon",
+            "first_name":"Dan",
+            "last_name":"Cooper",
             "password1":"mypassword",
             "password2":"mypassword"
         }
@@ -45,21 +36,31 @@ class BaseTestCase(TestCase):
             "username":"myusername",
             "email":"crazymail@crazymail.com",
             "first_name":"Tom",
-            "last_name":"Gammon",
+            "last_name":"Harvey",
             "password1":"mypassword",
             "password2":"mypassword"
         }        
 
         cls.user_bad_passwords = {
-            "username":"deb",
+            "username":"deb0890",
             "email":"newemail@crazymail.com",
-            "first_name":"Tom",
-            "last_name":"Gammon",
+            "first_name":"deb",
+            "last_name":"Francis",
             "password1":"mypassword45",
-            "password2":"mypassword64"
+            "password2":"mypassword"
         }    
 
         cls.user_info = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
+        # cls.user_info_two = User.objects.create_user('thisusername', 'thisemail@crazymail.com', 'thispassword')
+
+        # cls.example_profile = Profile.objects.create(
+        #     user_id = cls.user_info,
+        #     profile_img = 'tbc',
+        #     bio = 'This is my profile bio',
+        #     rating = '2',
+        #     dollours = '3',
+        # )
+
 
 class AuthUrlTests(BaseTestCase):
 
@@ -76,7 +77,6 @@ class AuthUrlTests(BaseTestCase):
     def test_logout_page_response_status(self):
         response = self.client.get(reverse('log_out'), follow=True)
         self.assertEqual(response.status_code, 200)
-
     
     def test_content_of_title_is_signup(self):
         response = self.client.get(reverse('sign_up'), follow=True)
@@ -115,10 +115,7 @@ class AuthUrlTests(BaseTestCase):
         response = self.client.get(reverse('log_in'), follow=True)
         self.assertTemplateUsed(response, 'auth/login.html')
     
-    def test_logout_page_renders(self):
-        response = self.client.get(reverse('log_out'), follow=True)
-        self.assertTemplateUsed(response, 'auth/logout.html')
-
+         
 
 class ProtectedRoutesTests(BaseTestCase):
 
@@ -136,10 +133,11 @@ class ProtectedRoutesTests(BaseTestCase):
         #self.assertTemplateNotUsed('pages/dashboard.html')
         assert('pages/base.html' in [template.name for template in response.templates])
     
-    def test_user_can_access_profile_page_template(self):
+    def test_user_can_access_profile_to_update(self):
         response = self.client.get(reverse('update_profile'), follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
-        assert('auth/profile.html' in [template.name for template in response.templates])
+        self.assertTemplateUsed(response, 'auth/profile.html')
+
 
     def test_content_of_title_is_profile(self):
         response = self.client.get(reverse('update_profile'), follow=True)
@@ -147,7 +145,15 @@ class ProtectedRoutesTests(BaseTestCase):
         html_in_text_format = BeautifulSoup(html, 'html.parser')
         assert html_in_text_format.title.string == 'Profile'
 
-    
+    # def test_user_can_view_profile(self):
+    #     response = self.client.get(reverse('single_profile'), follow=True)
+    #     assert('auth/profile.html' in [template.name for template in response.templates])
+
+    def test_user_can_logout(self):
+        response = self.client.get(reverse('log_out'), follow=True)
+        print([template.name for template in response.templates])
+        self.assertTemplateUsed(response, 'pages/homepage.html')
+
 
 class ErrorRoutes(BaseTestCase):
 
@@ -156,20 +162,20 @@ class ErrorRoutes(BaseTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_custom_error_does_not_exist_renders(self):
-        response = self.client.get('/bobspage', follow=True)
+        response = self.client.get('/notapage', follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
         self.assertEqual(response, 'pages/404.html')
 
-    def test_custom_error_does_not_exist_renders(self):
-        response = self.client.get('/bob', follow=True)
-        #assert('pages/base.html' in [template.name for template in response.templates])
+    def test_custom_error_unauthorized_access(self):
+        response = self.client.get('/notapage', follow=True)
+        #self.assertTemplateNotUsed('pages/dashboard.html')
+        self.assertEqual(response, 'pages/404.html')
 
-        self.assertEqual(response, 'pages/500.html')
+class TestUserModels(BaseTestCase):   
 
-
-# model tests
-
-class TestModel(BaseTestCase):
+    # def setUp(self):
+    #     self.client = Client()
+    #     self.client.login(username= 'myusername', password= 'mypassword')
 
     def test_user_exists(self):
         user_count = User.objects.all().count()
@@ -183,24 +189,18 @@ class TestModel(BaseTestCase):
 
     def test_username_is_not_valid(self):
         response = self.client.post(reverse('sign_up'), self.user_bad_username, follow=True)
-        print([template.name for template in response.templates])
-        self.assertTemplateUsed(response,'auth/signup.html')  
-    
+        self.assertTemplateUsed(response,'auth/signup.html')
+
     def test_email_is_not_valid(self):
         response = self.client.post(reverse('sign_up'), self.user_bad_email, follow=True)
-        print([template.name for template in response.templates])
         self.assertTemplateUsed(response,'auth/signup.html')  
     
     def test_password_is_not_valid(self):
         response = self.client.post(reverse('sign_up'), self.user_bad_passwords, follow=True)
-        print([template.name for template in response.templates])
-        self.assertTemplateUsed(response,'auth/signup.html')  
+        self.assertTemplateUsed(response,'auth/signup.html')
 
 
-    # create a new user
-    # pass those users info (sign them up)
-    # check there's another user in database
-    # count amount of users in database
+
 
 #if login info is missing, user isn't created
 
