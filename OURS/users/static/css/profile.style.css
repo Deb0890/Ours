@@ -145,6 +145,11 @@ th {
     text-transform: capitalize;
     font-size: 13px;
 }
+.profile {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
 
 button {
     width: 222px;

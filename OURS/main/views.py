@@ -295,3 +295,6 @@ def validate_user(user,classroom):
     if user == classroom.lesson.tutor:
         return True
     return False
+
+def about_our_app(req):
+    return render(req, 'pages/about-the-app.html')

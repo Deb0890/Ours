@@ -17,9 +17,9 @@
 <hr/>
 <label for="profile_img">
     {% if user.profile.profile_img %}
-        <img src={{user.profile.profile_img.url}} />
+        <img class="profile" src={{user.profile.profile_img.url}} />
     {% else %}
-        <img src="{% static 'img/default-user-icon.svg' %}">
+        <img class="profile" src="{% static 'img/default-user-icon.svg' %}">
     {% endif %}
       
   </label>

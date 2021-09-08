@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About our site</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/about-our-app.style.css' %}">
+</head>
+<body>
+    <main>
+        <a id="home-button" href="{% url 'homepage' %}"><img src="{% static 'img/homeicon.svg' %}"/></a>
+        <header>
+            <img src="{% static 'img/logo.svg' %}">
+            <h2>A user driven learning platform</h2>
+        </header>
+
+        <section id="introduction">
+            Ours is the brainchild of Dan, Deborah & James. We had a vision of a platform where knowledge, sharing and passion are valued overall. We wanted to build a place people share their skills and ideas. A place where the most valuable thing you can give is your time. Ours to Share was build from the basis. On Ours, you can't buy time, only earn it by helping others. It's a place where knowledge is Ours to Share.
+        </section>
+
+
+    </main>
+</body>
+</html>

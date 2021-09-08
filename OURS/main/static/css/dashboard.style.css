@@ -2,7 +2,7 @@ main {
   display: grid;
 
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 1fr 60px 2fr;
+  grid-template-rows: 1fr 2fr;
   gap: 50px;
 
   padding: 10px 60px;
@@ -37,43 +37,6 @@ main {
   font-weight: 700;
 }
 
-#update-profile {
-  grid-column: 1 / span 2;
-  grid-row: 2 / span 1;
-
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0;
-}
-
-#update-profile:hover {
-  cursor: pointer;
-  background-color: rgb(150, 150, 150);
-  color: white;
-}
-
-#add-a-lesson {
-  grid-column: 3 / span 2;
-  grid-row: 2 / span 1;
-
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0;
-}
-
-#add-a-lesson:hover {
-  cursor: pointer;
-  background-color: rgb(150, 150, 150);
-  color: white;
-}
 
 /* #recently-added-lessons {
   grid-column: 1 / span 2;
@@ -82,12 +45,12 @@ main {
 
 #my-lessons-tutor {
   grid-column: 1 / span 3;
-  grid-row: 3 / span 1;
+  grid-row: 2 / span 1;
   background: none;
 }
 #my-lessons-student {
   grid-column: 4 / span 3;
-  grid-row: 3 / span 1;
+  grid-row: 2 / span 1;
   background: none;
 }
 .dashboard-item {
@@ -198,3 +161,4 @@ p {
   background-color: #dd7676;
   color: white;
 }
+
