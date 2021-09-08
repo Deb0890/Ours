@@ -54,7 +54,7 @@
         </table>
         
         
-        {% if user == lesson.tutor.id %}
+        {% if user.id == lesson.tutor.id %}
             {% comment %} this will link to a new edit view {% endcomment %}
             <a href="{% url 'update-a-lesson' id=lesson.id %}"><button> Edit Your Lesson </button></a>
             <br>

@@ -11,7 +11,7 @@
 {% block content %}
 <section id="app-info">
     <p>The easy way to <span class="heavy">learn,<br/> grow</span> and spend <br/> <span class="heavy">our time</span> wisely.</p>
-    <a href="#" class="find-out-more">Find Out More</a>
+    <a href="{% url 'about-the-app' %}" class="find-out-more">Find Out More</a>
     {% if user.is_authenticated %}
         <a href="{% url 'dashboard' %}"><button>Go to Dashboard</button></a>
     {% else %}

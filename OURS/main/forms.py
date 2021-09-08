@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import fields, widgets
-from django.forms.widgets import HiddenInput
+from django.forms.widgets import HiddenInput, Widget
 from django.core.exceptions import ValidationError
-from .models import Classroom, Lesson, Skill
+from .models import Classroom, Lesson, Skill, Review
 import calendar
 from django.utils import timezone
 
@@ -40,6 +40,13 @@ class DateInput(forms.DateInput):
 
 class NewClassroomForm(forms.ModelForm):
 
+
+    def __init__(self, *args, **kwargs):
+        super(NewClassroomForm, self).__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        # self.fields['lesson'].disabled = True
+
+
     day_choices = ( ("mon", "Monday"), 
                     ("tue", "Tuesday"), 
                     ("wed", "Wednesday"), 
@@ -48,23 +55,30 @@ class NewClassroomForm(forms.ModelForm):
                     ("sat", "Saturday"),
                     ("sun", "Sunday")
                 )
-    day_selector = forms.MultipleChoiceField(
-                                            choices=day_choices,
-                                            widget=forms.CheckboxSelectMultiple,
-                                            label="Available Teaching Days",
-                                            required=False
-                                            )
+    day_selector = forms.MultipleChoiceField (
+                                        choices=day_choices,
+                                        widget=forms.CheckboxSelectMultiple,
+                                        label="Available Teaching Days",
+                                        required=False,
+                                        disabled=True
+                                        )
 
-    day_selector.widget.attrs['disabled'] = True
+    lesson_show = forms.Field (
+            widget=forms.TextInput,
+            label="Lesson",
+            required=False,
+            disabled=True
+    )
 
     class Meta:
         model = Classroom
-        fields = ['lesson','day_selector','time','student']
+        fields = ['lesson_show','lesson','day_selector','time','student']
         labels = {
-            'time': 'Date',
+            'time': 'Date'
         }
         widgets = {
             'student': forms.HiddenInput,
+            'lesson': forms.HiddenInput,
             'time': DateInput()
         }
 
@@ -109,3 +123,114 @@ class ReviewClassroomForm(forms.ModelForm):
     class Meta:
         model = Classroom
         fields = ['state']
+        widgets = {
+            'state': forms.HiddenInput
+        }
+
+class UpdateReviewStudentForm(forms.ModelForm):
+
+    rating_choices = ( ('', '----'),
+                    (1, "Bad"), 
+                    (2, "Poor"), 
+                    (3, "Average"), 
+                    (4, "Good"),
+                    (5, "Excellent")
+                )
+
+    question_1 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Did the tutor start the meeting on time?"
+    )
+
+    question_2 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Was the lesson accurate to it's description?"
+    )
+
+    question_3 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Was the content interesting?"
+    )
+
+    question_4 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Was the tutor enthusiastic and engaging?"
+    )
+
+    question_5 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Would you recommend this tutor?"
+    )
+
+    tutor_rating = forms.ChoiceField (
+        choices=rating_choices,
+        label="Give the tutor an overall score"
+    )
+
+    rating = forms.ChoiceField (
+        choices=rating_choices,
+        label="Give the classroom session an overall score"
+    )
+
+    class Meta:
+        model = Review
+        fields = ['classroom','student_void']
+        labels = {
+            "student_void": "If the meeting did not take place please check this box"
+        }
+        widgets = {
+            'classroom': forms.HiddenInput
+        }
+
+class UpdateReviewTutorForm(forms.ModelForm):
+
+    rating_choices = ( ('', '----'),
+                    (1, "Bad"), 
+                    (2, "Poor"), 
+                    (3, "Average"), 
+                    (4, "Good"),
+                    (5, "Excellent")
+                )
+
+    question_1 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Did the student attend the meeting on time?"
+    )
+
+    question_2 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Was the student enthusiastic and engaged?"
+    )
+
+    question_3 = forms.TypedChoiceField(
+        coerce=lambda x: x =='True', 
+        choices=((False, 'No'), (True, 'Yes')),
+        label="Would you recommend this student?"
+    )
+
+    student_rating = forms.ChoiceField (
+        choices=rating_choices,
+        label="Give the student an overall score"
+    )
+
+    rating = forms.ChoiceField (
+        choices=rating_choices,
+        label="Give the classroom session an overall score"
+    )
+
+    class Meta:
+        model = Review
+        fields = ['classroom','tutor_void']
+        labels = {
+            "tutor_void": "If the meeting did not take place please check this box"
+        }
+        widgets = {
+            'classroom': forms.HiddenInput
+        }

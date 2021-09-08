@@ -42,7 +42,9 @@
         State: {{classroom.get_state_display}}
         <br>
         {% if classroom.room_details %}
-        Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
+            {% if classroom.get_state_display != "Complete" and classroom.get_state_display != "Part Reviewed" and classroom.get_state_display != "Fully Reviewed" %}
+                Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
+            {% endif %}
         {% endif %}
 
         {% if classroom.get_state_display == 'Created' %}
@@ -74,15 +76,36 @@
                 <br>
                 <div class="alert"> Use the information above to meet at the scheduled time </div>
         {% elif classroom.get_state_display == 'Complete' %}
+                <br>
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
             {% if user == classroom.lesson.tutor %}
-                <br>
-                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
-                <div class="alert"> Please review your session and tutor </div>
+                <div class="alert"> Please review your session and student </div>
             {% else %}
-                <br>
-                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
                 <div class="alert"> Please review your session and tutor </div>
             {% endif %}
+        {% elif classroom.get_state_display == 'Part Reviewed' %}
+                <br>
+            {% if user == classroom.lesson.tutor %}
+                {% if classroom.review.tutor_review_time %}
+                <div class="alert"> You have successfully reviewed this classroom </div>
+                {% else %}
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and student </div>
+                {% endif %}
+            {% else %}
+                {% if classroom.review.student_review_time %}
+                <div class="alert"> You have successfully reviewed this classroom </div>
+                {% else %}
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and tutor </div>
+                {% endif %}
+            {% endif %}
+        {% elif classroom.get_state_display == 'Fully Reviewed' %}
+                <br>
+                <div class="alert"> Classroom Has Received All Reviews </div>
+        {% elif classroom.get_state_display == 'Closed' %}
+                <br>
+                <div class="alert"> Classroom Closed </div>
         {% endif %}
     </main>
 {% endblock content %}
