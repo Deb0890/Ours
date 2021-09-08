@@ -160,108 +160,127 @@ def classroom_create(req, id):
 @login_required
 def classroom_detail(req,id):
     single_classroom = get_object_or_404(Classroom, pk=id)
-    context = {
-        "user": req.user,
-        "classroom": single_classroom
-    }
-    return render(req, 'pages/classroom-single.html', context)
+    if validate_user(req.user,single_classroom):
+        context = {
+            "user": req.user,
+            "classroom": single_classroom
+        }
+        return render(req, 'pages/classroom-single.html', context)
+    else:
+        return redirect('dashboard')
 
 @login_required
 def classroom_update(req,id):
-
     single_classroom = get_object_or_404(Classroom, pk=id)
-    if req.method == 'POST':
-        getCopy = req.POST.copy()
-        newDatetime = getCopy['date'] + ' ' + getCopy['time']
-        newDatetime = datetime.strptime(newDatetime, '%Y-%m-%d %H:%M')
-        getCopy['time'] = newDatetime
-        form = UpdateClassroomForm(getCopy)
-        if form.is_valid():
-            single_classroom.time = form.cleaned_data['time']
-            single_classroom.state = "AC"
-            single_classroom.save()
-            return redirect('classroom-single', id=single_classroom.id)
-        else:
-            print(form.errors)
+    if validate_user(req.user,single_classroom):
+        if req.method == 'POST':
+            getCopy = req.POST.copy()
+            newDatetime = getCopy['date'] + ' ' + getCopy['time']
+            newDatetime = datetime.strptime(newDatetime, '%Y-%m-%d %H:%M')
+            getCopy['time'] = newDatetime
+            form = UpdateClassroomForm(getCopy)
+            if form.is_valid():
+                single_classroom.time = form.cleaned_data['time']
+                single_classroom.state = "AC"
+                single_classroom.save()
+                return redirect('classroom-single', id=single_classroom.id)
+            else:
+                print(form.errors)
 
-    form = UpdateClassroomForm(initial={
-        "date" : single_classroom.time.date(),
-        "time" : single_classroom.time.time(),
-        "state": single_classroom.state
-    })
-    context = {
-        "form": form
-    }
-    return render(req, 'pages/classroom-update.html', context)
+        form = UpdateClassroomForm(initial={
+            "date" : single_classroom.time.date(),
+            "time" : single_classroom.time.time(),
+            "state": single_classroom.state
+        })
+        context = {
+            "form": form
+        }
+        return render(req, 'pages/classroom-update.html', context)
+    else:
+        return redirect('dashboard')
 
 @login_required
 def classroom_confirm(req,id):
     classroom = get_object_or_404(Classroom, pk=id)
-    classroom.state = 'CF'
-    classroom.save()
-    return redirect('classroom-single', id=classroom.id)
+    if validate_user(req.user,classroom):
+        classroom.state = 'CF'
+        classroom.save()
+        return redirect('classroom-single', id=classroom.id)
 
 @login_required
 def classroom_finalise(req,id):
-    if req.method == 'POST':
-        form = FinaliseClassroomForm(req.POST)
-        if form.is_valid():
-            classroom = get_object_or_404(Classroom, pk=id)
-            classroom.state = 'UP'
-            classroom.room_details = form.cleaned_data['room_details']
-            classroom.save()
-            return redirect('classroom-single', id=classroom.id)
-        else:
-            print(form.errors)    
     classroom = get_object_or_404(Classroom, pk=id)
-    form = FinaliseClassroomForm()
-    context = {
-        "form": form 
-    }
-    return render(req, 'pages/classroom-update-tutor.html', context)
+    if validate_user(req.user,classroom):
+        if req.method == 'POST':
+            form = FinaliseClassroomForm(req.POST)
+            if form.is_valid():
+                classroom = get_object_or_404(Classroom, pk=id)
+                classroom.state = 'UP'
+                classroom.room_details = form.cleaned_data['room_details']
+                classroom.save()
+                return redirect('classroom-single', id=classroom.id)
+            else:
+                print(form.errors)    
+        # classroom = get_object_or_404(Classroom, pk=id)
+        form = FinaliseClassroomForm()
+        context = {
+            "form": form 
+        }
+        return render(req, 'pages/classroom-update-tutor.html', context)
+    else:
+        return redirect('dashboard')
 
 @login_required
 @transaction.atomic
 def classroom_review(req,id):
-
-    if req.method == "POST":
-        classroom = get_object_or_404(Classroom, pk=id)
-        review = get_object_or_404(Review, pk=id)
-        classroom_form = ReviewClassroomForm(req.POST, instance=classroom)
-        if classroom.student == req.user: 
-            review_form = UpdateReviewStudentForm(req.POST, instance=review)
-        else:
-            review_form = UpdateReviewTutorForm(req.POST, instance=review)
-
-        if classroom_form.is_valid() and review_form.is_valid():
-            if classroom.student == req.user:
-                review.student_review_score=review_form.cleaned_data['rating']
-                review.student_review_time=datetime.now()
-            else:
-                review.tutor_review_score=review_form.cleaned_data['rating']
-                review.tutor_review_time=datetime.now()
-            review.save()
-            return redirect('classroom-single', id=classroom.id)
-        else:
-            print('test')
-            print(classroom_form.errors)
-            print(review_form.errors)     
-
     classroom = get_object_or_404(Classroom, pk=id)
-    classroom_form = ReviewClassroomForm(initial={
-        'state': classroom.state
-    })
+    if validate_user(req.user,classroom):
+        if req.method == "POST":
+            # classroom = get_object_or_404(Classroom, pk=id)
+            review = get_object_or_404(Review, pk=id)
+            classroom_form = ReviewClassroomForm(req.POST, instance=classroom)
+            if classroom.student == req.user: 
+                review_form = UpdateReviewStudentForm(req.POST, instance=review)
+            else:
+                review_form = UpdateReviewTutorForm(req.POST, instance=review)
 
-    if classroom.student == req.user:
-        review_form = UpdateReviewStudentForm(initial={
-            'classroom': classroom
+            if classroom_form.is_valid() and review_form.is_valid():
+                if classroom.student == req.user:
+                    review.student_review_score=review_form.cleaned_data['rating']
+                    review.student_review_time=datetime.now()
+                else:
+                    review.tutor_review_score=review_form.cleaned_data['rating']
+                    review.tutor_review_time=datetime.now()
+                review.save()
+                return redirect('classroom-single', id=classroom.id)
+            else:
+                print(classroom_form.errors)
+                print(review_form.errors)     
+
+        # classroom = get_object_or_404(Classroom, pk=id)
+        classroom_form = ReviewClassroomForm(initial={
+            'state': classroom.state
         })
+
+        if classroom.student == req.user:
+            review_form = UpdateReviewStudentForm(initial={
+                'classroom': classroom
+            })
+        else:
+            review_form = UpdateReviewTutorForm(initial={
+                'classroom': classroom
+            })
+        context = {
+            "form": classroom_form,
+            "form2": review_form  
+        }
+        return render(req, 'pages/classroom-review.html', context)
     else:
-        review_form = UpdateReviewTutorForm(initial={
-             'classroom': classroom
-        })
-    context = {
-        "form": classroom_form,
-        "form2": review_form  
-    }
-    return render(req, 'pages/classroom-review.html', context)
+        return redirect('dashboard')
+
+def validate_user(user,classroom):
+    if user == classroom.student:
+        return True
+    if user == classroom.lesson.tutor:
+        return True
+    return False
