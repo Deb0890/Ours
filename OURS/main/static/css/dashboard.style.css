@@ -37,43 +37,6 @@ main {
   font-weight: 700;
 }
 
-#update-profile {
-  grid-column: 1 / span 2;
-  grid-row: 2 / span 1;
-
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0;
-}
-
-#update-profile:hover {
-  cursor: pointer;
-  background-color: rgb(150, 150, 150);
-  color: white;
-}
-
-#add-a-lesson {
-  grid-column: 3 / span 2;
-  grid-row: 2 / span 1;
-
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0;
-}
-
-#add-a-lesson:hover {
-  cursor: pointer;
-  background-color: rgb(150, 150, 150);
-  color: white;
-}
 
 /* #recently-added-lessons {
   grid-column: 1 / span 2;
