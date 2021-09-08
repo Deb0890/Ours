@@ -41,8 +41,10 @@
         <br>
         State: {{classroom.get_state_display}}
         <br>
-        {% if classroom.room_details and classroom.get_state_display != "Complete" %}
-        Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
+        {% if classroom.room_details %}
+            {% if classroom.get_state_display != "Complete" and classroom.get_state_display != "Part Reviewed" and classroom.get_state_display != "Fully Reviewed" %}
+                Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
+            {% endif %}
         {% endif %}
 
         {% if classroom.get_state_display == 'Created' %}
@@ -81,7 +83,7 @@
             {% else %}
                 <div class="alert"> Please review your session and tutor </div>
             {% endif %}
-        {% elif classroom.get_state_display == 'Part Review' %}
+        {% elif classroom.get_state_display == 'Part Reviewed' %}
                 <br>
             {% if user == classroom.lesson.tutor %}
                 {% if classroom.review.tutor_review_time %}
