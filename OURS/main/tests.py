@@ -85,6 +85,10 @@ class PagesUrlTests(BaseTestCase):
         response = self.client.get(reverse('find-a-lesson'), follow=True)
         self.assertEqual(response.status_code, 200)
 
+    # def test_new_classroom_response_status(self):
+    #     response = self.client.get(reverse('classroom-create'), follow=True)
+    #     self.assertEqual(response.status_code, 200)
+
     
     #correct page renders
     def test_homepage_renders(self):
@@ -102,6 +106,10 @@ class PagesUrlTests(BaseTestCase):
     def test_find_a_lesson_page_renders(self):
         response = self.client.get(reverse('find-a-lesson'), follow=True)
         self.assertTemplateUsed(response, 'pages/find-a-lesson.html')
+
+    def test_single_lesson_page_renders(self):
+        response = self.client.get(reverse('lesson/3'), follow=True)
+        self.assertTemplateUsed(response, 'pages/lesson-single.html')
 
     def test_content_of_title_is_dashboard(self):
         response = self.client.get(reverse('dashboard'), follow=True)

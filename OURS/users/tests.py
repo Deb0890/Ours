@@ -54,7 +54,7 @@ class BaseTestCase(TestCase):
         # cls.user_info_two = User.objects.create_user('thisusername', 'thisemail@crazymail.com', 'thispassword')
 
         # cls.example_profile = Profile.objects.create(
-        #     user_id = User.objects.get(id=1) ,
+        #     user_id = cls.user_info,
         #     profile_img = 'tbc',
         #     bio = 'This is my profile bio',
         #     rating = '2',
@@ -136,7 +136,8 @@ class ProtectedRoutesTests(BaseTestCase):
     def test_user_can_access_profile_to_update(self):
         response = self.client.get(reverse('update_profile'), follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
-        assert('auth/profile.html' in [template.name for template in response.templates])
+        self.assertTemplateUsed(response, 'auth/profile.html')
+
 
     def test_content_of_title_is_profile(self):
         response = self.client.get(reverse('update_profile'), follow=True)
