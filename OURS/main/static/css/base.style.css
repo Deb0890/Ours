@@ -21,7 +21,34 @@ nav a{
     color: #DD7676;
 
     margin: 0 10px;
+    
 }
 .nav-logo {
     height: 40px;
+}
+#nav-links {
+    display: flex;
+    align-items: center;
+}
+#user-profile {
+    height: 40px;
+    border-radius: 100px;
+    object-fit: cover;
+    margin-left: 20px;
+}
+
+#user-profile:hover {
+    cursor: pointer;
+}
+
+#dropdown-menu {
+    background-color: teal;
+    width: 120px;
+    position: absolute;
+    right: 0;
+}
+#dropdown-menu a {
+    display: block;
+    margin: 10px 0;
+    text-align: center;
 }
