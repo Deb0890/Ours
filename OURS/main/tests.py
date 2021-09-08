@@ -73,21 +73,54 @@ class PagesUrlTests(BaseTestCase):
         response = self.client.get(reverse('dashboard'), follow=True)
         self.assertEqual(response.status_code, 200)
 
-    def test_lesson_create_response_status(self):
+    def test_create_a_lesson_response_status(self):
         response = self.client.get(reverse('lesson-create'), follow=True)
         self.assertEqual(response.status_code, 200)
-    
-    def test_lesson_single_response_status(self):
-        response = self.client.get(reverse('lesson-single', args=[1]), follow=True)
-        self.assertEqual(response.status_code, 200)
-    
+
     def test_find_a_lesson_response_status(self):
         response = self.client.get(reverse('find-a-lesson'), follow=True)
         self.assertEqual(response.status_code, 200)
+    
+    def test_update_a_lesson_response_status(self):
+        response = self.client.get(reverse('update-a-lesson', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 200)
 
-    # def test_new_classroom_response_status(self):
-    #     response = self.client.get(reverse('classroom-create'), follow=True)
-    #     self.assertEqual(response.status_code, 200)
+    def test_delete_a_lesson_response_status(self):
+        response = self.client.get(reverse('delete-a-lesson', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_lesson_single_response_status(self):
+        response = self.client.get(reverse('lesson-single', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_new_classroom_response_status(self):
+        response = self.client.get(reverse('classroom-create', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_unauthorized_access_to_update_classroom_response_status(self):
+        response = self.client.get(reverse('classroom-update', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_unauthorized_access_to_finalise_classroom_response_status(self):
+        response = self.client.get(reverse('classroom-finalise', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_unauthorized_access_to_update_classroom_response_status(self):
+        response = self.client.get(reverse('classroom-review', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_unauthorized_access_to_confirm_classroom_response_status(self):
+        response = self.client.get(reverse('classroom-confirm', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_unauthorized_access_to_a_classroom_response_status(self):
+        response = self.client.get(reverse('classroom-single', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    # def test_update_a_lesson_response_status(self):
+    #     response = self.client.post(reverse('update-a-lesson', args=[1]), follow=True)
+    #     self.assertTemplateUsed(response, 'pages/update-lesson.html')
+    
 
     
     #correct page renders
@@ -108,8 +141,9 @@ class PagesUrlTests(BaseTestCase):
         self.assertTemplateUsed(response, 'pages/find-a-lesson.html')
 
     def test_single_lesson_page_renders(self):
-        response = self.client.get(reverse('lesson/3'), follow=True)
-        self.assertTemplateUsed(response, 'pages/lesson-single.html')
+        response = self.client.get(reverse('lesson-single', args=[1]), follow=True)
+        #self.assertEqual(response.content)
+        assert('pages/lesson-single.html' in [template.name for template in response.templates])
 
     def test_content_of_title_is_dashboard(self):
         response = self.client.get(reverse('dashboard'), follow=True)
@@ -132,15 +166,15 @@ class PagesUrlTests(BaseTestCase):
 class ErrorRoutes(BaseTestCase):
 
 
-    def test_custom_error_does_not_exist_renders(self):
-        response = self.client.get('/bob', follow=True)
-        #self.assertTemplateNotUsed('pages/dashboard.html')
-        self.assertEqual(response, 'pages/404.html')
+    # def test_custom_error_does_not_exist_renders(self):
+    #     response = self.client.get('/bob', follow=True)
+    #     #self.assertTemplateNotUsed('pages/dashboard.html')
+    #     self.assertEqual(response, 'pages/404.html')
 
-    def test_custom_server_error_renders(self):
-        response = self.client.get('/bob', follow=True)
-        #self.assertTemplateNotUsed('pages/dashboard.html')
-        self.assertEqual(response, 'pages/500.html')
+    # def test_custom_server_error_renders(self):
+    #     response = self.client.get('/bob', follow=True)
+    #     #self.assertTemplateNotUsed('pages/dashboard.html')
+    #     self.assertEqual(response, 'pages/500.html')
 
     def test_view_url_does_not_exist(self):
         response = self.client.get('/home', follow=True)
