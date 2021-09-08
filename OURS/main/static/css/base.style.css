@@ -32,6 +32,7 @@ nav a{
 }
 #user-profile {
     height: 40px;
+    width: 40px;
     border-radius: 100px;
     object-fit: cover;
     margin-left: 20px;
