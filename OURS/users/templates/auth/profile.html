@@ -16,8 +16,9 @@
 <h1>Update Profile</h1>
 <hr/>
 <label for="profile_img">
+
       <img hidden id="profileImage" class="profile" src="{{user.profile.profile_img.url}}"/>
-      </label>
+  </label>
   <div id="form-div">
   <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
