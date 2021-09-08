@@ -14,6 +14,5 @@ urlpatterns = [
     path('classroom/finalise/<int:id>',views.classroom_finalise, name="classroom-finalise"),
     path('classroom/review/<int:id>',views.classroom_review, name="classroom-review"),
     path('classroom/confirm/<int:id>',views.classroom_confirm, name="classroom-confirm"),
-    path('classroom/<int:id>',views.classroom_detail, name="classroom-single"),
-    path('my-classrooms/',views.get_all_users_classrooms, name="my-classrooms")
+    path('classroom/<int:id>',views.classroom_detail, name="classroom-single")
 ]
