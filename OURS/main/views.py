@@ -228,3 +228,12 @@ def classroom_review(req,id):
         "form": form 
     }
     return render(req, 'pages/classroom-review.html', context)
+
+
+@login_required
+def get_all_users_classrooms(req):
+    student_classrooms = Classroom.objects.filter(student=req.user)
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user)
+
+    context = {"student": student_classrooms, "tutor": tutor_classrooms}
+    return render(req, 'pages/my-classrooms.html', context)
