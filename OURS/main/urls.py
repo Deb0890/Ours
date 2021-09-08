@@ -12,6 +12,7 @@ urlpatterns = [
     path('classroom/new/<int:id>',views.classroom_create, name="classroom-create"),
     path('classroom/update/<int:id>',views.classroom_update, name="classroom-update"),
     path('classroom/finalise/<int:id>',views.classroom_finalise, name="classroom-finalise"),
+    path('classroom/review/<int:id>',views.classroom_review, name="classroom-review"),
     path('classroom/confirm/<int:id>',views.classroom_confirm, name="classroom-confirm"),
     path('classroom/<int:id>',views.classroom_detail, name="classroom-single")
 ]
