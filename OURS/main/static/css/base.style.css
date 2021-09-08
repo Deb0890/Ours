@@ -43,13 +43,21 @@ nav a{
 }
 
 #dropdown-menu {
-    background-color: teal;
-    width: 120px;
-    position: absolute;
-    right: 0;
+    background-color: #DD7676;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: 1s;
 }
 #dropdown-menu a {
     display: block;
-    margin: 10px 0;
-    text-align: center;
+    margin: 10px 60px;
+    text-align: right;
+
+    text-decoration: none;
+
+    color: white;
+
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
 }
