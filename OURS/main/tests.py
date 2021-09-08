@@ -44,10 +44,19 @@ class BaseTestCase(TestCase):
 
 class LessonModelTests(BaseTestCase):
 
+    # def setUp(self):
+    #     self.client = Client()
+    #     self.client.login(username= 'myusername', password= 'mypassword')
+
     def test_items_in_db(self):
         lesson = Lesson.objects.all()
-        print(lesson)
-        self.assertFalse()
+        self.assertTrue(lesson)
+
+    # def test_lesson_contains_users_info(self):
+    #     lesson_title = Lesson.tutor.get_object()
+    #     self.assertTrue(lesson_title)
+
+    
 
 
 class PagesUrlTests(BaseTestCase):
@@ -76,9 +85,11 @@ class PagesUrlTests(BaseTestCase):
         response = self.client.get(reverse('find-a-lesson'), follow=True)
         self.assertEqual(response.status_code, 200)
 
+    # def test_new_classroom_response_status(self):
+    #     response = self.client.get(reverse('classroom-create'), follow=True)
+    #     self.assertEqual(response.status_code, 200)
+
     
-    
-        
     #correct page renders
     def test_homepage_renders(self):
         response = self.client.get(reverse('homepage'), follow=True)
@@ -95,6 +106,28 @@ class PagesUrlTests(BaseTestCase):
     def test_find_a_lesson_page_renders(self):
         response = self.client.get(reverse('find-a-lesson'), follow=True)
         self.assertTemplateUsed(response, 'pages/find-a-lesson.html')
+
+    def test_single_lesson_page_renders(self):
+        response = self.client.get(reverse('lesson/3'), follow=True)
+        self.assertTemplateUsed(response, 'pages/lesson-single.html')
+
+    def test_content_of_title_is_dashboard(self):
+        response = self.client.get(reverse('dashboard'), follow=True)
+        html = response.content
+        html_in_text_format = BeautifulSoup(html, 'html.parser')
+        assert html_in_text_format.title.string == 'Dashboard'
+
+    def test_content_of_title_is_lesson_create(self):
+        response = self.client.get(reverse('lesson-create'), follow=True)
+        html = response.content
+        html_in_text_format = BeautifulSoup(html, 'html.parser')
+        assert html_in_text_format.title.string == 'Lesson Create'
+
+    def test_content_of_title_is_find_a_lesson(self):
+        response = self.client.get(reverse('find-a-lesson'), follow=True)
+        html = response.content
+        html_in_text_format = BeautifulSoup(html, 'html.parser')
+        assert html_in_text_format.title.string == 'Find a Lesson'
 
 class ErrorRoutes(BaseTestCase):
 
