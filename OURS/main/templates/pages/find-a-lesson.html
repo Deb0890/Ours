@@ -16,6 +16,8 @@
 {% block content %}
 <main>
         <div class="filter-container">
+        <h2>Filter Results</h2>
+            <section id="filter-background">
             <select id="filter" name="filter">
                 <option value="skill">Skill</option>
                 <option value="category">Category</option>
@@ -27,11 +29,12 @@
             <input id="filter-text" type="text" placeholder="Enter skill to filter on..." />
             <button id="filter-btn">Filter</button>
             <button id="reset-filter-btn">Reset</button>
+            </section>
         </div>
         {% if filter %}
         <div id="filter-label"><span>Active Filter:</span> {{ filter }} contains "{{ filterText }}"</div>
         {% endif %}
-
+        </div>
         <section id ="lesson-container">
             {% for lesson in page_obj %}
                 <article class="lesson-preview">
@@ -86,42 +89,9 @@
                 <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
             {% endif %}
         </span>
-</div>
+
 
         </section>
-
-
-
-        
-        {% comment %} <table>
-            <tr>
-                <th>Skill</th>
-                <th>Category</th>
-                <th>Level</th>
-                <th>Title</th>
-                <th>Tutor</th>
-                <th>Rating</th>
-            </tr>
-            {% for lesson in page_obj %}
-                <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
-                    <td class="left-aligned">{{lesson.skill.name}}</td>
-                    <td>{{lesson.skill.category}}</td>
-                    <td>{{lesson.get_skill_level_display}}</td>
-                    <td>{{lesson.title}}</td>
-                    <td>{{lesson.tutor}}</td>
-                    <td>
-                    <span class="stars">
-                    {% with ''|center:lesson.tutor.profile.rating as range %}
-                    {% for _ in range %}
-                        *
-                    {% endfor %}
-                    {% endwith %}
-                    </span>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table> {% endcomment %}
-
     
 </main>
 {% endblock content %}
