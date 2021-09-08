@@ -16,6 +16,8 @@
 {% block content %}
 <main>
         <div class="filter-container">
+        <h2>Filter Results</h2>
+            <section id="filter-background">
             <select id="filter" name="filter">
                 <option value="skill">Skill</option>
                 <option value="category">Category</option>
@@ -27,40 +29,47 @@
             <input id="filter-text" type="text" placeholder="Enter skill to filter on..." />
             <button id="filter-btn">Filter</button>
             <button id="reset-filter-btn">Reset</button>
+            </section>
         </div>
         {% if filter %}
         <div id="filter-label"><span>Active Filter:</span> {{ filter }} contains "{{ filterText }}"</div>
         {% endif %}
-        <table>
-            <tr>
-                <th>Skill</th>
-                <th>Category</th>
-                <th>Level</th>
-                <th>Title</th>
-                <th>Tutor</th>
-                <th>Rating</th>
-            </tr>
+        </div>
+        <section id ="lesson-container">
             {% for lesson in page_obj %}
-                <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
-                    <td class="left-aligned">{{lesson.skill.name}}</td>
-                    <td>{{lesson.skill.category}}</td>
-                    <td>{{lesson.get_skill_level_display}}</td>
-                    <td>{{lesson.title}}</td>
-                    <td>{{lesson.tutor}}</td>
-                    <td>
-                    <span class="stars">
-                    {% with ''|center:lesson.tutor.profile.rating as range %}
-                    {% for _ in range %}
-                        *
-                    {% endfor %}
-                    {% endwith %}
-                    </span>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+                <article class="lesson-preview">
+                    <Section class="tutor-section">
+                        <a class="tutor-profile" href="{% url 'single_profile' id=lesson.tutor.id %}">
+                            {% if lesson.tutor.profile.profile_img %}
+                                <img src={{lesson.tutor.profile.profile_img.url}} />
+                            {% else %}
+                                <img src="{% static 'img/default-user-icon.svg' %}">
+                            {% endif %}
+                        </a>
+                    </section>
 
-    <div class="pagination">
+                    <Section class="lesson-info-section">
+                        <h2>{{lesson.title}}</h2>
+                        <p>{{lesson.skill.name}} <span>({{lesson.skill.category}})</span></p>
+                        {% if lesson.get_skill_level_display == 'Beginner' %}
+                            <button class="beginner">{{lesson.get_skill_level_display}}</button>
+                        {% elif lesson.get_skill_level_display == 'Intermediate' %}
+                            <button class="intermediate">{{lesson.get_skill_level_display}}</button>
+                        {% elif lesson.get_skill_level_display == 'Advanced' %}
+                            <button class="advanced">{{lesson.get_skill_level_display}}</button>
+
+                        {% endif %}
+                        
+                    </section>
+                    <section class="see-more-container">
+                        <a href="{% url 'lesson-single' id=lesson.id %}">
+                        <button class="see-more-button">See More</button>
+                        </a>
+                    </section>
+                </article>
+            {% endfor %}
+        
+        <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
                 <a href="?{% param_replace page=1 %}">&laquo; first</a>
@@ -80,6 +89,9 @@
                 <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
             {% endif %}
         </span>
-</div>
+
+
+        </section>
+    
 </main>
 {% endblock content %}

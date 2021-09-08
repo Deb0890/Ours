@@ -18,6 +18,7 @@ bs4 = "*"
 django-storages = "*"
 boto3 = "*"
 coverage = "*"
+django-crontab = "*"
 
 [dev-packages]
 pytest-django = "*"

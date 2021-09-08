@@ -16,6 +16,8 @@
             <div class="tutor">
             {% if classroom.lesson.tutor.profile.profile_img %}
                 <img src={{classroom.lesson.tutor.profile.profile_img.url}} />
+            {% else %}
+                <img src="{% static 'img/default-user-icon.svg' %}"/>
             {% endif %}
             <span>Tutor: </span><a href="{% url 'single_profile' classroom.lesson.tutor.id %}">{{classroom.lesson.tutor.username}}</a>
             </div>
@@ -23,7 +25,7 @@
             {% if classroom.student.profile.profile_img %}
                 <img src={{classroom.student.profile.profile_img.url}} />
             {% else %}
-                <img src="https://www.clipartkey.com/mpngs/m/326-3260960_male-shadow-fill-circle-comments-default-profile-pic.png"/>
+                <img src="{% static 'img/default-user-icon.svg' %}"/>
             {% endif %}
             <span>Student: </span><a href="{% url 'single_profile' classroom.student.id %}">{{classroom.student.username}}</a>
             </div>
@@ -71,6 +73,16 @@
         {% elif classroom.get_state_display == 'Upcoming' %}
                 <br>
                 <div class="alert"> Use the information above to meet at the scheduled time </div>
+        {% elif classroom.get_state_display == 'Complete' %}
+            {% if user == classroom.lesson.tutor %}
+                <br>
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and tutor </div>
+            {% else %}
+                <br>
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and tutor </div>
+            {% endif %}
         {% endif %}
     </main>
 {% endblock content %}
