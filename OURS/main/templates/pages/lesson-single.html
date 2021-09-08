@@ -60,7 +60,7 @@
             <br>
             <a href="{% url 'delete-a-lesson' id=lesson.id %}"><button class="delete"> Delete Your Lesson </button></a>
         {% else %}
-            <button> Book with {{lesson.tutor}} </button>
+            <a href="{% url 'classroom-create' id=lesson.id %}"><button> Book with {{lesson.tutor}} </button></a>
         {% endif %}
 
         <p class="post-date">Posted: {{lesson.created}}</p>
