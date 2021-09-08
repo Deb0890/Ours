@@ -41,7 +41,7 @@
         <br>
         State: {{classroom.get_state_display}}
         <br>
-        {% if classroom.room_details %}
+        {% if classroom.room_details and classroom.get_state_display != "Complete" %}
         Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
         {% endif %}
 
