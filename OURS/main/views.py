@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from .models import Lesson, Category, Skill, SkillLevels, SkillLevels
-from .forms import NewLessonForm
+from .models import Classroom, Lesson, Category, Skill, SkillLevels, SkillLevels
+from .forms import FinaliseClassroomForm, NewClassroomForm, NewLessonForm, UpdateClassroomForm
+from datetime import datetime
 
 # Create your views here.
 
@@ -16,7 +17,13 @@ def homepage(req):
 def dashboard(req):
     # Only bring in the 5 most recent lessons
     lessons = Lesson.objects.order_by('-created')[:5]
-    context = {"lessons": lessons}
+    student_classrooms = Classroom.objects.filter(student=req.user)[:5]
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user)[:5]
+    context = {
+        "lessons": lessons,
+        "student_rooms": student_classrooms,
+        "tutor_rooms": tutor_classrooms
+    }
 
     return render(req, 'pages/dashboard.html', context)
 
@@ -116,3 +123,97 @@ def delete_a_lesson(req, id):
     lesson = get_object_or_404(Lesson, pk=id)
     lesson.delete()
     return redirect('find-a-lesson')
+
+@login_required
+def classroom_create(req, id):
+
+    if req.method == 'POST':
+        form = NewClassroomForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            context = {
+                "form": form,
+            }
+            return render(req, 'pages/classroom-create.html', context )
+
+    lesson = get_object_or_404(Lesson, pk=id)
+    selectedDays = lesson.days.replace('[','')
+    selectedDays = selectedDays.replace(']','')
+    selectedDays = selectedDays.replace(' ','')
+    selectedDays = selectedDays.replace('\'','')
+    selectedDays = selectedDays.split(',')
+
+    form = NewClassroomForm(initial={
+        'lesson': lesson,
+        'student': req.user,
+        'day_selector': selectedDays
+    })
+    context = {
+        "form": form
+    }
+    return render(req, 'pages/classroom-create.html', context )
+
+@login_required
+def classroom_detail(req,id):
+    single_classroom = get_object_or_404(Classroom, pk=id)
+    context = {
+        "user": req.user,
+        "classroom": single_classroom
+    }
+    return render(req, 'pages/classroom-single.html', context)
+
+@login_required
+def classroom_update(req,id):
+
+    single_classroom = get_object_or_404(Classroom, pk=id)
+    if req.method == 'POST':
+        getCopy = req.POST.copy()
+        newDatetime = getCopy['date'] + ' ' + getCopy['time']
+        newDatetime = datetime.strptime(newDatetime, '%Y-%m-%d %H:%M')
+        getCopy['time'] = newDatetime
+        form = UpdateClassroomForm(getCopy)
+        if form.is_valid():
+            single_classroom.time = form.cleaned_data['time']
+            single_classroom.state = "AC"
+            single_classroom.save()
+            return redirect('classroom-single', id=single_classroom.id)
+        else:
+            print(form.errors)
+
+    form = UpdateClassroomForm(initial={
+        "date" : single_classroom.time.date(),
+        "time" : single_classroom.time.time(),
+        "state": single_classroom.state
+    })
+    context = {
+        "form": form
+    }
+    return render(req, 'pages/classroom-update.html', context)
+
+@login_required
+def classroom_confirm(req,id):
+    classroom = get_object_or_404(Classroom, pk=id)
+    classroom.state = 'CF'
+    classroom.save()
+    return redirect('classroom-single', id=classroom.id)
+
+@login_required
+def classroom_finalise(req,id):
+    if req.method == 'POST':
+        form = FinaliseClassroomForm(req.POST)
+        if form.is_valid():
+            classroom = get_object_or_404(Classroom, pk=id)
+            classroom.state = 'UP'
+            classroom.room_details = form.cleaned_data['room_details']
+            classroom.save()
+            return redirect('classroom-single', id=classroom.id)
+        else:
+            print(form.errors)    
+    classroom = get_object_or_404(Classroom, pk=id)
+    form = FinaliseClassroomForm()
+    context = {
+        "form": form 
+    }
+    return render(req, 'pages/classroom-update-tutor.html', context)

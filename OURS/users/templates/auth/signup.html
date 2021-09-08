@@ -1,19 +1,145 @@
 {% extends 'auth/base.html' %}
 {% load static%}
+
 {% block title %}
   <title>Sign Up</title>
 {% endblock title %}
+
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/auth.style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/modal.style.css' %}" />
 {% endblock css %}
+
+{% block javascript %}
+  <script defer src="{% static 'js/gdpr.js' %}"></script>
+{% endblock javascript %}
+
 {% block content %}
-<a id="home-button" href="{% url 'homepage' %}"><img src="{% static 'img/homeicon.svg' %}"/></a>
-<section class="form-container">
-  <form method="POST">
-    {% csrf_token %} {{form}}
-    <button type="submit">Sign Up</button>
-    <p class="sign-up">Already have an account? <a href="{% url 'log_in' %}">login here</a></p>
-    {% if errors %} {{errors}} {% endif %}
-  </form>
-</section>
+  <a id="home-button" href="{% url 'homepage' %}"><img src="{% static 'img/homeicon.svg' %}"/></a>
+  <section class="form-container">
+    <form method="POST">
+      {% csrf_token %}
+      {{form}}
+      <button id="confirm" type="button">Confirm</button>
+      <p class="sign-up">Already have an account? <a href="{% url 'log_in' %}">login here</a></p>
+      {% if errors %}
+        {{errors}}
+      {% endif %}
+
+      <section class="modal gdpr">
+        <div id="gdprInfo">
+          <div>
+            <h2>GDPR & Privacy Policies</h2>
+          </div>
+          <div id="gdprPolicyText">
+            <p>Ours is a privately owned organization. This privacy policy will explain how our organization uses the personal data we collect from you when you use our website.
+            <br>  
+            Topics:
+            <br>
+            <ul>
+              <li>What data do we collect?</li>
+              <li>How do we collect your data?</li>
+              <li>How will we use your data?</li>
+              <li>How do we store your data?</li>
+              <li>Marketing</li>
+              <li>What are your data protection rights?</li>
+              <li>What are cookies?</li>
+              <li>How do we use cookies?</li>
+              <li>What types of cookies do we use?</li>
+              <li>How to manage your cookies</li>
+              <li>Privacy policies of other websites</li>
+              <li>Changes to our privacy policy</li>
+              <li>How to contact us</li>
+              <li>How to contact the appropriate authorities</li>
+            </ul>
+            <br>
+            What data do we collect?
+            <br>
+            Our Company collects the following data:
+            <ul>
+              <li>Personal identification information (email, first name (opt in), last name(opt in))</li>
+              <li>Usage information (Previously taken and given lessons)</li>
+            </ul>
+            <br>
+            How do we collect your data?
+            <br>
+            You directly provide Our Company with most of the data we collect. We collect data and process data when you:
+            <ul>
+              <li>Register online or place an order for any of our products or services.</li>
+              <li>Voluntarily complete a customer survey or provide feedback on any of our message boards or via email.</li>
+              <li>Use or view our website via your browser's cookies.</li>
+            </ul>
+            How will we use your data?
+            <br>
+            Our Company collects your data so that we can:
+            <ul>
+              <li>Process your order, manage your account.</li>
+              <li>Email you with special offers on other products and services we think you might like.</li>
+            </ul>
+            How do we store your data?
+            <br>
+            Our Company securely stores your data at [enter the location and describe security precautions taken].
+            Our Company will keep your [enter type of data] for [enter time period]. Once this time period has expired, we will delete your data by [enter how you delete users' data].
+            <br>
+            What are your data protection rights?
+            <br>
+            Our Company would like to make sure you are fully aware of all of your data protection rights.
+            <br>
+            Every user is entitled to the following:
+            <ul>
+              <li>The right to access - You have the right to request Our Company for copies of your personal data. We may charge you a small fee for this service.</li>
+              <li>The right to rectification - You have the right to request that Our Company correct any information you believe is inaccurate. You also have the right to request Our Company to complete information you believe is incomplete.</li>
+              <li>The right to erasure — You have the right to request that Our Company erase your personal data, under certain conditions.</li>
+              <li>The right to restrict processing - You have the right to request that Our Company restrict the processing of your personal data, under certain conditions.</li>
+              <li>The right to object to processing - You have the right to object to Our Company's processing of your personal data, under certain conditions.</li>
+              <li>The right to data portability - You have the right to request that Our Company transfer the data that we have collected to another organization, or directly to you, under certain conditions.If you make a request, we have one month to respond to you. </li>
+            </ul>
+            If you would like to exercise any of these rights, please contact us at our email.
+            <br>
+             What are cookies?
+             <br>
+             Cookies are text files placed on your computer to collect standard Internet log information and visitor behavior information. When you visit our websites, we may collect information from you automatically through cookies or similar technology.
+             <br>
+             For further information, visit allaboutcookies.org.
+             <br>
+             How do we use cookies?
+             <br>
+             Our Company uses cookies in a range of ways to improve your experience on our website,including:
+             <ul>
+               <li>Keeping you signed in</li>
+               <li>Understanding how you use our website</li>
+             </ul>
+             What types of cookies do we use?
+             <br>
+             There are a number of different types of cookies, however, our website uses:
+             <ul>
+               <li>Functionality — Our Company uses these cookies so that we recognize you on our website and remember your previously selected preferences.</li>
+               <li>These could include what language you prefer and location you are in. A mix of first-party and third-party cookies are used.</li>
+               <li>Advertising — Our Company uses these cookies to collect information about your visit to our website, the content you viewed, the links you followed and information about your browser, device, and your IP address. Our Company sometimes shares some limited aspects of this data with third parties for advertising purposes. We may also share online data collected through cookies with our advertising partners. This means that when you visit another website, you may be shown advertising based on your browsing patterns on our website.</li>
+               <li></li>
+             </ul>
+             How to manage cookies.
+             <br>
+             You can set your browser not to accept cookies, and the above website tells you how to remove cookies from your browser. However, in a few cases, some of our website features may not function as a result. 
+             <br>
+             Privacy policies of other websites The Our Company website contains links to other websites. Our privacy policy applies only to our website, so if you click on a link to another website, you should read their privacy policy.Changes to our privacy policyOur Company keeps its privacy policy under regular review and places any updates on this webpage. This privacy policy was last updated on 07 September 2021.
+             <br>
+             How to contact us If you have any questions about Our Company's privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please do not hesitate to contact us. Email us at <a href="https://github.com/Ours-to-Share/Ours">this address</a>.
+             </p>
+          </div>
+          <div id="submit-Buttons">
+            <input type="checkbox" name="gdprConfirm" id="gdprConfirm">
+            <label for="gdprConfirm">I accept our GDPR & Privacy Policies</label>
+          </div>
+          <div>
+            <button id="submitButton" disabled type="submit" class="disabled">Sign Up</button>
+            <p id="closeModal">close</p>
+
+          </div>
+        <div>
+      </section>
+
+    </form>
+  </section>
+  
 {% endblock content %}
