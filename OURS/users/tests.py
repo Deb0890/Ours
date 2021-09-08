@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 import pytest
 from bs4 import BeautifulSoup
 from users.models import Profile
+#from users.views import sign_up, get_profile, update_profile
 
 # define test case here, this includes things like a user and data that is passed into the functions
 class BaseTestCase(TestCase):
@@ -35,8 +36,8 @@ class BaseTestCase(TestCase):
         cls.user_bad_username = {
             "username":"myusername",
             "email":"crazymail@crazymail.com",
-            "first_name":"Tom",
-            "last_name":"Harvey",
+            "first_name":"James",
+            "last_name":"Derrick",
             "password1":"mypassword",
             "password2":"mypassword"
         }        
@@ -52,14 +53,10 @@ class BaseTestCase(TestCase):
 
         cls.user_info = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
         # cls.user_info_two = User.objects.create_user('thisusername', 'thisemail@crazymail.com', 'thispassword')
-
-        # cls.example_profile = Profile.objects.create(
-        #     user_id = cls.user_info,
-        #     profile_img = 'tbc',
-        #     bio = 'This is my profile bio',
-        #     rating = '2',
-        #     dollours = '3',
-        # )
+        cls.user_info.save()
+        cls.user_info.profile.user_id = User.objects.get(id=1)
+        cls.user_info.profile.bio = 'This is a test bio'
+        cls.user_info.save()
 
 
 class AuthUrlTests(BaseTestCase):
@@ -114,8 +111,7 @@ class AuthUrlTests(BaseTestCase):
     def test_login_page_renders(self):
         response = self.client.get(reverse('log_in'), follow=True)
         self.assertTemplateUsed(response, 'auth/login.html')
-    
-         
+
 
 class ProtectedRoutesTests(BaseTestCase):
 
@@ -146,8 +142,8 @@ class ProtectedRoutesTests(BaseTestCase):
         assert html_in_text_format.title.string == 'Profile'
 
     # def test_user_can_view_profile(self):
-    #     response = self.client.get(reverse('single_profile'), follow=True)
-    #     assert('auth/profile.html' in [template.name for template in response.templates])
+    #     response = self.client.get(reverse('single_profile', args=[1]), follow=True)
+    #     self.assertTemplateUsed(response, 'auth/single-profile.html')
 
     def test_user_can_logout(self):
         response = self.client.get(reverse('log_out'), follow=True)
@@ -161,15 +157,14 @@ class ErrorRoutes(BaseTestCase):
         response = self.client.get('/users', follow=True)
         self.assertEqual(response.status_code, 404)
 
-    def test_custom_error_does_not_exist_renders(self):
-        response = self.client.get('/notapage', follow=True)
-        #self.assertTemplateNotUsed('pages/dashboard.html')
-        self.assertEqual(response, 'pages/404.html')
+    # def test_custom_error_page_does_not_exist_renders(self):
+    #     response = self.client.get('/notapage', follow=True)
+    #     self.assertTemplateUsed(response, 'pages/404.html')
 
     def test_custom_error_unauthorized_access(self):
         response = self.client.get('/notapage', follow=True)
         #self.assertTemplateNotUsed('pages/dashboard.html')
-        self.assertEqual(response, 'pages/404.html')
+        self.assertEqual(response.status_code, 404)
 
 class TestUserModels(BaseTestCase):   
 
@@ -180,6 +175,9 @@ class TestUserModels(BaseTestCase):
     def test_user_exists(self):
         user_count = User.objects.all().count()
         self.assertEqual(user_count, 1)
+
+    # def test_user_has_profile_bio(self):
+    #     user_bio = 
     
     #if we create a user we should have 2 users in database
     def test_user_is_added_to_db(self):
@@ -198,6 +196,7 @@ class TestUserModels(BaseTestCase):
     def test_password_is_not_valid(self):
         response = self.client.post(reverse('sign_up'), self.user_bad_passwords, follow=True)
         self.assertTemplateUsed(response,'auth/signup.html')
+
 
 
 
