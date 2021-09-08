@@ -1,0 +1,129 @@
+main {
+    width: 600px;
+    margin: 60px auto;
+
+    text-align: center;
+
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+
+    border-radius: 15px;
+    background-color: #eeeeee;
+    box-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+}
+table {
+    margin: 0 auto;
+}
+
+td.unavailable {
+    background-color: rgb(206, 206, 206);
+}
+td.available {
+    background-color: rgb(36, 224, 152);
+}
+.unavailable-day {
+    color: grey;
+}
+td {
+    height: 30px;
+    width: 30px;
+}
+
+th {
+    text-transform: capitalize;
+    font-size: 13px;
+}
+
+button {
+    width: 222px;
+    height: 45.58px;
+    border: 4px solid#536372;
+    background: none;
+    outline: none;
+    transition: .5s;
+    border-radius: 10px;
+  
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+  
+    color: #536372;
+  
+    margin: 20px 0 15px 0;
+  }
+  
+  
+  button:hover {
+    
+    background: #536372;
+    color: white;
+    cursor: pointer;
+  }
+
+  button.delete {
+    border: 4px solid #F04646;
+  }
+
+  button.delete:hover {
+    background: #F04646;
+  }
+
+ h1 {
+      margin: 0;
+  }
+  p {
+      margin: 8px;
+  }
+  h2 {
+    margin: 8px;
+  }
+  .post-date {
+      margin: 0;
+      font-size: 10px;
+  }
+  #description {
+      font-size: 25px;
+  }
+  #title {
+      text-transform: capitalize;
+  }
+  .profile {
+      height: 100px;
+      width: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+  }
+  .stars {
+      font-size: 48px;
+      color: gold;
+  }
+  
+  .tutor-student img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .tutor-student span {
+      font-weight: bold;
+  }
+
+  .tutor-student {
+    display: flex;
+  }
+
+  .tutor,
+  .student {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .alert {
+    font-weight: bold;
+    padding: 10px;
+    font-size: 18px;
+  }
