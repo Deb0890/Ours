@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from .models import Classroom, Lesson, Category, Skill, SkillLevels, SkillLevels
-from .forms import FinaliseClassroomForm, NewClassroomForm, NewLessonForm, ReviewClassroomForm, UpdateClassroomForm
+from .models import Classroom, Lesson, Category, Review, Skill, SkillLevels, SkillLevels
+from .forms import FinaliseClassroomForm, NewClassroomForm, NewLessonForm, ReviewClassroomForm, UpdateClassroomForm, UpdateReviewStudentForm, UpdateReviewTutorForm
 from datetime import datetime
+from django.db import transaction
 
 # Create your views here.
 
@@ -147,6 +148,7 @@ def classroom_create(req, id):
 
     form = NewClassroomForm(initial={
         'lesson': lesson,
+        'lesson_show': lesson.skill,
         'student': req.user,
         'day_selector': selectedDays
     })
@@ -219,12 +221,47 @@ def classroom_finalise(req,id):
     return render(req, 'pages/classroom-update-tutor.html', context)
 
 @login_required
+@transaction.atomic
 def classroom_review(req,id):
+
+    if req.method == "POST":
+        classroom = get_object_or_404(Classroom, pk=id)
+        review = get_object_or_404(Review, pk=id)
+        classroom_form = ReviewClassroomForm(req.POST, instance=classroom)
+        if classroom.student == req.user: 
+            review_form = UpdateReviewStudentForm(req.POST, instance=review)
+        else:
+            review_form = UpdateReviewTutorForm(req.POST, instance=review)
+
+        if classroom_form.is_valid() and review_form.is_valid():
+            if classroom.student == req.user:
+                review.student_review_score=review_form.cleaned_data['rating']
+                review.student_review_time=datetime.now()
+            else:
+                review.tutor_review_score=review_form.cleaned_data['rating']
+                review.tutor_review_time=datetime.now()
+            review.save()
+            return redirect('classroom-single', id=classroom.id)
+        else:
+            print('test')
+            print(classroom_form.errors)
+            print(review_form.errors)     
+
     classroom = get_object_or_404(Classroom, pk=id)
-    form = ReviewClassroomForm(initial={
+    classroom_form = ReviewClassroomForm(initial={
         'state': classroom.state
     })
+
+    if classroom.student == req.user:
+        review_form = UpdateReviewStudentForm(initial={
+            'classroom': classroom
+        })
+    else:
+        review_form = UpdateReviewTutorForm(initial={
+             'classroom': classroom
+        })
     context = {
-        "form": form 
+        "form": classroom_form,
+        "form2": review_form  
     }
     return render(req, 'pages/classroom-review.html', context)

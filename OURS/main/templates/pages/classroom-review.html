@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Update your classroom</title>
+    <title>Classroom Review</title>
 {% endblock title %}
 
 {% block javascript %}
@@ -15,12 +15,13 @@
 
 {% block content %}
     <main class="form-container">
-        <h1>Update Your Classroom</h1>
+        <h1>Review</h1>
         
         <form method="POST">
             {% csrf_token %}
             {{form}}
-            <button>Update</button>
+            {{form2}}
+            <button>Submit</button>
         </form>
     </main>
 
