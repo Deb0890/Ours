@@ -51,6 +51,9 @@ class ClassroomState(models.TextChoices):
     CONFIRMED = 'CF', 'Confirmed'
     UPCOMING = 'UP', 'Upcoming'
     COMPLETE = 'CP', 'Complete'
+    PARTREVIEW = 'PR', 'Part Reviewed'
+    FULLREVIEW = 'FR', 'Fully Reviewed'
+    CLOSED = 'CL', 'Closed'
 
 class Classroom(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True)
@@ -78,6 +81,8 @@ class Review(models.Model):
     tutor_review_time = models.DateTimeField(blank=True, null=True)
     student_review_score = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)],blank=True, null=True)
     student_review_time = models.DateTimeField(blank=True, null=True)
+    tutor_void = models.BooleanField(default=False)
+    student_void = models.BooleanField(default=False)
 
 @receiver(post_save, sender=Classroom)
 def create_classroom_review(sender, instance, created, **kwargs):

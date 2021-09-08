@@ -81,6 +81,26 @@
             {% else %}
                 <div class="alert"> Please review your session and tutor </div>
             {% endif %}
+        {% elif classroom.get_state_display == 'Part Review' %}
+                <br>
+            {% if user == classroom.lesson.tutor %}
+                {% if classroom.review.tutor_review_time %}
+                <div class="alert"> You have successfully reviewed this classroom </div>
+                {% else %}
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and student </div>
+                {% endif %}
+            {% else %}
+                {% if classroom.review.student_review_time %}
+                <div class="alert"> You have successfully reviewed this classroom </div>
+                {% else %}
+                <a href="{% url 'classroom-review' id=classroom.id %}"><button> Review </button></a>
+                <div class="alert"> Please review your session and tutor </div>
+                {% endif %}
+            {% endif %}
+        {% elif classroom.get_state_display == 'Part Review' %}
+                <br>
+                <div class="alert"> Classroom Closed </div>
         {% endif %}
     </main>
 {% endblock content %}

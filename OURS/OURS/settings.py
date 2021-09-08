@@ -182,5 +182,6 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_ADDRESSING_STYLE = "virtual"
 
 CRONJOBS = [
-    ('30 23 * * *', 'main.cron.my_cron_job')
+    ('30 23 * * *', 'main.cron.my_cron_job'),
+    ('15 * * * *', 'main.cron.close_rooms_cron_job')
 ]
