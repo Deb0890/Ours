@@ -21,6 +21,11 @@
                 <img src="{% static 'img/star.svg' %}" alt="user rating">
             {% endfor %}
         {% endwith %}
+    
+        </section>
+        <section id="dollours-container">
+            <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
+            <p class="dollours-display">{{user.profile.dollours}}</p>
         </section>
     </div>
     <hr>
