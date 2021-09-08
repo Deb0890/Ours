@@ -11,7 +11,9 @@ class Profile(models.Model):
     profile_img = models.ImageField(upload_to='images/',null=True, blank=True)
     bio = models.TextField(max_length=500, null=True, blank=True)
     rating = models.PositiveIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    dollours = models.PositiveIntegerField(default=0)
+    dollours = models.PositiveIntegerField(default=1)
+    classroom_complete = models.PositiveIntegerField(default=0)
+    score = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username}'

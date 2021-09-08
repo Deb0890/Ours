@@ -18,8 +18,8 @@ def homepage(req):
 def dashboard(req):
     # Only bring in the 5 most recent lessons
     lessons = Lesson.objects.order_by('-created')[:5]
-    student_classrooms = Classroom.objects.filter(student=req.user)[:5]
-    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user)[:5]
+    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL")[:5]
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL")[:5]
     context = {
         "lessons": lessons,
         "student_rooms": student_classrooms,
@@ -252,6 +252,12 @@ def classroom_review(req,id):
                     review.tutor_review_score=review_form.cleaned_data['rating']
                     review.tutor_review_time=datetime.now()
                 review.save()
+
+                if classroom.state == "PR":
+                    classroom.state = "FR"
+                else:
+                    classroom.state = "PR"
+                classroom.save()
                 return redirect('classroom-single', id=classroom.id)
             else:
                 print(classroom_form.errors)
