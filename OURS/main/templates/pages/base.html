@@ -21,7 +21,7 @@
         <a href="{% url 'find-a-lesson' %}">FIND A LESSON</a>
         <a href="{% url 'lesson-create' %}">ADD A LESSON</a>
         <a href="{% url 'dashboard' %}">DASHBOARD</a>
-        <a href="{% url 'log_out' %}">SIGN OUT</a>
+        
         {% if user.profile.profile_img %}
           <img id="user-profile" src={{user.profile.profile_img.url}} />
         {% else %}
@@ -30,9 +30,9 @@
       </div>
     </nav>
     <div id="dropdown-menu">
-      <a href="#">Link One</a>
-      <a href="#">Link One</a>
-      <a href="#">Link One</a>
+      <a href="{% url 'single_profile' id=user.id %}">Profile</a>
+      <a href="{% url 'update_profile' %}">Update Profile</a>
+      <a href="{% url 'log_out' %}">Sign Out</a>
     </div>
     {% block content %}{% endblock content %}
   </body>

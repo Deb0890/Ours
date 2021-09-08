@@ -2,10 +2,10 @@ const profileButton = document.getElementById("user-profile");
 const dropdownMenu = document.getElementById("dropdown-menu");
 
 const handleDropdownMenu = (e) => {
-    if (dropdownMenu.style.display != 'none') {
-        dropdownMenu.style.display = 'none'
+    if (dropdownMenu.style.height == '0px' || !dropdownMenu.style.height) {
+        dropdownMenu.style.height = '100px'
     } else {
-        dropdownMenu.style.display = 'block'
+        dropdownMenu.style.height = '0'
     }
 }
 
