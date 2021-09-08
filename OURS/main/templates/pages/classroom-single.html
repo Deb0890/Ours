@@ -42,7 +42,7 @@
         State: {{classroom.get_state_display}}
         <br>
         {% if classroom.room_details %}
-            {% if classroom.get_state_display != "Complete" and classroom.get_state_display != "Part Reviewed" and classroom.get_state_display != "Fully Reviewed" %}
+            {% if classroom.get_state_display != "Complete" and classroom.get_state_display != "Part Reviewed" and classroom.get_state_display != "Fully Reviewed" and classroom.get_state_display != "Closed"%}
                 Room Details: <a href={{classroom.room_details}} /><button>Meeting Link</button></a>
             {% endif %}
         {% endif %}

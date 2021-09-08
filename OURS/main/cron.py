@@ -1,4 +1,5 @@
-from .models import Classroom, Review, User
+from .models import Classroom, Review
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 def my_cron_job():
@@ -11,14 +12,14 @@ def my_cron_job():
 def close_rooms_cron_job():
     classrooms = Classroom.objects.filter(state="FR")
     for classroom in classrooms:
-        review = Review.objects.filter(id=classroom.id)
-        student = User.objects.filter(id=classroom.student.id)    
-        tutor = User.objects.filter(id=classroom.skill.tutor.id)
+        review = Review.objects.get(id=classroom.id)
+        student = User.objects.get(id=classroom.student.id)    
+        tutor = User.objects.get(id=classroom.lesson.tutor.id)
         student.profile.classroom_complete += 1
-        student.profile.rating += review.tutor_review_score
+        student.profile.score += review.tutor_review_score
         student.profile.dollours -= 1
         tutor.profile.classroom_complete += 1
-        tutor.profile.rating += review.student_review_score
+        tutor.profile.score += review.student_review_score
         tutor.profile.dollours += 1
         classroom.state = "CL"
         student.save()
