@@ -167,7 +167,7 @@ class UpdateReviewStudentForm(forms.ModelForm):
         label="Would you recommend this tutor?"
     )
 
-    student_rating = forms.ChoiceField (
+    tutor_rating = forms.ChoiceField (
         choices=rating_choices,
         label="Give the tutor an overall score"
     )
@@ -215,7 +215,7 @@ class UpdateReviewTutorForm(forms.ModelForm):
         label="Would you recommend this student?"
     )
 
-    tutor_rating = forms.ChoiceField (
+    student_rating = forms.ChoiceField (
         choices=rating_choices,
         label="Give the student an overall score"
     )
