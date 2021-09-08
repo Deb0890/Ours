@@ -46,7 +46,7 @@ def lesson_create(req):
 def lesson_detail_page(req,id):
     single_lesson = get_object_or_404(Lesson, pk=id)
     days = ["mon","tue","wed","thu","fri","sat","sun"]
-    context = {"lesson":single_lesson,  "days": days}
+    context = {"lesson":single_lesson, "days": days}
     return render(req, 'pages/lesson-single.html', context)
 
 @login_required
@@ -245,6 +245,7 @@ def classroom_review(req,id):
                 review_form = UpdateReviewTutorForm(req.POST, instance=review)
 
             if classroom_form.is_valid() and review_form.is_valid():
+                print(review_form.cleaned_data)
                 if classroom.student == req.user:
                     review.student_review_score=review_form.cleaned_data['rating']
                     review.student_review_time=datetime.now()
