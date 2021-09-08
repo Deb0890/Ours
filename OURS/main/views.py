@@ -248,13 +248,18 @@ def classroom_review(req,id):
                 if classroom.student == req.user:
                     review.student_review_score=review_form.cleaned_data['rating']
                     review.student_review_time=datetime.now()
+                    review.student_void=review_form.cleaned_data['student_void']
                 else:
                     review.tutor_review_score=review_form.cleaned_data['rating']
                     review.tutor_review_time=datetime.now()
+                    review.tutor_void=review_form.cleaned_data['student_void']
                 review.save()
 
                 if classroom.state == "PR":
-                    classroom.state = "FR"
+                    if review.student_void and review.tutor_void:
+                        classroom.state = "CL"
+                    else:
+                        classroom.state = "FR"
                 else:
                     classroom.state = "PR"
                 classroom.save()

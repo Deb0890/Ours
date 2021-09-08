@@ -179,7 +179,10 @@ class UpdateReviewStudentForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['classroom']
+        fields = ['classroom','student_void']
+        labels = {
+            "student_void": "If the meeting did not take place please check this box"
+        }
         widgets = {
             'classroom': forms.HiddenInput
         }
@@ -224,7 +227,10 @@ class UpdateReviewTutorForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['classroom']
+        fields = ['classroom','tutor_void']
+        labels = {
+            "tutor_void": "If the meeting did not take place please check this box"
+        }
         widgets = {
             'classroom': forms.HiddenInput
         }

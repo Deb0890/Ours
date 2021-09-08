@@ -98,7 +98,10 @@
                 <div class="alert"> Please review your session and tutor </div>
                 {% endif %}
             {% endif %}
-        {% elif classroom.get_state_display == 'Part Review' %}
+        {% elif classroom.get_state_display == 'Fully Reviewed' %}
+                <br>
+                <div class="alert"> Classroom Has Received All Reviews </div>
+        {% elif classroom.get_state_display == 'Closed' %}
                 <br>
                 <div class="alert"> Classroom Closed </div>
         {% endif %}
