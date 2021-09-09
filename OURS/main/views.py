@@ -11,6 +11,12 @@ from django.db import transaction
 
 # Create your views here.
 
+def not_found_404(req, exception):
+    return render(req, 'pages/404.html')
+
+def server_error_500(request):
+    return render(request, 'pages/500.html')
+
 def homepage(req):
     return render(req, 'pages/homepage.html')
 
