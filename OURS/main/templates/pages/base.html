@@ -9,6 +9,9 @@
     {% block javascript %}{% endblock javascript %}
     <script defer src="{% static 'js/nav.js' %}"></script>
 
+    <link rel="icon"
+      href="{% static 'img/dollours-coin.svg'%}">
+
     <link rel="stylesheet" href="{% static 'css/base.style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,11 +19,11 @@
   </head>
   <body>
     <nav>
-      <a href="{% url 'homepage' %}"><img class="nav-logo" src="{% static 'img/logo.svg' %}"/></a>
+      <a href="{% url 'dashboard' %}"><img class="nav-logo" src="{% static 'img/logo.svg' %}"/></a>
       <div id="nav-links">
         <a href="{% url 'find-a-lesson' %}">FIND A LESSON</a>
         <a href="{% url 'lesson-create' %}">ADD A LESSON</a>
-        <a href="{% url 'dashboard' %}">DASHBOARD</a>
+        <a href="{% url 'my-classrooms' %}">MY CLASSROOMS</a>
         
         {% if user.profile.profile_img %}
           <img id="user-profile" src={{user.profile.profile_img.url}} />
