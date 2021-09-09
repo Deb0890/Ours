@@ -11,6 +11,12 @@ from django.db import transaction
 
 # Create your views here.
 
+def not_found_404(req, exception):
+    return render(req, 'pages/404.html')
+
+def server_error_500(request):
+    return render(request, 'pages/500.html')
+
 def homepage(req):
     return render(req, 'pages/homepage.html')
 
@@ -128,23 +134,27 @@ def delete_a_lesson(req, id):
 @login_required
 def classroom_create(req, id):
 
-    if req.method == 'POST':
-        form = NewClassroomForm(req.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')
-        else:
-            context = {
-                "form": form,
-            }
-            return render(req, 'pages/classroom-create.html', context )
-
     lesson = get_object_or_404(Lesson, pk=id)
     selectedDays = lesson.days.replace('[','')
     selectedDays = selectedDays.replace(']','')
     selectedDays = selectedDays.replace(' ','')
     selectedDays = selectedDays.replace('\'','')
     selectedDays = selectedDays.split(',')
+
+    if req.method == 'POST':
+        form = NewClassroomForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            form.fields['lesson'].initial = lesson
+            form.fields['lesson_show'].initial = lesson.skill
+            form.fields['student'].initial = req.user
+            form.fields['day_selector'].initial = selectedDays
+            context = {
+                "form": form,
+            }
+            return render(req, 'pages/classroom-create.html', context )
 
     form = NewClassroomForm(initial={
         'lesson': lesson,
@@ -307,3 +317,12 @@ def get_all_users_classrooms(req):
         "tutor_rooms": tutor_classrooms
     }
     return render(req, 'pages/my-classrooms.html', context)
+
+def get_all_users_past_classrooms(req):
+    student_classrooms = Classroom.objects.filter(student=req.user)
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user)
+    context = {
+        "student_rooms": student_classrooms,
+        "tutor_rooms": tutor_classrooms
+    }
+    return render(req, 'pages/my-past-classrooms.html', context)

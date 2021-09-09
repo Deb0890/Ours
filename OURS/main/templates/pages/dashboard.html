@@ -44,6 +44,8 @@
                         <section class="see-more-container">
                         {% if classroom.get_state_display == 'Created' or classroom.get_state_display == 'Confirmed' %}
                             <img src="{% static 'img/alert-icon.svg' %}">
+                        {% elif classroom.room_details %}
+                            <img src="{% static 'img/link-live.svg' %}">
                         {% else %}
                             <img src="{% static 'img/alert-icon-not-active.svg' %}">
                         {% endif %}
