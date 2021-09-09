@@ -18,8 +18,8 @@ def homepage(req):
 def dashboard(req):
     # Only bring in the 5 most recent lessons
     lessons = Lesson.objects.order_by('-created')[:5]
-    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL")[:5]
-    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL")[:5]
+    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL").order_by('time')[:5]
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL").order_by('time')[:5]
     context = {
         "lessons": lessons,
         "student_rooms": student_classrooms,
