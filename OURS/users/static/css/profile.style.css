@@ -288,3 +288,11 @@ button {
   align-items: center;
   justify-content: center;
 }
+
+button.delete {
+  border: 4px solid #F04646;
+}
+
+button.delete:hover {
+  background: #F04646;
+}
