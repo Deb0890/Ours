@@ -19,7 +19,8 @@ class Profile(models.Model):
         return f'{self.user.username}'
 
     def save(self, *args, **kwargs):
-        self.rating = float(self.score)/float(self.classroom_complete)
+        if self.classroom_complete != 0:
+            self.rating = float(self.score)/float(self.classroom_complete)
         super(Profile, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=User)
