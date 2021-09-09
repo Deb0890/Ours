@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from .models import Classroom, Lesson, Skill, Review
 import calendar
 from django.utils import timezone
+from datetime import timedelta
 
 class NewItemForm(forms.ModelForm):
     class Meta:
@@ -88,7 +89,7 @@ class NewClassroomForm(forms.ModelForm):
         day = calendar.day_abbr[data.weekday()]
         if day.lower() not in available_days:
             raise ValidationError("You have chosen a day where the Tutor is unavailable")
-        if data < timezone.now():
+        if data + timedelta(days=1) < timezone.now():
             raise ValidationError("Cannot book classrooms in the past")
         return data
 
