@@ -35,7 +35,7 @@ def sign_up(req):
 @login_required
 def get_profile(req, id):
     user = User.objects.get(id=id)
-    context = {"user":user}
+    context = {"requested_user":user}
     return render(req,'auth/single-profile.html',context)
 
 @login_required
