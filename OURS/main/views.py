@@ -18,8 +18,8 @@ def homepage(req):
 def dashboard(req):
     # Only bring in the 5 most recent lessons
     lessons = Lesson.objects.order_by('-created')[:5]
-    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL")[:5]
-    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL")[:5]
+    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL").order_by('time')[:5]
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL").order_by('time')[:5]
     context = {
         "lessons": lessons,
         "student_rooms": student_classrooms,
@@ -46,7 +46,7 @@ def lesson_create(req):
 def lesson_detail_page(req,id):
     single_lesson = get_object_or_404(Lesson, pk=id)
     days = ["mon","tue","wed","thu","fri","sat","sun"]
-    context = {"lesson":single_lesson,  "days": days}
+    context = {"lesson":single_lesson, "days": days}
     return render(req, 'pages/lesson-single.html', context)
 
 @login_required
@@ -245,6 +245,7 @@ def classroom_review(req,id):
                 review_form = UpdateReviewTutorForm(req.POST, instance=review)
 
             if classroom_form.is_valid() and review_form.is_valid():
+                print(review_form.cleaned_data)
                 if classroom.student == req.user:
                     review.student_review_score=review_form.cleaned_data['rating']
                     review.student_review_time=datetime.now()
@@ -252,14 +253,13 @@ def classroom_review(req,id):
                 else:
                     review.tutor_review_score=review_form.cleaned_data['rating']
                     review.tutor_review_time=datetime.now()
-                    review.tutor_void=review_form.cleaned_data['student_void']
+                    review.tutor_void=review_form.cleaned_data['tutor_void']
                 review.save()
 
-                if classroom.state == "PR":
-                    if review.student_void and review.tutor_void:
-                        classroom.state = "CL"
-                    else:
-                        classroom.state = "FR"
+                if review.student_void and review.tutor_void:
+                    classroom.state = "CL"
+                elif review.student_void or review.student_void:
+                    classroom.state = "FR"
                 else:
                     classroom.state = "PR"
                 classroom.save()

@@ -271,3 +271,20 @@ button {
 .profile-detail {
   margin: 30px;
 }
+
+.dollours-coin {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+
+  display: inline;
+}
+.dollours-display {
+  display: inline;
+  font-size: 25px;
+}
+#dollours-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
