@@ -7,7 +7,7 @@
 {% endblock title %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/find-a-lesson.style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my-classrooms.style.css' %}">
 {% endblock css %}
 {% block javascript %}
     {% comment %} <script defer src="{% static 'js/find-a-lesson.js' %}"> </script> {% endcomment %}
@@ -35,63 +35,67 @@
         <div id="filter-label"><span>Active Filter:</span> {{ filter }} contains "{{ filterText }}"</div>
         {% endif %} {% endcomment %}
         {% comment %} </div> {% endcomment %}
-        <section id ="lesson-container">
-            {% for lesson in student_classrooms %}
-                <article class="lesson-preview">
-                    <Section class="tutor-section">
-                        <a class="tutor-profile" href="{% url 'single_profile' id=lesson.tutor.id %}">
-                            {% if lesson.tutor.profile.profile_img %}
-                                <img src={{lesson.tutor.profile.profile_img.url}} />
+        <h2>Upcoming Lessons</h2>
+        <section class="dashboard-item" id="my-lessons-tutor">
+
+            <h3 class="section-headings">Upcoming Tutor Classrooms</h3>
+
+            {% if tutor_rooms %}
+                {% for classroom in  tutor_rooms %}
+                    {% if classroom.get_state_display != 'Closed' %}
+                        <article class="lesson-preview" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
+                            <Section class="lesson-info-section">
+                                <h2>{{classroom.lesson.title}}</h2>
+                                <p>{{classroom.time.date}} {{classroom.lesson.skill.name}} <span>({{classroom.lesson.skill.category}})</span> </p>
+                            </section>
+                            <section class="see-more-container">
+                            {% if classroom.get_state_display == 'Created' or classroom.get_state_display == 'Confirmed' %}
+                                <img src="{% static 'img/alert-icon.svg' %}">
                             {% else %}
-                                <img src="{% static 'img/default-user-icon.svg' %}">
+                                <img src="{% static 'img/alert-icon-not-active.svg' %}">
                             {% endif %}
-                        </a>
-                    </section>
+                            
+                                
+                            </section>
+                        </article>
+                    {% endif %}
+                {% endfor %}
 
-                    <Section class="lesson-info-section">
-                        <h2>{{lesson.title}}</h2>
-                        <p>{{lesson.skill.name}} <span>({{lesson.skill.category}})</span></p>
-                        {% if lesson.get_skill_level_display == 'Beginner' %}
-                            <button class="beginner">{{lesson.get_skill_level_display}}</button>
-                        {% elif lesson.get_skill_level_display == 'Intermediate' %}
-                            <button class="intermediate">{{lesson.get_skill_level_display}}</button>
-                        {% elif lesson.get_skill_level_display == 'Advanced' %}
-                            <button class="advanced">{{lesson.get_skill_level_display}}</button>
+            {% endif %}
+        </section>
 
+        <section class="dashboard-item" id="my-lessons-tutor">
+
+            <h3 class="section-headings">Upcoming Student Classrooms</h3>
+
+            {% if student_rooms %}
+                {% for classroom in  student_rooms %}
+                    <article class="lesson-preview" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
+                        <Section class="lesson-info-section">
+                            <h2>{{classroom.lesson.title}}</h2>
+                            <p>{{classroom.time.date}} {{classroom.lesson.skill.name}} <span>({{classroom.lesson.skill.category}})</span> </p>
+                        </section>
+                        <section class="see-more-container">
+                        {% if classroom.get_state_display == 'Created' or classroom.get_state_display == 'Confirmed' %}
+                            <img src="{% static 'img/alert-icon.svg' %}">
+                        {% else %}
+                            <img src="{% static 'img/alert-icon-not-active.svg' %}">
                         {% endif %}
                         
-                    </section>
-                    <section class="see-more-container">
-                        <a href="{% url 'lesson-single' id=lesson.id %}">
-                        <button class="see-more-button">See More</button>
-                        </a>
-                    </section>
-                </article>
-            {% endfor %}
-        
-        <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?{% param_replace page=1 %}">&laquo; first</a>
-                {% if page_obj.previous_page_number != 1 %}
-                    <a href="?{% param_replace page=page_obj.previous_page_number %}">previous</a>
-                {% endif %}
+                            
+                        </section>
+                    </article>
+                {% endfor %}
+
             {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                {% if page_obj.next_page_number != paginator.num_pages %}
-                    <a href="?{% param_replace page=page_obj.next_page_number %}">next</a>
-                {% endif %}
-                <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
-            {% endif %}
-        </span>
-
-
         </section>
+        
+        
+        
+        
+        
+        
+        
     
 </main>
 {% endblock content %}

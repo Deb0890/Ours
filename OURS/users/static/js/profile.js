@@ -8,8 +8,8 @@ for (let i = 0; i < labels.length; i++) {
 
 const form = document.querySelector('form')
 const links = form.querySelector('a')
-const imageLink = document.getElementById("profileImage").src
+// const imageLink = document.getElementById("profileImage").src
 
-links.innerHTML = `<img class="profile" src="${imageLink}">`
+// links.innerHTML = `<img class="profile" src="${imageLink}">`
 
 const imageUploader = document.getElementById("id_profile_img")
