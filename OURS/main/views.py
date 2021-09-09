@@ -18,8 +18,8 @@ def homepage(req):
 def dashboard(req):
     # Only bring in the 5 most recent lessons
     lessons = Lesson.objects.order_by('-created')[:5]
-    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL")[:5]
-    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL")[:5]
+    student_classrooms = Classroom.objects.filter(student=req.user).exclude(state="CL").order_by('time')[:5]
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user).exclude(state="CL").order_by('time')[:5]
     context = {
         "lessons": lessons,
         "student_rooms": student_classrooms,
@@ -128,23 +128,27 @@ def delete_a_lesson(req, id):
 @login_required
 def classroom_create(req, id):
 
-    if req.method == 'POST':
-        form = NewClassroomForm(req.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('dashboard')
-        else:
-            context = {
-                "form": form,
-            }
-            return render(req, 'pages/classroom-create.html', context )
-
     lesson = get_object_or_404(Lesson, pk=id)
     selectedDays = lesson.days.replace('[','')
     selectedDays = selectedDays.replace(']','')
     selectedDays = selectedDays.replace(' ','')
     selectedDays = selectedDays.replace('\'','')
     selectedDays = selectedDays.split(',')
+
+    if req.method == 'POST':
+        form = NewClassroomForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            form.fields['lesson'].initial = lesson
+            form.fields['lesson_show'].initial = lesson.skill
+            form.fields['student'].initial = req.user
+            form.fields['day_selector'].initial = selectedDays
+            context = {
+                "form": form,
+            }
+            return render(req, 'pages/classroom-create.html', context )
 
     form = NewClassroomForm(initial={
         'lesson': lesson,

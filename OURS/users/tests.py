@@ -141,9 +141,9 @@ class ProtectedRoutesTests(BaseTestCase):
         html_in_text_format = BeautifulSoup(html, 'html.parser')
         assert html_in_text_format.title.string == 'Profile'
 
-    # def test_user_can_view_profile(self):
-    #     response = self.client.get(reverse('single_profile', args=[1]), follow=True)
-    #     self.assertTemplateUsed(response, 'auth/single-profile.html')
+    def test_user_can_view_profile(self):
+        response = self.client.get(reverse('single_profile', args=[1]), follow=True)
+        self.assertTemplateUsed(response, 'auth/single-profile.html')
 
     def test_user_can_logout(self):
         response = self.client.get(reverse('log_out'), follow=True)
@@ -176,8 +176,9 @@ class TestUserModels(BaseTestCase):
         user_count = User.objects.all().count()
         self.assertEqual(user_count, 1)
 
-    # def test_user_has_profile_bio(self):
-    #     user_bio = 
+    def test_user_profile_contains_bio(self):
+        user_bio = self.user_info.profile.bio
+        self.assertTrue(user_bio)
     
     #if we create a user we should have 2 users in database
     def test_user_is_added_to_db(self):
