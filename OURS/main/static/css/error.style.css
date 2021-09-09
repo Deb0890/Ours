@@ -1,8 +1,18 @@
 .error-container {
-    margin: 0 auto;
+    margin: 40px auto;
     text-align: center;
     width: 400px;
 }
 .error-container img {
-    width: 400px;
+    width: 250px;
+    display: block;
+    margin: 0 auto;
+}
+h1, a {
+    text-align: center;
+}
+a {
+    text-decoration: none;
+    font-size: 10px;
+    color: black;
 }
