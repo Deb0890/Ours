@@ -15,5 +15,6 @@ urlpatterns = [
     path('classroom/review/<int:id>',views.classroom_review, name="classroom-review"),
     path('classroom/confirm/<int:id>',views.classroom_confirm, name="classroom-confirm"),
     path('classroom/<int:id>',views.classroom_detail, name="classroom-single"),
-    path('about-the-app',views.about_our_app, name="about-the-app"),
+    path('about-the-app/',views.about_our_app, name="about-the-app"),
+    path('my-classrooms/',views.get_all_users_classrooms, name="my-classrooms"),
 ]

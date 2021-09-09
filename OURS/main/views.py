@@ -298,3 +298,12 @@ def validate_user(user,classroom):
 
 def about_our_app(req):
     return render(req, 'pages/about-the-app.html')
+
+def get_all_users_classrooms(req):
+    student_classrooms = Classroom.objects.filter(student=req.user)
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user)
+    context = {
+        "student_rooms": student_classrooms,
+        "tutor_rooms": tutor_classrooms
+    }
+    return render(req, 'pages/my-classrooms.html', context)
