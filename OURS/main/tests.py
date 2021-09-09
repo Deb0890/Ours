@@ -48,15 +48,13 @@ class LessonModelTests(BaseTestCase):
     #     self.client = Client()
     #     self.client.login(username= 'myusername', password= 'mypassword')
 
-    def test_items_in_db(self):
+    def test_lesson_items_in_db(self):
         lesson = Lesson.objects.all()
         self.assertTrue(lesson)
 
     # def test_lesson_contains_users_info(self):
     #     lesson_title = Lesson.tutor.get_object()
     #     self.assertTrue(lesson_title)
-
-    
 
 
 class PagesUrlTests(BaseTestCase):
@@ -162,6 +160,16 @@ class PagesUrlTests(BaseTestCase):
         html = response.content
         html_in_text_format = BeautifulSoup(html, 'html.parser')
         assert html_in_text_format.title.string == 'Find a Lesson'
+
+class PagesViewsTests(BaseTestCase):
+    def setUp(self):
+        self.client = Client()
+        self.client.login(username= 'myusername', password= 'mypassword')
+
+  
+    
+
+
 
 class ErrorRoutes(BaseTestCase):
 
