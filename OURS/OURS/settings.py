@@ -66,6 +66,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+
 ROOT_URLCONF = 'OURS.urls'
 
 LOGIN_REDIRECT_URL = 'dashboard'
