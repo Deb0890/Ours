@@ -14,14 +14,14 @@
         <section id="profile-overview">
         {% if user.profile.dollours == 0 %}
 
-            <h2>Hey! good to see you! <br/> Why not create a lession to earn some Dollours</h2>
+            <h2>Hey {{user.username}}! Good to see you! <br/> Why not create a lession to earn some Dollours</h2>
             <section id="dollours-container">
                 <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
                 <p class="dollours-display">{{user.profile.dollours}}</p>
             </section>
 
         {% else %}
-            <h2>Hey! good to see you! <br/> It's the perfect day to learn a new skill, or share one of yours</h2>
+            <h2>Hey {{user.username}}! Good to see you! <br/> It's the perfect day to learn a new skill, or share one of yours</h2>
             <section id="dollours-container">
                 <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
                 <p class="dollours-display">{{user.profile.dollours}}</p>
