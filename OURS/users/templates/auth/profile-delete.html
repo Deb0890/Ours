@@ -1,7 +1,7 @@
 {% extends 'pages/base.html' %} 
 {% load static%}
 {% block title %}
-<title>Profile</title>
+<title>Delete Profile</title>
 {% endblock title %} 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/profile.style.css' %}" />
@@ -13,25 +13,16 @@
 <main>
 <section class="form-container">
 
-<h1>Update Profile</h1>
+<h1>Delete Profile</h1>
 <hr/>
-<label for="profile_img">
-    {% if user.profile.profile_img %}
-        <img class="profile" src={{user.profile.profile_img.url}} />
-    {% else %}
-        <img class="profile" src="{% static 'img/default-user-icon.svg' %}">
-    {% endif %}
-      
-  </label>
   <div id="form-div">
   <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      {{ user_form }}
-      {{ profile_form }}
-      <button type="submit">Save changes</button>
+      <div>Are you sure you want to delete your profile? This action cannot be reversed</div>
+      {{ form }}
+      <button class="delete" type="submit">Delete Profile</button>
     </div>
 </form>
-<a href="{% url 'delete_profile' %}"><button class="delete">Delete Profile</button></a>
 </section>
 </main>
 
