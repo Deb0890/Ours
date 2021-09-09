@@ -17,13 +17,16 @@
             <img class="profile" src={{lesson.tutor.profile.profile_img.url}} />
             <br>
         {% endif %}
-        <span class="stars">
+        
+        <section id="ratings-container">
         {% with ''|center:lesson.tutor.profile.rating as range %}
-        {% for _ in range %}
-            *
-        {% endfor %}
+            {% for _ in range %}
+                <img src="{% static 'img/Star.svg' %}" alt="user rating">
+            {% endfor %}
         {% endwith %}
-        </span>
+    
+        </section>
+       
         <hr/>
         <p>Level: {{lesson.get_skill_level_display}}</p>
         <h2 id="title" class="heading">{{lesson.title}}</h2>
