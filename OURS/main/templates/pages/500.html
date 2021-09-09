@@ -2,9 +2,16 @@
 {% load static %}
 
 {% block title %}
-    <title>500 Server Error</title>
+    <title>505 Server Error</title>
 {% endblock title %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/find-a-lesson.style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/error.style.css' %}">
 {% endblock css %}
+
+{% block content %}
+    <div id="error-container">
+        <img src="{% static 'img/505.svg'%}" alt="505 Error">
+        <h1>404 Page not found</h1>
+    <div>
+{% endblock content %}
