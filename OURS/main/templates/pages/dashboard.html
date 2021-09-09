@@ -15,9 +15,10 @@
         {% if user.profile.dollours == 0 %}
 
             <h2>Hey! good to see you! <br/> Why not create a lession to earn some Dollours</h2>
-            <p>Dollour Balance</p>
-            <img src="{%static 'img/dollours-coin.svg'%}">
-            <p>${{user.profile.dollours}}</p>
+            <section id="dollours-container">
+                <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
+                <p class="dollours-display">{{user.profile.dollours}}</p>
+            </section>
 
         {% else %}
             <h2>Hey! good to see you! <br/> It's the perfect day to learn a new skill, or share one of yours</h2>
