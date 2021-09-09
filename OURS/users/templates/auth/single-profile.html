@@ -7,20 +7,38 @@
   <link rel="stylesheet" href="{% static 'css/profile.style.css' %}" />
 {% endblock css %} 
 {% block content %}
-<h1>Profile</h1>
+<main>
+
 <div class="profile-container">
     <div class="profile-head">
-        <p class="username">{{user.username}}</p>
-        <p><span>Rating: </span>{{user.profile.rating}}</p>
+        {% if user.profile.profile_img %}
+            <img class="profile" src={{user.profile.profile_img.url}} alt="profile image"/>
+        {% endif %}
+        <h1 class="username">{{user.username}}</h1>
+        <section id="ratings-container">
+        {% with ''|center:user.profile.rating as range %}
+            {% for _ in range %}
+                <img src="{% static 'img/star.svg' %}" alt="user rating">
+            {% endfor %}
+        {% endwith %}
+    
+        </section>
+        <section id="dollours-container">
+            <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
+            <p class="dollours-display">{{user.profile.dollours}}</p>
+        </section>
     </div>
     <hr>
     <div class="profile-detail">
         <p><span>Name: </span>{{user.first_name}} {{user.last_name}}</p>
-        <p><span>Bio: </span>{{user.profile.bio}}</p>
+        {% if user.profile.bio %}
+            <p><span>Bio: </span>{{user.profile.bio}}</p>
+        {% endif %}
+        
         <p><span>Contact: </span><a href="mailto:{{user.email}}">{{user.email}}</a></p>
     </div>
-    {% if user.profile.profile_img %}
-    <img src={{user.profile.profile_img.url}} alt="profile image"/>
-    {% endif %}
+    
 </div>
+</main>
+
 {% endblock content %}

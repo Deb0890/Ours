@@ -30,9 +30,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure---bt)dwur3jb#=uhp--05r*yk)(v440vg$n=3%8_ksu30!aznu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if env("DEBUG") == "YES":
+    DEBUG = True
+else:
+    DEBUG = False
 
 TEST_SERVER = False
+if env("TEST") == "YES":
+    TEST_SERVER = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -48,6 +53,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'main.apps.MainConfig',
     'storages',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -174,3 +180,8 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_REGION_NAME = 'eu-west-2'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_ADDRESSING_STYLE = "virtual"
+
+CRONJOBS = [
+    ('30 23 * * *', 'main.cron.my_cron_job'),
+    ('15 * * * *', 'main.cron.close_rooms_cron_job')
+]

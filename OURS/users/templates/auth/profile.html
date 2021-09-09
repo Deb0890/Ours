@@ -4,17 +4,34 @@
 <title>Profile</title>
 {% endblock title %} 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/lesson-single.style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/profile.style.css' %}" />
 {% endblock css %} 
+{% block javascript %}
+  <script defer src="{% static 'js/profile.js' %}"></script>
+{% endblock javascript %} 
 {% block content %}
 <main>
+<section class="form-container">
+
 <h1>Update Profile</h1>
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ user_form.as_p }}
-  {{ profile_form.as_p }}
-  <button type="submit">Save changes</button>
+<hr/>
+<label for="profile_img">
+    {% if user.profile.profile_img %}
+        <img class="profile" src={{user.profile.profile_img.url}} />
+    {% else %}
+        <img class="profile" src="{% static 'img/default-user-icon.svg' %}">
+    {% endif %}
+      
+  </label>
+  <div id="form-div">
+  <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ user_form }}
+      {{ profile_form }}
+      <button type="submit">Save changes</button>
+    </div>
 </form>
+</section>
 </main>
 
 {% endblock content %}

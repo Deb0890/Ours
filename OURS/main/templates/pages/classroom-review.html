@@ -1,0 +1,28 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Classroom Review</title>
+{% endblock title %}
+
+{% block javascript %}
+    <script defer src="{% static 'js/forms.js' %}"></script>
+{% endblock javascript %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/forms.style.css' %}" />  
+{% endblock css %}
+
+{% block content %}
+    <main class="form-container">
+        <h1>Review</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {{form}}
+            {{form2}}
+            <button>Submit</button>
+        </form>
+    </main>
+
+{% endblock content %}

@@ -1,0 +1,47 @@
+body {
+    background-color: rgb(255, 255, 255);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin: 0;
+}
+
+#key-features {
+    width: 100%;
+    height: 300px;
+
+    background-color: #DD7676;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+#key-features article {
+    margin: 0 40px;
+    padding: 25px;
+    text-align: center;
+    
+}
+
+header img {
+    width: 300px;
+    margin: 0 auto;
+    display: block;
+
+} 
+header  {
+    padding: 30px;
+    text-align: center;
+} 
+
+#introduction {
+    padding: 30px;
+    text-align: center;
+    font-weight: 300;
+}
+#home-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }

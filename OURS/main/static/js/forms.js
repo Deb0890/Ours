@@ -14,5 +14,7 @@ dayLabelsArr.forEach(label => {
     if (input.checked) {
         label.style.background = 'rgb(221, 118, 118)'
     }
-    label.addEventListener('click', handleDayClick)
+    if (!input.disabled) {
+        label.addEventListener('click', handleDayClick)
+    }
 });

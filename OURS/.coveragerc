@@ -1,0 +1,15 @@
+
+[run]
+omit =
+    # omit anything in a .local directory anywhere
+    */.local/*
+    # omit everything in /usr
+    */migrations/*
+    # omit this single file
+    manage.py
+    users/__init__.py
+    main/__init__.py
+    OURS/__init__.py
+    users/tests.py
+    main/tests.py
+    

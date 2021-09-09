@@ -17,6 +17,8 @@ pillow = "*"
 bs4 = "*"
 django-storages = "*"
 boto3 = "*"
+coverage = "*"
+django-crontab = "*"
 
 [dev-packages]
 pytest-django = "*"
@@ -27,3 +29,4 @@ python_version = "3.9"
 
 [scripts]
 test = "bash -c 'rm -rf staticfiles/* && python manage.py collectstatic && pytest' "
+#coverage = "bash -c 'coverage run --source=. manage.py test && coverage report' "

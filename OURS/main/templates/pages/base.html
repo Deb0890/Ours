@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block title %}{% endblock title %} {% block css %}{% endblock css %}
     {% block javascript %}{% endblock javascript %}
+    <script defer src="{% static 'js/nav.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'css/base.style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,13 +17,23 @@
   <body>
     <nav>
       <a href="{% url 'homepage' %}"><img class="nav-logo" src="{% static 'img/logo.svg' %}"/></a>
-      <div>
+      <div id="nav-links">
         <a href="{% url 'find-a-lesson' %}">FIND A LESSON</a>
         <a href="{% url 'lesson-create' %}">ADD A LESSON</a>
         <a href="{% url 'dashboard' %}">DASHBOARD</a>
-        <a href="{% url 'log_out' %}">SIGN OUT</a>
+        
+        {% if user.profile.profile_img %}
+          <img id="user-profile" src={{user.profile.profile_img.url}} />
+        {% else %}
+          <img id="user-profile" src="{% static 'img/default-user-icon.svg' %}">
+        {% endif %}
       </div>
     </nav>
+    <div id="dropdown-menu">
+      <a href="{% url 'single_profile' id=user.id %}">Profile</a>
+      <a href="{% url 'update_profile' %}">Update Profile</a>
+      <a href="{% url 'log_out' %}">Sign Out</a>
+    </div>
     {% block content %}{% endblock content %}
   </body>
 </html>

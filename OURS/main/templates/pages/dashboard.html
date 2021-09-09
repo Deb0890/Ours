@@ -12,45 +12,93 @@
 {% block content %}
     <main>
         <section id="profile-overview">
-            <h2>amazing! you've spent <span class="stats">8 hours</span> learning incredible skills like <span class="stats">web design.</span> and you've given <span class="stats">11 hours</span> sharing your amazing talents with people like <span class="stats">teddanson45</span> & <span class="stats">billy222.</span><br/>we ❤️ to see it.</h2>
-        </section>
+        {% if user.profile.dollours == 0 %}
 
-        <section class="dashboard-item" id="update-profile">
-            <h3 class="section-headings">Update Profile</h3>
-            <a href="{% url 'update_profile' %}">Click here to update your profile</a>
-        </section>
+            <h2>Hey! good to see you! <br/> Why not create a lession to earn some Dollours</h2>
+            <p>Dollour Balance</p>
+            <img src="{%static 'img/dollours-coin.svg'%}">
+            <p>${{user.profile.dollours}}</p>
 
-        <section class="dashboard-item" id="add-a-lesson">
-            <h3 class="section-headings">Create A Lesson</h3>
-            <a href="{% url 'lesson-create' %}">Click here to create a new lesson</a>
+        {% else %}
+            <h2>Hey! good to see you! <br/> It's the perfect day to learn a new skill, or share one of yours</h2>
+            <section id="dollours-container">
+                <img class="dollours-coin" src="{%static 'img/dollours-coin.svg'%}">
+                <p class="dollours-display">{{user.profile.dollours}}</p>
+            </section>
+           
+        {% endif %}
         </section>
+        
+        <section class="dashboard-item" id="my-lessons-tutor">
 
-        <section class="dashboard-item" id="recently-added-lessons">
-            <h3 class="section-headings">New Lessons</h3>
-            <table>
-                
-                {% for lesson in lessons %}
-                    <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
-                        <td class="left-aligned">{{lesson.title}}</td>
-                        <td>{{lesson.skill.category}}</td>
-                        <td>{{lesson.get_skill_level_display}}</td>
-                    </tr>
+            <h3 class="section-headings">Tutor Classrooms</h3>
+
+            {% if tutor_rooms %}
+                {% for classroom in  tutor_rooms %}
+                    <article class="lesson-preview" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
+                        <Section class="lesson-info-section">
+                            <h2>{{classroom.lesson.title}}</h2>
+                            <p>{{classroom.time.date}} {{classroom.lesson.skill.name}} <span>({{classroom.lesson.skill.category}})</span> </p>
+                        </section>
+                        <section class="see-more-container">
+                        {% if classroom.get_state_display == 'Created' or classroom.get_state_display == 'Confirmed' %}
+                            <img src="{% static 'img/alert-icon.svg' %}">
+                        {% else %}
+                            <img src="{% static 'img/alert-icon-not-active.svg' %}">
+                        {% endif %}
+                        
+                            
+                        </section>
+                    </article>
                 {% endfor %}
-            </table>
+
+            {% endif %}
         </section>
 
-        <section class="dashboard-item" id="my-lesson">
-            <h3 class="section-headings">My Lessons</h3>
+        <section class="dashboard-item" id="my-lessons-student">
+
+            <h3 class="section-headings">Student Classrooms</h3>
+
+            {% if student_rooms %}
+            {% comment %} <h4 class="section-sub-headings">Tutor</h4> {% endcomment %}
+            {% comment %} <hr> {% endcomment %}
+            {% for classroom in  student_rooms %}
+                <article class="lesson-preview" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
+                    <Section class="lesson-info-section">
+                        <h2>{{classroom.lesson.title}}</h2>
+                        <p>{{classroom.time.date}} {{classroom.lesson.skill.name}} <span>({{classroom.lesson.skill.category}})</span> </p>
+                    </section>
+                    <section class="see-more-container">
+                        {% if classroom.get_state_display == 'Awaiting Confirmation' %}
+                            <img src="{% static 'img/alert-icon.svg' %}">
+                        {% else %}
+                            <img src="{% static 'img/alert-icon-not-active.svg' %}">
+                        {% endif %}
+                    </section>
+                </article>
+            {% endfor %}
+
+            {% endif %}
         </section>
+
+
+            {% comment %} 
+            
+            status = created = tutor = Attention needed.
+            status = created = student = none.
+
+            status = awiting confirmation = tutor = none.
+            status = awiting confirmation = student = Attention needed. 
+
+            status = confirmed = tutor = attetnion needed.
+            status = confirmed = student = none.
+
+            upcoming, nither need to do anything
+            
+            {% endcomment %}
+
     </main>
 
-
-
-    {% comment %} <h1>Welcome!</h1>
-    <section id="recent-lessons">
-        <h2>Recent Lessons</h2>
-        {% for single_lesson in lessons %}
-        <p>{{single_lesson.title}}</p>
-        {% endfor %}
-    <section> {% endcomment %}
 {% endblock content %}
+
+

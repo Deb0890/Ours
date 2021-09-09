@@ -1,5 +1,6 @@
 {% extends 'pages/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block title %}
     <title>Find a Lesson</title>
@@ -14,32 +15,67 @@
 
 {% block content %}
 <main>
-        <table>
-            <tr>
-                <th>Skill</th>
-                <th>Category</th>
-                <th>Level</th>
-                <th>Title</th>
-                <th>Tutor</th>
-                <th>Rating</th>
-            </tr>
+        <div class="filter-container">
+        <h2>Filter Results</h2>
+            <section id="filter-background">
+            <select id="filter" name="filter">
+                <option value="skill">Skill</option>
+                <option value="category">Category</option>
+                <option value="level">Level</option>
+                <option value="title">Title</option>
+                <option value="tutor">Tutor</option>
+                <option value="rating">Rating</option>
+            </select>
+            <input id="filter-text" type="text" placeholder="Enter skill to filter on..." />
+            <button id="filter-btn">Filter</button>
+            <button id="reset-filter-btn">Reset</button>
+            </section>
+        </div>
+        {% if filter %}
+        <div id="filter-label"><span>Active Filter:</span> {{ filter }} contains "{{ filterText }}"</div>
+        {% endif %}
+        </div>
+        <section id ="lesson-container">
             {% for lesson in page_obj %}
-                <tr class="data" onclick="window.location='{% url 'lesson-single' id=lesson.id %}'">
-                    <td class="left-aligned">{{lesson.skill.name}}</td>
-                    <td>{{lesson.skill.category}}</td>
-                    <td>{{lesson.get_skill_level_display}}</td>
-                    <td>{{lesson.title}}</td>
-                    <td>{{lesson.tutor}}</td>
-                    <td>{{lesson.tutor.profile.rating}}</td>
-                </tr>
-            {% endfor %}
-        </table>
+                <article class="lesson-preview">
+                    <Section class="tutor-section">
+                        <a class="tutor-profile" href="{% url 'single_profile' id=lesson.tutor.id %}">
+                            {% if lesson.tutor.profile.profile_img %}
+                                <img src={{lesson.tutor.profile.profile_img.url}} />
+                            {% else %}
+                                <img src="{% static 'img/default-user-icon.svg' %}">
+                            {% endif %}
+                        </a>
+                    </section>
 
-    <div class="pagination">
+                    <Section class="lesson-info-section">
+                        <h2>{{lesson.title}}</h2>
+                        <p>{{lesson.skill.name}} <span>({{lesson.skill.category}})</span></p>
+                        {% if lesson.get_skill_level_display == 'Beginner' %}
+                            <button class="beginner">{{lesson.get_skill_level_display}}</button>
+                        {% elif lesson.get_skill_level_display == 'Intermediate' %}
+                            <button class="intermediate">{{lesson.get_skill_level_display}}</button>
+                        {% elif lesson.get_skill_level_display == 'Advanced' %}
+                            <button class="advanced">{{lesson.get_skill_level_display}}</button>
+
+                        {% endif %}
+                        
+                    </section>
+                    <section class="see-more-container">
+                        <a href="{% url 'lesson-single' id=lesson.id %}">
+                        <button class="see-more-button">See More</button>
+                        </a>
+                    </section>
+                </article>
+            {% endfor %}
+        
+        <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?{% param_replace page=1 %}">&laquo; first</a>
+                {% if page_obj.previous_page_number != 1 %}
+                    <a href="?{% param_replace page=page_obj.previous_page_number %}">previous</a>
+                {% endif %}
             {% endif %}
 
             <span class="current">
@@ -47,10 +83,15 @@
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% if page_obj.next_page_number != paginator.num_pages %}
+                    <a href="?{% param_replace page=page_obj.next_page_number %}">next</a>
+                {% endif %}
+                <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
             {% endif %}
         </span>
-</div>
+
+
+        </section>
+    
 </main>
 {% endblock content %}
