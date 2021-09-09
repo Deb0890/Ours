@@ -307,3 +307,12 @@ def get_all_users_classrooms(req):
         "tutor_rooms": tutor_classrooms
     }
     return render(req, 'pages/my-classrooms.html', context)
+
+def get_all_users_past_classrooms(req):
+    student_classrooms = Classroom.objects.filter(student=req.user)
+    tutor_classrooms = Classroom.objects.filter(lesson__tutor=req.user)
+    context = {
+        "student_rooms": student_classrooms,
+        "tutor_rooms": tutor_classrooms
+    }
+    return render(req, 'pages/my-past-classrooms.html', context)

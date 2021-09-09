@@ -17,4 +17,5 @@ urlpatterns = [
     path('classroom/<int:id>',views.classroom_detail, name="classroom-single"),
     path('about-the-app/',views.about_our_app, name="about-the-app"),
     path('my-classrooms/',views.get_all_users_classrooms, name="my-classrooms"),
+    path('my-past-classrooms/',views.get_all_users_past_classrooms, name="my-past-classrooms"),
 ]

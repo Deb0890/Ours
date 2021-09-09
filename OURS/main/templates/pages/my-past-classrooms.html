@@ -15,16 +15,17 @@
 
 {% block content %}
 <main>
- 
-        <h2 class="page-title">Upcoming Lessons</h2>
-        <p class="page-title">To view your closed classrooms <a href="{% url 'my-past-classrooms' %}">click here</a></p>
+         
+        <h2 class="page-title">Past Classrooms</h2>
+        <p class="page-title">To view your active classrooms <a href="{% url 'my-classrooms' %}">click here</a></p>
+
         <section class="dashboard-item" id="my-lessons-tutor">
 
-            <h3 class="page-title">Upcoming Tutor Classrooms</h3>
+            <h3 class="page-title">Past Tutor Classrooms</h3>
 
             {% if tutor_rooms %}
                 {% for classroom in  tutor_rooms %}
-                    {% if classroom.get_state_display != 'Closed' %}
+                    {% if classroom.get_state_display == 'Closed' %}
                         <article class="lesson-preview" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
                             <Section class="lesson-info-section">
                                 <h2>{{classroom.lesson.title}}</h2>
@@ -50,11 +51,11 @@
 
         <section class="dashboard-item" id="my-lessons-tutor">
 
-            <h3  class="page-title">Upcoming Student Classrooms</h3>
+            <h3  class="page-title">Past Student Classrooms</h3>
 
             {% if student_rooms %}
                 {% for classroom in  student_rooms %}
-                    {% if classroom.get_state_display != 'Closed' %}
+                    {% if classroom.get_state_display == 'Closed' %}
                         <article class="lesson-preview" onclick="window.location='{% url 'classroom-single' id=classroom.id %}'">
                             <Section class="lesson-info-section">
                                 <h2>{{classroom.lesson.title}}</h2>
