@@ -15,7 +15,9 @@ The site is live and can be found [here](https://ours-to-share.herokuapp.com/)
 
 ## Features.
 
-- Pick from a range of trivia topics.
+- Users can create an account.
+- Users can add a profile avatar.
+- Users can organise meetings.
 
 ## Installation & Usage.
 
