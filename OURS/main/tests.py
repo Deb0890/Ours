@@ -1,3 +1,4 @@
+# from OURS.main.forms import NewLessonForm
 from main.models import Lesson, Category, Skill, SkillLevels
 from io import StringIO
 from django.http import response
@@ -42,6 +43,8 @@ class BaseTestCase(TestCase):
             created = 'tbc'
         )
 
+
+
 class LessonModelTests(BaseTestCase):
 
     # def setUp(self):
@@ -51,10 +54,6 @@ class LessonModelTests(BaseTestCase):
     def test_lesson_items_in_db(self):
         lesson = Lesson.objects.all()
         self.assertTrue(lesson)
-
-    # def test_lesson_contains_users_info(self):
-    #     lesson_title = Lesson.tutor.get_object()
-    #     self.assertTrue(lesson_title)
 
 
 class PagesUrlTests(BaseTestCase):
@@ -93,6 +92,10 @@ class PagesUrlTests(BaseTestCase):
 
     def test_create_new_classroom_response_status(self):
         response = self.client.get(reverse('classroom-create', args=[1]), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_about_the_app_response_status(self):
+        response = self.client.get(reverse('about-the-app'), follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_unauthorized_access_to_update_classroom_response_status(self):
@@ -160,13 +163,24 @@ class PagesUrlTests(BaseTestCase):
         html = response.content
         html_in_text_format = BeautifulSoup(html, 'html.parser')
         assert html_in_text_format.title.string == 'Find a Lesson'
+    
+    def test_content_of_title_is_about_our_site(self):
+        response = self.client.get(reverse('about-the-app'), follow=True)
+        html = response.content
+        html_in_text_format = BeautifulSoup(html, 'html.parser')
+        assert html_in_text_format.title.string == 'About our site'
 
 class PagesViewsTests(BaseTestCase):
     def setUp(self):
         self.client = Client()
         self.client.login(username= 'myusername', password= 'mypassword')
 
-  
+    def test_lesson_create_posts_new_lesson(self):
+        
+        response = self.client.post(reverse('lesson-create'), follow=True)
+        self.assertTemplateUsed(response, 'pages/lesson-single.html')
+        
+
     
 
 
@@ -185,5 +199,5 @@ class ErrorRoutes(BaseTestCase):
     #     self.assertEqual(response, 'pages/500.html')
 
     def test_view_url_does_not_exist(self):
-        response = self.client.get('/home', follow=True)
+        response = self.client.get('/notapage', follow=True)
         self.assertEqual(response.status_code, 404)

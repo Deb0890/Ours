@@ -198,7 +198,7 @@ class TestUserModels(BaseTestCase):
         response = self.client.post(reverse('sign_up'), self.user_bad_passwords, follow=True)
         self.assertTemplateUsed(response,'auth/signup.html')
 
-
+    
 
 
 

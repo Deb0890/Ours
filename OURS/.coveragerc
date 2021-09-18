@@ -12,4 +12,11 @@ omit =
     OURS/__init__.py
     users/tests.py
     main/tests.py
+    main/admin.py
+    main/cron.py
+    main/templatetags/__init__.py
+    main/templatetags/my_tags.py
+    OURS/asgi.py
+    OURS/settings.py
+    OURS/wsgi.py
     
