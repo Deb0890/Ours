@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db import transaction
-from .forms import ProfileForm, UserForm
+from .forms import DeleteUserForm, ProfileForm, UserForm
 
 # Create your views here.
 
@@ -35,7 +35,7 @@ def sign_up(req):
 @login_required
 def get_profile(req, id):
     user = User.objects.get(id=id)
-    context = {"user":user}
+    context = {"requested_user":user}
     return render(req,'auth/single-profile.html',context)
 
 @login_required
@@ -58,3 +58,21 @@ def update_profile(req):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+@login_required
+def delete_profile(req):
+    if req.method == 'POST':
+        form = DeleteUserForm(req.POST, instance=req.user)
+        if form.is_valid():
+            user = User.objects.filter(username=form.cleaned_data['username']).exclude(id=1)[0]
+            user.delete()
+            return redirect('homepage')
+        else:
+            print(form.errors)
+            return redirect('delete_profile')
+
+    form = DeleteUserForm(instance=req.user)
+    context = {
+        "form":form
+    }
+    return render(req, 'auth/profile-delete.html', context)
